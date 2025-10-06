@@ -1,137 +1,157 @@
-import { currentUser } from "@clerk/nextjs/server";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { ArrowRight, Users, TrendingUp, CheckCircle, Star, Briefcase } from "lucide-react";
 
-export default async function Home() {
-  const user = await currentUser();
-
-  if (user) {
-    // TODO: Check user role and redirect accordingly
-    // For now, redirect all authenticated users to fit-queue
-    redirect("/fit-queue");
-  }
-
+export default function Home() {
   return (
-    <div className="min-h-screen bg-neutral-950">
-      {/* Hero Section */}
-      <div className="relative isolate px-6 pt-14 lg:px-8">
-        <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
-          <div
-            className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#8B1538] to-[#D4AF37] opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
-            style={{
-              clipPath:
-                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-            }}
-          />
+    <div className="min-h-screen bg-gradient-to-br from-skylevel-600 to-skylevel-700">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="flex items-center justify-between py-6">
+          <div className="text-white">
+            <h1 className="text-3xl font-bold">Skylevel</h1>
+            <p className="text-skylevel-200">AI-Powered Candidate Intelligence</p>
+          </div>
+          <nav className="hidden md:flex space-x-8">
+            <Link href="/jobs" className="text-white hover:text-skylevel-200 transition-colors">
+              Browse Jobs
+            </Link>
+            <Link href="/candidate/dashboard" className="text-white hover:text-skylevel-200 transition-colors">
+              Candidate Dashboard
+            </Link>
+            <Link href="/fit-queue" className="text-white hover:text-skylevel-200 transition-colors">
+              Recruiter Portal
+            </Link>
+          </nav>
         </div>
-        <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-neutral-50 sm:text-6xl">
-              Hire Faster with{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-accent-400">
-                AI-Powered Fit Scores
-              </span>
-            </h1>
-            <p className="mt-6 text-lg leading-8 text-neutral-400">
-              Transform 200+ resumes into 5 high-confidence candidates through validated Fit Scores
-              and peer referrals. Make hiring decisions 70% faster.
-            </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Link
-                href="/sign-in"
-                className="rounded-md bg-primary-600 px-3.5 py-2.5 text-sm font-semibold text-neutral-50 shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 transition-colors"
-              >
-                Get Started
-              </Link>
-              <Link
-                href="/sign-up"
-                className="text-sm font-semibold leading-6 text-neutral-300 hover:text-neutral-50 transition-colors"
-              >
-                Sign up <span aria-hidden="true">→</span>
-              </Link>
+
+        {/* Hero Section */}
+        <div className="text-center py-20">
+          <h2 className="text-5xl font-bold text-white mb-6">
+            Transform 200+ Resumes into 5 High-Confidence Candidates
+          </h2>
+          <p className="text-xl text-skylevel-100 mb-8 max-w-3xl mx-auto">
+            Our AI-powered Fit Score system analyzes candidates across Technical Match, Soft Skills, and Peer Validation to accelerate recruitment decisions.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <Link
+              href="/jobs"
+              className="inline-flex items-center space-x-2 px-8 py-4 bg-white text-skylevel-600 rounded-lg hover:bg-neutral-50 transition-colors duration-200 font-semibold"
+            >
+              <span>Find Opportunities</span>
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+            <Link
+              href="/fit-queue"
+              className="inline-flex items-center space-x-2 px-8 py-4 border-2 border-white text-white rounded-lg hover:bg-white hover:text-skylevel-600 transition-colors duration-200 font-semibold"
+            >
+              <span>View Fit Queue</span>
+              <Users className="w-5 h-5" />
+            </Link>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div className="text-center">
+              <div className="text-4xl font-bold text-white mb-2">3 min</div>
+              <div className="text-skylevel-200">Application Time</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-white mb-2">85%</div>
+              <div className="text-skylevel-200">Match Accuracy</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-white mb-2">2 min</div>
+              <div className="text-skylevel-200">Referral Validation</div>
             </div>
           </div>
         </div>
-        <div
-          className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-          aria-hidden="true"
-        >
-          <div
-            className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#8B1538] to-[#D4AF37] opacity-20 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
-            style={{
-              clipPath:
-                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-            }}
-          />
-        </div>
-      </div>
 
-      {/* Features Section */}
-      <div className="py-24 sm:py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-base font-semibold leading-7 text-accent-400">How it works</h2>
-            <p className="mt-2 text-3xl font-bold tracking-tight text-neutral-50 sm:text-4xl">
-              The Skylevel Advantage
-            </p>
+        {/* Fit Score Explanation */}
+        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 mb-12">
+          <h3 className="text-2xl font-bold text-white mb-6 text-center">
+            How Fit Scores Work
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-white">TMS</span>
+              </div>
+              <h4 className="text-lg font-semibold text-white mb-2">Technical Match Score</h4>
+              <p className="text-skylevel-200 text-sm">
+                Skills alignment vs job requirements using advanced pattern matching
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-white">SRS</span>
+              </div>
+              <h4 className="text-lg font-semibold text-white mb-2">Soft Skills Rating</h4>
+              <p className="text-skylevel-200 text-sm">
+                Behavioral fit assessment based on experience and communication patterns
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-white">RNS</span>
+              </div>
+              <h4 className="text-lg font-semibold text-white mb-2">Referral Network Score</h4>
+              <p className="text-skylevel-200 text-sm">
+                Peer validation strength through trusted colleague endorsements
+              </p>
+            </div>
           </div>
-          <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-            <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
-              <div className="flex flex-col">
-                <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-neutral-50">
-                  <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-primary-600">
-                    <span className="text-neutral-50 font-bold">1</span>
-                  </div>
-                  Candidates Apply
-                </dt>
-                <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-neutral-400">
-                  <p className="flex-auto">
-                    Candidates submit their profiles and get an initial Fit Score based on skills alignment.
-                  </p>
-                  <p className="mt-6">
-                    <a href="#" className="text-sm font-semibold leading-6 text-primary-400 hover:text-primary-300">
-                      Learn more <span aria-hidden="true">→</span>
-                    </a>
-                  </p>
-                </dd>
-              </div>
-              <div className="flex flex-col">
-                <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-neutral-50">
-                  <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-primary-600">
-                    <span className="text-neutral-50 font-bold">2</span>
-                  </div>
-                  Peer Validation
-                </dt>
-                <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-neutral-400">
-                  <p className="flex-auto">
-                    Candidates share referral links for peers to validate their skills and boost their score.
-                  </p>
-                  <p className="mt-6">
-                    <a href="#" className="text-sm font-semibold leading-6 text-primary-400 hover:text-primary-300">
-                      Learn more <span aria-hidden="true">→</span>
-                    </a>
-                  </p>
-                </dd>
-              </div>
-              <div className="flex flex-col">
-                <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-neutral-50">
-                  <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-primary-600">
-                    <span className="text-neutral-50 font-bold">3</span>
-                  </div>
-                  Hire Confidently
-                </dt>
-                <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-neutral-400">
-                  <p className="flex-auto">
-                    Recruiters review a ranked list of 5 top candidates with validated Fit Scores.
-                  </p>
-                  <p className="mt-6">
-                    <a href="#" className="text-sm font-semibold leading-6 text-primary-400 hover:text-primary-300">
-                      Learn more <span aria-hidden="true">→</span>
-                    </a>
-                  </p>
-                </dd>
-              </div>
-            </dl>
+        </div>
+
+        {/* User Journey Preview */}
+        <div className="text-center pb-20">
+          <h3 className="text-3xl font-bold text-white mb-12">
+            Complete User Journey
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Link
+              href="/jobs"
+              className="bg-white/10 backdrop-blur-lg rounded-lg p-6 hover:bg-white/20 transition-colors duration-200"
+            >
+              <Briefcase className="w-8 h-8 text-white mb-4 mx-auto" />
+              <h4 className="text-lg font-semibold text-white mb-2">Browse Jobs</h4>
+              <p className="text-skylevel-200 text-sm">
+                Discover opportunities with potential Fit Score ranges
+              </p>
+            </Link>
+
+            <Link
+              href="/jobs/1"
+              className="bg-white/10 backdrop-blur-lg rounded-lg p-6 hover:bg-white/20 transition-colors duration-200"
+            >
+              <Star className="w-8 h-8 text-white mb-4 mx-auto" />
+              <h4 className="text-lg font-semibold text-white mb-2">View Details</h4>
+              <p className="text-skylevel-200 text-sm">
+                Comprehensive job information and requirements
+              </p>
+            </Link>
+
+            <Link
+              href="/jobs/1/apply"
+              className="bg-white/10 backdrop-blur-lg rounded-lg p-6 hover:bg-white/20 transition-colors duration-200"
+            >
+              <CheckCircle className="w-8 h-8 text-white mb-4 mx-auto" />
+              <h4 className="text-lg font-semibold text-white mb-2">Apply in 3 Minutes</h4>
+              <p className="text-skylevel-200 text-sm">
+                Streamlined application with instant Fit Score calculation
+              </p>
+            </Link>
+
+            <Link
+              href="/referral/abc123"
+              className="bg-white/10 backdrop-blur-lg rounded-lg p-6 hover:bg-white/20 transition-colors duration-200"
+            >
+              <Users className="w-8 h-8 text-white mb-4 mx-auto" />
+              <h4 className="text-lg font-semibold text-white mb-2">Get Validated</h4>
+              <p className="text-skylevel-200 text-sm">
+                Peer referrals boost your Referral Network Score
+              </p>
+            </Link>
           </div>
         </div>
       </div>

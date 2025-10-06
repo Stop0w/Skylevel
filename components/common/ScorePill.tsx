@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 
 interface ScorePillProps {
   score: number
-  confidence?: 'high' | 'medium' | 'low'
+  confidence?: number | 'high' | 'medium' | 'low'
   showBreakdown?: boolean
   breakdown?: {
     tms: number
@@ -30,12 +30,22 @@ export const ScorePill: React.FC<ScorePillProps> = ({
   }
 
   const getConfidenceIndicator = () => {
+    let confidenceLevel: 'high' | 'medium' | 'low'
+
+    if (typeof confidence === 'number') {
+      if (confidence >= 85) confidenceLevel = 'high'
+      else if (confidence >= 70) confidenceLevel = 'medium'
+      else confidenceLevel = 'low'
+    } else {
+      confidenceLevel = confidence
+    }
+
     const colors = {
       high: 'bg-green-400',
       medium: 'bg-yellow-400',
       low: 'bg-red-400'
     }
-    return colors[confidence]
+    return colors[confidenceLevel]
   }
 
   const sizeStyles = {
