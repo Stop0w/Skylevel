@@ -93,7 +93,18 @@
       "Bash(npm create:*)",
       "Bash(npx tailwindcss:*)",
       "Bash(npm uninstall:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(git branch:*)",
+      "Bash(npx create-next-app:*)",
+      "Bash(printf:*)",
+      "Bash(npx prisma:*)",
+      "Bash(PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=\"I understand this will reset the development database\" npx prisma db push --force-reset)",
+      "Bash(powershell:*)",
+      "Bash(wget:*)",
+      "Bash(lsof:*)",
+      "Bash(npx shadcn@latest init:*)",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(npx next dev:*)"
     ]
   },
   "hooks": {

@@ -1,9 +1,9 @@
-# Skylevel Architecture Documentation
+# Skylevel Next.js 14 Architecture Documentation
 
-**Version:** 1.0  
-**Last Updated:** January 2025  
-**Status:** Active  
-**Maintained By:** Engineering & Product Team
+**Version:** 1.0
+**Last Updated:** January 2025
+**Framework:** Next.js 14 + TypeScript + Prisma + Tailwind + Clerk
+**Status:** Production Architecture for Greenfield Rebuild
 
 ---
 

@@ -1,0 +1,45 @@
+import { PrismaClient } from '../lib/generated/prisma'
+
+const prisma = new PrismaClient()
+
+async function main() {
+  console.log('🌱 Starting database seed...')
+
+  try {
+    // Test database connection first
+    await prisma.$connect()
+    console.log('✅ Database connected successfully')
+
+    // Test basic query
+    const userCount = await prisma.user.count()
+    console.log(`📊 Current user count: ${userCount}`)
+
+    // Create test recruiter
+    console.log('👤 Creating test recruiter...')
+    const recruiter = await prisma.user.create({
+      data: {
+        clerkId: 'clerk_test_recruiter_001',
+        email: 'recruiter@skylevel.com',
+        name: 'Sarah Johnson',
+        role: 'RECRUITER',
+        company: 'Skylevel',
+      },
+    })
+
+    console.log(`✅ Created recruiter: ${recruiter.name} (${recruiter.email})`)
+    console.log('✅ Database seed completed successfully!')
+
+  } catch (error) {
+    console.error('❌ Error during seeding:', error)
+    throw error
+  }
+}
+
+main()
+  .catch((e) => {
+    console.error(e)
+    process.exit(1)
+  })
+  .finally(async () => {
+    await prisma.$disconnect()
+  })

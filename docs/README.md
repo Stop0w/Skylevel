@@ -1,18 +1,18 @@
 
 # Skylevel Documentation Index
 
-**Last Updated**: January 2025  
-**Current State**: React + Vite Prototype (LEGACY)  
-**Target State**: Next.js 14 Greenfield Rebuild (IN PROGRESS)
+**Last Updated**: January 2025
+**Status**: Next.js 14 Greenfield Rebuild Documentation
+**Tech Stack**: Next.js 14 + TypeScript + Prisma + Tailwind + Clerk
 
 ---
 
-## ⚠️ CRITICAL: Understanding Our Documentation
+## ⚠️ CRITICAL: Next.js 14 Greenfield Rebuild Documentation
 
-All documentation in this folder describes the **TARGET Next.js 14 architecture** for the greenfield rebuild. 
+All documentation in this folder describes the **Next.js 14 production architecture** for the greenfield rebuild.
 
-**DO NOT** use this documentation to modify the current React + Vite prototype.  
-**DO** use this documentation to build the new Next.js 14 application from scratch.
+**DO NOT** reference the legacy React + Vite prototype codebase.
+**DO** use this documentation to build the new Next.js 14 application from scratch following the implementation roadmap.
 
 ---
 

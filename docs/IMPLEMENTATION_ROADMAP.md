@@ -1,12 +1,11 @@
 
-# Skylevel Implementation Roadmap
+# Skylevel Next.js 14 Implementation Roadmap
 
-**Version**: 1.0  
-**Date**: January 2025  
-**Timeline**: 3 Weeks to Production MVP  
-**Team**: 2-3 Full-Stack Developers  
-**Current State**: React + Vite prototype (LEGACY)  
-**Target State**: Next.js 14 greenfield rebuild
+**Version**: 1.0
+**Date**: January 2025
+**Timeline**: 3 Weeks to Production MVP
+**Team**: 2-3 Full-Stack Developers
+**Framework**: Next.js 14 + TypeScript + Prisma + Tailwind + Clerk
 
 ---
 

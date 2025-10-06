@@ -1,11 +1,10 @@
 
-# Skylevel Database Schema
+# Skylevel Next.js 14 Database Schema
 
-**Version**: 1.0  
-**Date**: January 2025  
-**Database**: PostgreSQL 15+  
-**ORM**: Prisma 5.7+  
-**Status**: Greenfield Rebuild Schema
+**Version**: 1.0
+**Date**: January 2025
+**Framework**: Next.js 14 + TypeScript + Prisma + PostgreSQL
+**Status**: Production Database Schema for Greenfield Rebuild
 
 ---
 

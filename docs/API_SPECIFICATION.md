@@ -1,10 +1,10 @@
 
-# Skylevel API Specification
+# Skylevel Next.js 14 API Specification
 
-**Version**: 1.0  
-**Date**: January 2025  
-**Status**: Greenfield Rebuild Spec  
-**Framework**: Next.js API Routes + Server Actions
+**Version**: 1.0
+**Date**: January 2025
+**Framework**: Next.js 14 API Routes + Server Actions
+**Status**: Production API Design for Greenfield Rebuild
 
 ---
 
