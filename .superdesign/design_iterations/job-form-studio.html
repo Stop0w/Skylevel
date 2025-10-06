@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Post Form - Studio Craft Style</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    
+    <!-- Import Theme CSS -->
+    <link rel="stylesheet" href="studio_craft_theme.css">
+    
+    <style>
+        /* Apply theme variables */
+        body {
+            background-color: var(--background) !important;
+            color: var(--foreground) !important;
+            font-family: var(--font-sans) !important;
+            letter-spacing: var(--tracking-normal) !important;
+        }
+        
+        /* Custom animations - Precise and minimal */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes progressSlide {
+            from {
+                width: var(--progress-from);
+            }
+            to {
+                width: var(--progress-to);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        /* Progress bar styles - Minimal */
+        .progress-container {
+            background: var(--muted);
+            height: 2px;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--secondary);
+            animation: progressSlide 0.3s ease-out forwards;
+        }
+        
+        /* Question styles - Tight and precise */
+        .question-text {
+            font-family: var(--font-serif);
+            font-weight: 600;
+            color: var(--foreground);
+            letter-spacing: var(--tracking-tight);
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        /* Input styles - Sharp and minimal */
+        .form-input {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--foreground);
+            font-family: var(--font-sans);
+            transition: all 0.15s ease-out;
+            letter-spacing: var(--tracking-normal);
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px oklch(0.5490 0.2353 250.0000 / 0.1);
+        }
+        
+        .form-input::placeholder {
+            color: var(--muted-foreground);
+            opacity: 0.6;
+        }
+        
+        /* Textarea specific */
+        .form-textarea {
+            resize: none;
+            min-height: 120px;
+        }
+        
+        /* Help tip styles - Minimal accent */
+        .help-tip {
+            background: oklch(0.5490 0.2353 250.0000 / 0.05);
+            border: 1px solid oklch(0.5490 0.2353 250.0000 / 0.1);
+            animation: fadeIn 0.4s ease-out 0.2s both;
+        }
+        
+        .help-icon {
+            color: var(--secondary);
+        }
+        
+        /* Button styles - Sharp and electric */
+        .next-button {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            font-family: var(--font-sans);
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            transition: all 0.15s ease-out;
+            position: relative;
+        }
+        
+        .next-button::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--secondary);
+            opacity: 0;
+            transition: opacity 0.15s ease-out;
+        }
+        
+        .next-button:hover::after {
+            opacity: 1;
+        }
+        
+        .next-button:hover span,
+        .next-button:hover i {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .next-button:active {
+            transform: scale(0.98);
+        }
+        
+        .next-button:disabled {
+            background: var(--muted);
+            color: var(--muted-foreground);
+            cursor: not-allowed;
+        }
+        
+        .next-button:disabled::after {
+            display: none;
+        }
+        
+        /* Step indicator - Monospace precision */
+        .step-indicator {
+            color: var(--muted-foreground);
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        
+        /* Screen transition */
+        .form-screen {
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        /* Radio/Checkbox styles - Minimal */
+        .form-radio,
+        .form-checkbox {
+            width: 16px;
+            height: 16px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            transition: all 0.15s ease-out;
+            cursor: pointer;
+        }
+        
+        .form-radio:checked,
+        .form-checkbox:checked {
+            background: var(--secondary);
+            border-color: var(--secondary);
+        }
+        
+        .form-radio {
+            border-radius: 50%;
+        }
+        
+        .form-checkbox {
+            border-radius: 2px;
+        }
+        
+        /* Option card styles - Precise selection */
+        .option-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            transition: all 0.15s ease-out;
+            cursor: pointer;
+        }
+        
+        .option-card:hover {
+            border-color: var(--secondary);
+            background: oklch(0.5490 0.2353 250.0000 / 0.02);
+        }
+        
+        .option-card.selected {
+            border-color: var(--secondary);
+            background: oklch(0.5490 0.2353 250.0000 / 0.05);
+        }
+        
+        /* Back button - Minimal */
+        .back-button {
+            color: var(--muted-foreground);
+            transition: color 0.15s ease-out;
+        }
+        
+        .back-button:hover {
+            color: var(--foreground);
+        }
+        
+        /* Slider styles - Electric accent */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+        
+        input[type="range"]::-webkit-slider-track {
+            background: var(--muted);
+            height: 2px;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--secondary);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-top: -7px;
+            transition: transform 0.15s ease-out;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+        
+        /* Success state */
+        .success-button {
+            background: var(--accent);
+            color: var(--accent-foreground);
+        }
+        
+        /* Character counter */
+        .char-counter {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <!-- Mobile container (375px) -->
+    <div class="w-full max-w-[375px] min-h-[600px] flex flex-col">
+        
+        <!-- Screen 1: Role Title -->
+        <div class="form-screen flex-1 flex flex-col" id="screen1">
+            <!-- Progress Bar -->
+            <div class="progress-container mb-6">
+                <div class="progress-fill" style="--progress-from: 0%; --progress-to: 14.3%;"></div>
+            </div>
+            
+            <!-- Step Indicator -->
+            <p class="step-indicator mb-8">Step 1 / 7</p>
+            
+            <!-- Question -->
+            <h2 class="question-text text-2xl mb-6">What's the role?</h2>
+            
+            <!-- Input -->
+            <input 
+                type="text" 
+                placeholder="e.g., Senior Product Designer"
+                class="form-input px-4 py-3 text-base mb-4"
+                id="roleInput"
+            >
+            
+            <!-- Help Tip -->
+            <div class="help-tip p-3 mb-auto flex gap-2">
+                <i data-lucide="info" class="help-icon w-4 h-4 flex-shrink-0 mt-0.5"></i>
+                <p class="text-xs">
+                    Be specific. "Senior Product Designer (Growth)" 
+                    performs better than just "Designer"
+                </p>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-8">
+                <button class="back-button p-2" onclick="previousScreen()">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                </button>
+                <button class="next-button px-6 py-2.5 flex items-center gap-2" onclick="nextScreen()" disabled>
+                    <span>Next</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Screen 2: Department -->
+        <div class="form-screen flex-1 flex-col hidden" id="screen2">
+            <!-- Progress Bar -->
+            <div class="progress-container mb-6">
+                <div class="progress-fill" style="--progress-from: 14.3%; --progress-to: 28.6%;"></div>
+            </div>
+            
+            <!-- Step Indicator -->
+            <p class="step-indicator mb-8">Step 2 / 7</p>
+            
+            <!-- Question -->
+            <h2 class="question-text text-2xl mb-6">Which department?</h2>
+            
+            <!-- Options -->
+            <div class="space-y-2 mb-6">
+                <div class="option-card p-3" onclick="selectOption(this, 'department')">
+                    <div class="flex items-center gap-3">
+                        <input type="radio" name="department" value="engineering" class="form-radio">
+                        <label class="text-sm font-medium">Engineering</label>
+                    </div>
+                </div>
+                <div class="option-card p-3" onclick="selectOption(this, 'department')">
+                    <div class="flex items-center gap-3">
+                        <input type="radio" name="department" value="design" class="form-radio">
+                        <label class="text-sm font-medium">Design</label>
+                    </div>
+                </div>
+                <div class="option-card p-3" onclick="selectOption(this, 'department')">
+                    <div class="flex items-center gap-3">
+                        <input type="radio" name="department" value="product" class="form-radio">
+                        <label class="text-sm font-medium">Product</label>
+                    </div>
+                </div>
+                <div class="option-card p-3" onclick="selectOption(this, 'department')">
+                    <div class="flex items-center gap-3">
+                        <input type="radio" name="department" value="marketing" class="form-radio">
+                        <label class="text-sm font-medium">Marketing</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-auto">
+                <button class="back-button p-2" onclick="previousScreen()">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                </button>
+                <button class="next-button px-6 py-2.5 flex items-center gap-2" onclick="nextScreen()" disabled>
+                    <span>Next</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Screen 3: Experience Level -->
+        <div class="form-screen flex-1 flex-col hidden" id="screen3">
+            <!-- Progress Bar -->
+            <div class="progress-container mb-6">
+                <div class="progress-fill" style="--progress-from: 28.6%; --progress-to: 42.9%;"></div>
+            </div>
+            
+            <!-- Step Indicator -->
+            <p class="step-indicator mb-8">Step 3 / 7</p>
+            
+            <!-- Question -->
+            <h2 class="question-text text-2xl mb-6">Experience level?</h2>
+            
+            <!-- Slider Input -->
+            <div class="mb-8">
+                <div class="flex justify-between text-xs mb-3" style="color: var(--muted-foreground)">
+                    <span>JR</span>
+                    <span>MID</span>
+                    <span>SR</span>
+                    <span>LEAD</span>
+                </div>
+                <input 
+                    type="range" 
+                    min="1" 
+                    max="10" 
+                    value="5" 
+                    class="w-full"
+                    oninput="updateExperienceLabel(this.value)"
+                >
+                <p class="text-center mt-4 font-mono text-sm font-medium" id="experienceLabel">5-7 YRS</p>
+            </div>
+            
+            <!-- Help Tip -->
+            <div class="help-tip p-3 mb-auto flex gap-2">
+                <i data-lucide="info" class="help-icon w-4 h-4 flex-shrink-0 mt-0.5"></i>
+                <p class="text-xs">
+                    Consider actual responsibilities, not just years
+                </p>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-8">
+                <button class="back-button p-2" onclick="previousScreen()">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                </button>
+                <button class="next-button px-6 py-2.5 flex items-center gap-2" onclick="nextScreen()">
+                    <span>Next</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Screen 4: Key Skills -->
+        <div class="form-screen flex-1 flex-col hidden" id="screen4">
+            <!-- Progress Bar -->
+            <div class="progress-container mb-6">
+                <div class="progress-fill" style="--progress-from: 42.9%; --progress-to: 57.1%;"></div>
+            </div>
+            
+            <!-- Step Indicator -->
+            <p class="step-indicator mb-8">Step 4 / 7</p>
+            
+            <!-- Question -->
+            <h2 class="question-text text-2xl mb-6">Must-have skills?</h2>
+            
+            <!-- Textarea -->
+            <textarea 
+                placeholder="List essential skills, one per line"
+                class="form-input form-textarea px-4 py-3 text-sm mb-2"
+                oninput="checkTextarea(this)"
+            ></textarea>
+            
+            <!-- Character count -->
+            <p class="char-counter text-right mb-auto" style="color: var(--muted-foreground)">
+                <span id="charCount">0</span>/200
+            </p>
+            
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-8">
+                <button class="back-button p-2" onclick="previousScreen()">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                </button>
+                <button class="next-button px-6 py-2.5 flex items-center gap-2" onclick="nextScreen()" disabled>
+                    <span>Next</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Screen 5: Location -->
+        <div class="form-screen flex-1 flex-col hidden" id="screen5">
+            <!-- Progress Bar -->
+            <div class="progress-container mb-6">
+                <div class="progress-fill" style="--progress-from: 57.1%; --progress-to: 71.4%;"></div>
+            </div>
+            
+            <!-- Step Indicator -->
+            <p class="step-indicator mb-8">Step 5 / 7</p>
+            
+            <!-- Question -->
+            <h2 class="question-text text-2xl mb-6">Work location?</h2>
+            
+            <!-- Options -->
+            <div class="space-y-2 mb-6">
+                <div class="option-card p-3" onclick="selectMultiple(this)">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" value="remote" class="form-checkbox">
+                        <div>
+                            <label class="text-sm font-medium block">Remote</label>
+                            <span class="text-xs" style="color: var(--muted-foreground)">100% remote</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="option-card p-3" onclick="selectMultiple(this)">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" value="hybrid" class="form-checkbox">
+                        <div>
+                            <label class="text-sm font-medium block">Hybrid</label>
+                            <span class="text-xs" style="color: var(--muted-foreground)">2-3 days/week</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="option-card p-3" onclick="selectMultiple(this)">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" value="onsite" class="form-checkbox">
+                        <div>
+                            <label class="text-sm font-medium block">On-site</label>
+                            <span class="text-xs" style="color: var(--muted-foreground)">Office-based</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-auto">
+                <button class="back-button p-2" onclick="previousScreen()">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                </button>
+                <button class="next-button px-6 py-2.5 flex items-center gap-2" onclick="nextScreen()" disabled>
+                    <span>Next</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Screen 6: Salary Range -->
+        <div class="form-screen flex-1 flex-col hidden" id="screen6">
+            <!-- Progress Bar -->
+            <div class="progress-container mb-6">
+                <div class="progress-fill" style="--progress-from: 71.4%; --progress-to: 85.7%;"></div>
+            </div>
+            
+            <!-- Step Indicator -->
+            <p class="step-indicator mb-8">Step 6 / 7</p>
+            
+            <!-- Question -->
+            <h2 class="question-text text-2xl mb-6">Salary range?</h2>
+            
+            <!-- Salary Inputs -->
+            <div class="space-y-3 mb-6">
+                <div>
+                    <label class="text-xs font-medium block mb-1.5" style="color: var(--muted-foreground)">MIN</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-mono">$</span>
+                        <input 
+                            type="number" 
+                            placeholder="80000"
+                            class="form-input pl-8 pr-4 py-3 text-sm font-mono w-full"
+                            oninput="checkSalary()"
+                        >
+                    </div>
+                </div>
+                <div>
+                    <label class="text-xs font-medium block mb-1.5" style="color: var(--muted-foreground)">MAX</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-mono">$</span>
+                        <input 
+                            type="number" 
+                            placeholder="120000"
+                            class="form-input pl-8 pr-4 py-3 text-sm font-mono w-full"
+                            oninput="checkSalary()"
+                        >
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Help Tip -->
+            <div class="help-tip p-3 mb-auto flex gap-2">
+                <i data-lucide="info" class="help-icon w-4 h-4 flex-shrink-0 mt-0.5"></i>
+                <p class="text-xs">
+                    Competitive salaries attract 3x more qualified candidates
+                </p>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-8">
+                <button class="back-button p-2" onclick="previousScreen()">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                </button>
+                <button class="next-button px-6 py-2.5 flex items-center gap-2" onclick="nextScreen()" disabled>
+                    <span>Next</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Screen 7: Review -->
+        <div class="form-screen flex-1 flex-col hidden" id="screen7">
+            <!-- Progress Bar -->
+            <div class="progress-container mb-6">
+                <div class="progress-fill" style="--progress-from: 85.7%; --progress-to: 100%;"></div>
+            </div>
+            
+            <!-- Step Indicator -->
+            <p class="step-indicator mb-8">Step 7 / 7</p>
+            
+            <!-- Question -->
+            <h2 class="question-text text-2xl mb-6">Review & Post</h2>
+            
+            <!-- Summary Card -->
+            <div class="bg-white p-4 mb-6" style="box-shadow: var(--shadow-sm)">
+                <h3 class="font-mono text-xs font-medium mb-4 text-uppercase letter-spacing-wide" style="color: var(--muted-foreground)">Summary</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="font-mono text-xs" style="color: var(--muted-foreground)">ROLE</span>
+                        <span class="font-medium">Senior Product Designer</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="font-mono text-xs" style="color: var(--muted-foreground)">DEPT</span>
+                        <span class="font-medium">Design</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="font-mono text-xs" style="color: var(--muted-foreground)">EXP</span>
+                        <span class="font-medium">5-7 years</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="font-mono text-xs" style="color: var(--muted-foreground)">LOC</span>
+                        <span class="font-medium">Remote, Hybrid</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="font-mono text-xs" style="color: var(--muted-foreground)">SAL</span>
+                        <span class="font-medium font-mono">$80k-$120k</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-auto">
+                <button class="back-button p-2" onclick="previousScreen()">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                </button>
+                <button class="next-button success-button px-6 py-2.5 flex items-center gap-2">
+                    <span>Post Job</span>
+                    <i data-lucide="check" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+        
+    </div>
+    
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        let currentScreen = 1;
+        const totalScreens = 7;
+        
+        // Screen navigation
+        function nextScreen() {
+            if (currentScreen < totalScreens) {
+                document.getElementById(`screen${currentScreen}`).classList.add('hidden');
+                currentScreen++;
+                document.getElementById(`screen${currentScreen}`).classList.remove('hidden');
+                lucide.createIcons();
+            }
+        }
+        
+        function previousScreen() {
+            if (currentScreen > 1) {
+                document.getElementById(`screen${currentScreen}`).classList.add('hidden');
+                currentScreen--;
+                document.getElementById(`screen${currentScreen}`).classList.remove('hidden');
+                lucide.createIcons();
+            }
+        }
+        
+        // Input validation
+        document.getElementById('roleInput').addEventListener('input', function(e) {
+            const nextBtn = document.querySelector('#screen1 .next-button');
+            nextBtn.disabled = e.target.value.trim().length < 3;
+        });
+        
+        // Radio selection
+        function selectOption(card, name) {
+            // Remove selected class from all cards
+            document.querySelectorAll('.option-card').forEach(c => {
+                if (c.querySelector(`input[name="${name}"]`)) {
+                    c.classList.remove('selected');
+                }
+            });
+            
+            // Add selected class and check radio
+            card.classList.add('selected');
+            const radio = card.querySelector('input[type="radio"]');
+            radio.checked = true;
+            
+            // Enable next button
+            const nextBtn = card.closest('.form-screen').querySelector('.next-button');
+            nextBtn.disabled = false;
+        }
+        
+        // Checkbox selection
+        function selectMultiple(card) {
+            const checkbox = card.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            card.classList.toggle('selected', checkbox.checked);
+            
+            // Check if at least one is selected
+            const screen = card.closest('.form-screen');
+            const hasSelection = screen.querySelectorAll('input[type="checkbox"]:checked').length > 0;
+            screen.querySelector('.next-button').disabled = !hasSelection;
+        }
+        
+        // Experience slider
+        function updateExperienceLabel(value) {
+            const labels = {
+                1: '0-2 YRS',
+                2: '2-3 YRS',
+                3: '3-5 YRS',
+                4: '5-7 YRS',
+                5: '5-7 YRS',
+                6: '7-10 YRS',
+                7: '10-12 YRS',
+                8: '12-15 YRS',
+                9: '15+ YRS',
+                10: '20+ YRS'
+            };
+            document.getElementById('experienceLabel').textContent = labels[value] || '5-7 YRS';
+        }
+        
+        // Textarea validation
+        function checkTextarea(textarea) {
+            const charCount = textarea.value.length;
+            document.getElementById('charCount').textContent = charCount;
+            
+            const nextBtn = textarea.closest('.form-screen').querySelector('.next-button');
+            nextBtn.disabled = charCount < 10 || charCount > 200;
+        }
+        
+        // Salary validation
+        function checkSalary() {
+            const inputs = document.querySelectorAll('#screen6 input[type="number"]');
+            const values = Array.from(inputs).map(i => parseInt(i.value) || 0);
+            
+            const nextBtn = document.querySelector('#screen6 .next-button');
+            nextBtn.disabled = values[0] <= 0 || values[1] <= 0 || values[0] >= values[1];
+        }
+    </script>
+</body>
+</html>

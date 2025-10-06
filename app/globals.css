@@ -1,0 +1,304 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light Theme Colors - Skylevel Brand */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 217 91% 60%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Dark Theme Colors - Skylevel Professional */
+    --background: 222 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 222 2 11%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217 33% 17%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 217 91% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom Skylevel Component Styles */
+@layer components {
+  /* ScorePill Component Styles */
+  .score-pill {
+    @apply inline-flex items-center justify-center rounded-full font-bold transition-all duration-200;
+  }
+
+  .score-pill-excellent {
+    @apply bg-gold-500 text-white;
+  }
+
+  .score-pill-good {
+    @apply bg-success-500 text-white;
+  }
+
+  .score-pill-moderate {
+    @apply bg-gold-500 text-white;
+  }
+
+  .score-pill-low {
+    @apply bg-coral-500 text-white;
+  }
+
+  /* Dark theme variants */
+  .dark .score-pill-excellent {
+    @apply bg-gold-400 text-neutral-900;
+  }
+
+  .dark .score-pill-good {
+    @apply bg-success-400 text-white;
+  }
+
+  .dark .score-pill-moderate {
+    @apply bg-gold-400 text-neutral-900;
+  }
+
+  .dark .score-pill-low {
+    @apply bg-coral-400 text-white;
+  }
+
+  /* Confidence indicators */
+  .confidence-high {
+    @apply border-2 border-solid;
+  }
+
+  .confidence-medium {
+    @apply border-2 border-dashed;
+  }
+
+  .confidence-low {
+    @apply border-2 border-dotted;
+  }
+
+  /* Candidate Card Styles */
+  .candidate-card {
+    @apply bg-card border border-border rounded-lg p-6 transition-all duration-200 hover:shadow-lg hover:border-primary;
+  }
+
+  .dark .candidate-card {
+    @apply bg-neutral-800 border-neutral-700 hover:border-skylevel-400;
+  }
+
+  /* Button Styles */
+  .btn-primary {
+    @apply bg-skylevel-500 hover:bg-skylevel-600 text-white font-semibold transition-colors duration-200;
+  }
+
+  .btn-secondary {
+    @apply bg-neutral-500 hover:bg-neutral-600 text-white font-semibold transition-colors duration-200;
+  }
+
+  .dark .btn-secondary {
+    @apply bg-neutral-300 hover:bg-neutral-400 text-neutral-900;
+  }
+
+  .btn-outline {
+    @apply border-2 border-skylevel-500 text-skylevel-500 hover:bg-skylevel-500 hover:text-white font-semibold transition-colors duration-200;
+  }
+
+  .btn-ghost {
+    @apply hover:bg-neutral-100 text-neutral-700 font-medium transition-colors duration-200;
+  }
+
+  .dark .btn-ghost {
+    @apply hover:bg-neutral-800 text-neutral-300;
+  }
+
+  /* Status Badge Styles */
+  .status-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .status-active {
+    @apply bg-success-100 text-success-800;
+  }
+
+  .status-pending {
+    @apply bg-gold-100 text-gold-800;
+  }
+
+  .status-rejected {
+    @apply bg-coral-100 text-coral-800;
+  }
+
+  .status-interview {
+    @apply bg-skylevel-100 text-skylevel-800;
+  }
+
+  .status-hired {
+    @apply bg-gold-100 text-gold-800;
+  }
+
+  /* Dark theme status badge variants */
+  .dark .status-active {
+    @apply bg-success-900 text-success-100;
+  }
+
+  .dark .status-pending {
+    @apply bg-gold-900 text-gold-100;
+  }
+
+  .dark .status-rejected {
+    @apply bg-coral-900 text-coral-100;
+  }
+
+  .dark .status-interview {
+    @apply bg-skylevel-900 text-skylevel-100;
+  }
+
+  .dark .status-hired {
+    @apply bg-gold-900 text-gold-100;
+  }
+
+  /* Fit Queue specific styles */
+  .fit-queue-container {
+    @apply container mx-auto px-4 max-w-7xl;
+  }
+
+  .fit-queue-header {
+    @apply mb-8;
+  }
+
+  .fit-queue-filters {
+    @apply mb-6 flex gap-4 flex-wrap;
+  }
+
+  .fit-queue-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+  }
+
+  /* Loading and skeleton styles */
+  .skeleton {
+    @apply animate-pulse bg-neutral-200 rounded;
+  }
+
+  .dark .skeleton {
+    @apply bg-neutral-700;
+  }
+
+  .skeleton-line {
+    @apply h-4 mb-2;
+  }
+
+  .skeleton-line-short {
+    @apply w-3/4;
+  }
+
+  .skeleton-line-medium {
+    @apply w-1/2;
+  }
+
+  .skeleton-line-long {
+    @apply w-5/6;
+  }
+
+  /* Utility classes for common patterns */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Focus styles for accessibility */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background;
+  }
+
+  /* Responsive text sizes */
+  .responsive-text-xs {
+    @apply text-xs md:text-sm;
+  }
+
+  .responsive-text-sm {
+    @apply text-sm md:text-base;
+  }
+
+  .responsive-text-base {
+    @apply text-base md:text-lg;
+  }
+
+  .responsive-text-lg {
+    @apply text-lg md:text-xl;
+  }
+
+  .responsive-text-xl {
+    @apply text-xl md:text-2xl;
+  }
+
+  .responsive-text-2xl {
+    @apply text-2xl md:text-3xl;
+  }
+
+  .responsive-text-3xl {
+    @apply text-3xl md:text-4xl;
+  }
+
+  .responsive-text-4xl {
+    @apply text-4xl md:text-5xl;
+  }
+}
+
+/* Custom animations for smooth transitions */
+@layer utilities {
+  .transition-all-300 {
+    transition: all 0.3s ease;
+  }
+
+  .transition-transform-200 {
+    transition: transform 0.2s ease;
+  }
+
+  .transition-colors-200 {
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  }
+}

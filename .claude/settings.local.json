@@ -1,0 +1,501 @@
+{
+  "env": {
+    "USE_BUILTIN_RIPGREP": "1",
+    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
+    "CLAUDE_CODE_DISABLE_TERMINAL_TITLE": "0"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(npm run lint)",
+      "Bash(npm run test:*)",
+      "Bash(npm run build)",
+      "Bash(npm start)",
+      "Bash(tree:*)",
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run dev:*)",
+      "Bash(set:*)",
+      "Bash(tsx:*)",
+      "Bash(cross-env:*)",
+      "Bash(npm run check:*)",
+      "Bash(npm test)",
+      "Bash(npx tsc:*)",
+      "Read(//c/Users/hayde/**)",
+      "Bash(cd:*)",
+      "Bash(npx playwright install:*)",
+      "Bash(npx playwright:*)",
+      "Bash(curl:*)",
+      "Bash(npx cross-env NODE_ENV=development npm run dev:*)",
+      "Bash(tasklist:*)",
+      "Bash(findstr:*)",
+      "Bash(npm run test:e2e:*)",
+      "Bash(npm run test:integration:*)",
+      "Bash(where:*)",
+      "Bash(node:*)",
+      "Bash(py:*)",
+      "Bash(npm run test:unit:*)",
+      "Bash(cat:*)",
+      "Bash(netstat:*)",
+      "Bash(taskkill:*)",
+      "Bash(find:*)",
+      "Bash(timeout:*)",
+      "Bash(pkill:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(dir:*)",
+      "Bash(copy:*)",
+      "Bash(NODE_ENV=production npx tsx:*)",
+      "Bash(npx tsx:*)",
+      "Bash(npm run start:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git remote remove:*)",
+      "Bash(git submodule:*)",
+      "Bash(git rm:*)",
+      "Bash(start:*)",
+      "Bash(chmod:*)",
+      "Bash(PORT=3001 npm run dev)",
+      "Bash(npm test:*)",
+      "Bash(npx vite:*)",
+      "Bash(git fetch:*)",
+      "Bash(git pull:*)",
+      "Bash(git reset:*)",
+      "Bash(git rev-list:*)",
+      "Bash(git checkout:*)",
+      "Bash(nslookup:*)",
+      "Bash(ipconfig:*)",
+      "Bash(wmic:*)",
+      "Bash(test:*)",
+      "Bash(PORT=3000 npm run dev)",
+      "Bash(NODE_ENV=development PORT=3001 npx tsx server/index.ts)",
+      "Bash(npm ls:*)",
+      "Bash(npm cache clean:*)",
+      "Bash(./node_modules/.bin/vite:*)",
+      "Bash(./vercel-build.cmd:*)",
+      "Bash(npm run build:*)",
+      "Bash(vercel:*)",
+      "Bash(npx vercel:*)",
+      "Bash(echo:*)",
+      "mcp__vercel__list_projects",
+      "mcp__vercel__list_teams",
+      "mcp__vercel__list_deployments",
+      "mcp__vercel__get_deployment_build_logs",
+      "mcp__vercel__get_deployment",
+      "mcp__vercel__deploy_to_vercel",
+      "Bash(rm:*)",
+      "Bash(gh auth:*)",
+      "Bash(mkdir:*)",
+      "Bash(npx prisma init:*)",
+      "Bash(\"%USERPROFILE%\\.config\\claude\\settings.json\")",
+      "Bash(cmd:*)",
+      "Bash(npm create:*)",
+      "Bash(npx tailwindcss:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(ls:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ -f package.json ]] && npm run test:quick --silent >/dev/null 2>&1; then echo '✅ Tests passed'; else echo '⚠️ Tests may need attention'; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.js || \"$CLAUDE_TOOL_FILE_PATH\" == *.ts || \"$CLAUDE_TOOL_FILE_PATH\" == *.jsx || \"$CLAUDE_TOOL_FILE_PATH\" == *.tsx || \"$CLAUDE_TOOL_FILE_PATH\" == *.json || \"$CLAUDE_TOOL_FILE_PATH\" == *.css || \"$CLAUDE_TOOL_FILE_PATH\" == *.html ]]; then npx prettier --write \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.py ]]; then black \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.go ]]; then gofmt -w \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.rs ]]; then rustfmt \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.php ]]; then php-cs-fixer fix \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"$CLAUDE_TOOL_FILE_PATH\" == *package.json || \"$CLAUDE_TOOL_FILE_PATH\" == *requirements.txt || \"$CLAUDE_TOOL_FILE_PATH\" == *Cargo.toml || \"$CLAUDE_TOOL_FILE_PATH\" == *pom.xml || \"$CLAUDE_TOOL_FILE_PATH\" == *Gemfile ]]; then echo \"Dependency file modified: $CLAUDE_TOOL_FILE_PATH\"; if [[ \"$CLAUDE_TOOL_FILE_PATH\" == *package.json ]] && command -v npm >/dev/null 2>&1; then npm audit 2>/dev/null || true; npx npm-check-updates 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *requirements.txt ]] && command -v safety >/dev/null 2>&1; then safety check -r \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *Cargo.toml ]] && command -v cargo >/dev/null 2>&1; then cargo audit 2>/dev/null || true; fi; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[$(date '+%Y-%m-%d %H:%M:%S')] File modified: $CLAUDE_TOOL_FILE_PATH\" >> ~/.claude/changes.log"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[$(date '+%Y-%m-%d %H:%M:%S')] File created: $CLAUDE_TOOL_FILE_PATH\" >> ~/.claude/changes.log"
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if command -v osascript >/dev/null 2>&1; then osascript -e 'display notification \"Tool: $CLAUDE_TOOL_NAME completed\" with title \"Claude Code\"'; elif command -v notify-send >/dev/null 2>&1; then notify-send 'Claude Code' \"Tool: $CLAUDE_TOOL_NAME completed\"; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if git rev-parse --git-dir >/dev/null 2>&1 && [[ -n \"$CLAUDE_TOOL_FILE_PATH\" ]]; then git add \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null; CHANGED_LINES=$(git diff --cached --numstat \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null | awk '{print $1+$2}'); if [[ $CHANGED_LINES -gt 0 ]]; then FILENAME=$(basename \"$CLAUDE_TOOL_FILE_PATH\"); if [[ $CHANGED_LINES -lt 10 ]]; then SIZE=\"minor\"; elif [[ $CHANGED_LINES -lt 50 ]]; then SIZE=\"moderate\"; else SIZE=\"major\"; fi; MSG=\"Update $FILENAME: $SIZE changes ($CHANGED_LINES lines)\"; git commit -m \"$MSG\" \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; fi; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if git rev-parse --git-dir >/dev/null 2>&1 && [[ -n \"$CLAUDE_TOOL_FILE_PATH\" ]]; then git add \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null; FILENAME=$(basename \"$CLAUDE_TOOL_FILE_PATH\"); git commit -m \"Add new file: $FILENAME\" \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.js || \"$CLAUDE_TOOL_FILE_PATH\" == *.ts || \"$CLAUDE_TOOL_FILE_PATH\" == *.jsx || \"$CLAUDE_TOOL_FILE_PATH\" == *.tsx ]]; then npx eslint \"$CLAUDE_TOOL_FILE_PATH\" --fix 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.py ]]; then pylint \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.rb ]]; then rubocop \"$CLAUDE_TOOL_FILE_PATH\" --auto-correct 2>/dev/null || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ -n \"$CLAUDE_TOOL_FILE_PATH\" ]] && git rev-parse --git-dir >/dev/null 2>&1; then git add \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.js || \"$CLAUDE_TOOL_FILE_PATH\" == *.ts ]] && [[ -f package.json ]]; then npm test 2>/dev/null || yarn test 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.py ]] && [[ -f pytest.ini || -f setup.cfg || -f pyproject.toml ]]; then pytest \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || python -m pytest \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.rb ]] && [[ -f Gemfile ]]; then bundle exec rspec \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'input=$(cat); FILE_PATH=$(echo \"$input\" | jq -r \".tool_input.file_path // empty\"); SUCCESS=$(echo \"$input\" | jq -r \".tool_response.success // false\"); if [ \"$SUCCESS\" = \"true\" ] && [[ \"$FILE_PATH\" =~ \\.(js|jsx|ts|tsx)$ ]] && [[ ! \"$FILE_PATH\" =~ node_modules ]]; then echo \"🔍 Next.js Code Quality Enforcer: Reviewing $FILE_PATH...\"; ISSUES=0; if [ -f \"$FILE_PATH\" ]; then if [[ \"$FILE_PATH\" =~ app/.* ]]; then echo \"📁 App Router file detected: $FILE_PATH\"; if [[ \"$FILE_PATH\" =~ page\\.(js|jsx|ts|tsx)$ ]] && ! grep -q \"export default function\" \"$FILE_PATH\" 2>/dev/null && ! grep -q \"export default async function\" \"$FILE_PATH\" 2>/dev/null; then echo \"❌ Page component must export default function\" >&2; ((ISSUES++)); fi; if [[ \"$FILE_PATH\" =~ layout\\.(js|jsx|ts|tsx)$ ]] && ! grep -q \"children\" \"$FILE_PATH\" 2>/dev/null; then echo \"❌ Layout component should accept children prop\" >&2; ((ISSUES++)); fi; if [[ \"$FILE_PATH\" =~ page\\.(js|jsx|ts|tsx)$ ]] && ! grep -q \"Metadata\" \"$FILE_PATH\" 2>/dev/null && ! grep -q \"metadata\" \"$FILE_PATH\" 2>/dev/null; then echo \"⚠️ Consider adding metadata export for SEO\"; fi; if grep -q \"use client\" \"$FILE_PATH\" 2>/dev/null; then echo \"🖥️ Client Component detected\"; if ! grep -E \"(useState|useEffect|onClick|onChange|onSubmit)\" \"$FILE_PATH\" 2>/dev/null; then echo \"⚠️ Client component without interactivity - consider Server Component\"; fi; else echo \"🚀 Server Component (default)\"; if grep -E \"(useState|useEffect|onClick|onChange|onSubmit)\" \"$FILE_PATH\" 2>/dev/null; then echo \"❌ Interactive features in Server Component - add \\\"use client\\\" directive\" >&2; ((ISSUES++)); fi; fi; fi; if [[ \"$FILE_PATH\" =~ \\.(jsx|tsx)$ ]]; then if ! grep -q \"import.*React\" \"$FILE_PATH\" 2>/dev/null && grep -q \"<\" \"$FILE_PATH\" 2>/dev/null; then echo \"⚠️ JSX without React import (Next.js 17+ handles this automatically)\"; fi; if ! grep -q \"FC\\|FunctionComponent\" \"$FILE_PATH\" 2>/dev/null && grep -q \"props\" \"$FILE_PATH\" 2>/dev/null && [[ \"$FILE_PATH\" =~ \\.tsx$ ]]; then echo \"💡 Consider using React.FC or explicit prop types for TypeScript\"; fi; fi; if [[ \"$FILE_PATH\" =~ \\.js$ ]] && [ -f \"tsconfig.json\" ]; then echo \"📝 JavaScript file in TypeScript project: $FILE_PATH\"; echo \"💡 Consider migrating to TypeScript for better type safety\"; fi; if grep -q \"next/image\" \"$FILE_PATH\" 2>/dev/null; then echo \"✅ Using next/image for optimized images\"; elif grep -q \"<img\" \"$FILE_PATH\" 2>/dev/null; then echo \"🖼️ Regular <img> tag detected\"; echo \"💡 Consider using next/image for better performance\"; fi; if grep -q \"next/link\" \"$FILE_PATH\" 2>/dev/null; then echo \"✅ Using next/link for navigation\"; elif grep -q \"<a href=\" \"$FILE_PATH\" 2>/dev/null && ! grep -q \"http\" \"$FILE_PATH\" 2>/dev/null; then echo \"🔗 Regular <a> tag for internal links detected\"; echo \"💡 Use next/link for internal navigation\"; fi; if grep -q \"getServerSideProps\\|getStaticProps\" \"$FILE_PATH\" 2>/dev/null; then echo \"⚠️ Pages Router data fetching methods detected\"; echo \"💡 Consider migrating to App Router with Server Components\"; fi; if grep -q \"className=.*{\" \"$FILE_PATH\" 2>/dev/null; then echo \"🎨 Dynamic className detected\"; if ! grep -q \"clsx\\|classnames\\|cn(\" \"$FILE_PATH\" 2>/dev/null; then echo \"💡 Consider using clsx or similar utility for className concatenation\"; fi; fi; if [ $ISSUES -eq 0 ]; then echo \"✅ Code quality check passed for $FILE_PATH\"; else echo \"❌ Found $ISSUES code quality issues in $FILE_PATH\" >&2; exit 2; fi; else echo \"❌ File $FILE_PATH not found\"; fi; else echo \"ℹ️ Code quality check skipped (not a JavaScript/TypeScript file or failed operation)\"; fi'",
+            "timeout": 20
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.js || \"$CLAUDE_TOOL_FILE_PATH\" == *.ts || \"$CLAUDE_TOOL_FILE_PATH\" == *.jsx || \"$CLAUDE_TOOL_FILE_PATH\" == *.tsx ]]; then npx eslint \"$CLAUDE_TOOL_FILE_PATH\" --fix 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.py ]]; then pylint \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.rb ]]; then rubocop \"$CLAUDE_TOOL_FILE_PATH\" --auto-correct 2>/dev/null || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[$(date '+%Y-%m-%d %H:%M:%S')] File modified: $CLAUDE_TOOL_FILE_PATH\" >> ~/.claude/changes.log"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[$(date '+%Y-%m-%d %H:%M:%S')] File created: $CLAUDE_TOOL_FILE_PATH\" >> ~/.claude/changes.log"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ -n \"$CLAUDE_TOOL_FILE_PATH\" ]] && git rev-parse --git-dir >/dev/null 2>&1; then git add \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.py ]]; then black \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.js || \"$CLAUDE_TOOL_FILE_PATH\" == *.ts || \"$CLAUDE_TOOL_FILE_PATH\" == *.jsx || \"$CLAUDE_TOOL_FILE_PATH\" == *.tsx || \"$CLAUDE_TOOL_FILE_PATH\" == *.json || \"$CLAUDE_TOOL_FILE_PATH\" == *.css || \"$CLAUDE_TOOL_FILE_PATH\" == *.html ]]; then npx prettier --write \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.py ]]; then black \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.go ]]; then gofmt -w \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.rs ]]; then rustfmt \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.php ]]; then php-cs-fixer fix \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'input=$(cat); FILE_PATH=$(echo \"$input\" | jq -r \".tool_input.file_path // empty\"); SUCCESS=$(echo \"$input\" | jq -r \".tool_response.success // false\"); if [ \"$SUCCESS\" = \"true\" ] && [[ \"$FILE_PATH\" =~ \\.(js|jsx|ts|tsx)$ ]] && [[ ! \"$FILE_PATH\" =~ node_modules ]]; then echo \"🔍 Next.js Code Quality Enforcer: Reviewing $FILE_PATH...\"; ISSUES=0; if [ -f \"$FILE_PATH\" ]; then if [[ \"$FILE_PATH\" =~ app/.* ]]; then echo \"📁 App Router file detected: $FILE_PATH\"; if [[ \"$FILE_PATH\" =~ page\\.(js|jsx|ts|tsx)$ ]] && ! grep -q \"export default function\" \"$FILE_PATH\" 2>/dev/null && ! grep -q \"export default async function\" \"$FILE_PATH\" 2>/dev/null; then echo \"❌ Page component must export default function\" >&2; ((ISSUES++)); fi; if [[ \"$FILE_PATH\" =~ layout\\.(js|jsx|ts|tsx)$ ]] && ! grep -q \"children\" \"$FILE_PATH\" 2>/dev/null; then echo \"❌ Layout component should accept children prop\" >&2; ((ISSUES++)); fi; if [[ \"$FILE_PATH\" =~ page\\.(js|jsx|ts|tsx)$ ]] && ! grep -q \"Metadata\" \"$FILE_PATH\" 2>/dev/null && ! grep -q \"metadata\" \"$FILE_PATH\" 2>/dev/null; then echo \"⚠️ Consider adding metadata export for SEO\"; fi; if grep -q \"use client\" \"$FILE_PATH\" 2>/dev/null; then echo \"🖥️ Client Component detected\"; if ! grep -E \"(useState|useEffect|onClick|onChange|onSubmit)\" \"$FILE_PATH\" 2>/dev/null; then echo \"⚠️ Client component without interactivity - consider Server Component\"; fi; else echo \"🚀 Server Component (default)\"; if grep -E \"(useState|useEffect|onClick|onChange|onSubmit)\" \"$FILE_PATH\" 2>/dev/null; then echo \"❌ Interactive features in Server Component - add \\\"use client\\\" directive\" >&2; ((ISSUES++)); fi; fi; fi; if [[ \"$FILE_PATH\" =~ \\.(jsx|tsx)$ ]]; then if ! grep -q \"import.*React\" \"$FILE_PATH\" 2>/dev/null && grep -q \"<\" \"$FILE_PATH\" 2>/dev/null; then echo \"⚠️ JSX without React import (Next.js 17+ handles this automatically)\"; fi; if ! grep -q \"FC\\|FunctionComponent\" \"$FILE_PATH\" 2>/dev/null && grep -q \"props\" \"$FILE_PATH\" 2>/dev/null && [[ \"$FILE_PATH\" =~ \\.tsx$ ]]; then echo \"💡 Consider using React.FC or explicit prop types for TypeScript\"; fi; fi; if [[ \"$FILE_PATH\" =~ \\.js$ ]] && [ -f \"tsconfig.json\" ]; then echo \"📝 JavaScript file in TypeScript project: $FILE_PATH\"; echo \"💡 Consider migrating to TypeScript for better type safety\"; fi; if grep -q \"next/image\" \"$FILE_PATH\" 2>/dev/null; then echo \"✅ Using next/image for optimized images\"; elif grep -q \"<img\" \"$FILE_PATH\" 2>/dev/null; then echo \"🖼️ Regular <img> tag detected\"; echo \"💡 Consider using next/image for better performance\"; fi; if grep -q \"next/link\" \"$FILE_PATH\" 2>/dev/null; then echo \"✅ Using next/link for navigation\"; elif grep -q \"<a href=\" \"$FILE_PATH\" 2>/dev/null && ! grep -q \"http\" \"$FILE_PATH\" 2>/dev/null; then echo \"🔗 Regular <a> tag for internal links detected\"; echo \"💡 Use next/link for internal navigation\"; fi; if grep -q \"getServerSideProps\\|getStaticProps\" \"$FILE_PATH\" 2>/dev/null; then echo \"⚠️ Pages Router data fetching methods detected\"; echo \"💡 Consider migrating to App Router with Server Components\"; fi; if grep -q \"className=.*{\" \"$FILE_PATH\" 2>/dev/null; then echo \"🎨 Dynamic className detected\"; if ! grep -q \"clsx\\|classnames\\|cn(\" \"$FILE_PATH\" 2>/dev/null; then echo \"💡 Consider using clsx or similar utility for className concatenation\"; fi; fi; if [ $ISSUES -eq 0 ]; then echo \"✅ Code quality check passed for $FILE_PATH\"; else echo \"❌ Found $ISSUES code quality issues in $FILE_PATH\" >&2; exit 2; fi; else echo \"❌ File $FILE_PATH not found\"; fi; else echo \"ℹ️ Code quality check skipped (not a JavaScript/TypeScript file or failed operation)\"; fi'",
+            "timeout": 20
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "git add \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "git add \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'input=$(cat); FILE_PATH=$(echo \"$input\" | jq -r \".tool_input.file_path // empty\"); SUCCESS=$(echo \"$input\" | jq -r \".tool_response.success // false\"); if [ \"$SUCCESS\" = \"true\" ] && [[ \"$FILE_PATH\" =~ \\.env ]]; then echo \"🔐 Environment file change detected: $FILE_PATH\"; if [ -n \"$VERCEL_TOKEN\" ]; then echo \"🔄 Environment Sync available - Vercel token configured\"; ENV_TYPE=\"development\"; if [[ \"$FILE_PATH\" =~ \\.env\\.production ]]; then ENV_TYPE=\"production\"; elif [[ \"$FILE_PATH\" =~ \\.env\\.preview ]] || [[ \"$FILE_PATH\" =~ \\.env\\.staging ]]; then ENV_TYPE=\"preview\"; fi; echo \"📋 Environment type detected: $ENV_TYPE\"; if [ -f \"$FILE_PATH\" ]; then echo \"🔍 Validating environment variables in $FILE_PATH...\"; VALIDATION_ISSUES=0; while IFS= read -r line; do if [[ \"$line\" =~ ^[A-Z_][A-Z0-9_]*= ]] && [[ ! \"$line\" =~ ^# ]]; then VAR_NAME=$(echo \"$line\" | cut -d\"=\" -f1); VAR_VALUE=$(echo \"$line\" | cut -d\"=\" -f2-); if [[ \"$VAR_VALUE\" =~ ^[\\\"\\'].*[\\\"\\']$ ]]; then echo \"💡 $VAR_NAME: Quoted value detected (quotes will be included in value)\"; fi; if [[ \"$VAR_NAME\" =~ (SECRET|PRIVATE|KEY|TOKEN) ]] && [ ${#VAR_VALUE} -lt 16 ]; then echo \"⚠️ $VAR_NAME: Secret appears to be too short (${#VAR_VALUE} chars)\" >&2; ((VALIDATION_ISSUES++)); fi; if [[ \"$VAR_VALUE\" == \"your-\"* ]] || [[ \"$VAR_VALUE\" == \"change-me\"* ]] || [[ \"$VAR_VALUE\" == \"replace-\"* ]]; then echo \"❌ $VAR_NAME: Placeholder value detected\" >&2; ((VALIDATION_ISSUES++)); fi; elif [[ \"$line\" =~ ^[A-Za-z] ]] && [[ ! \"$line\" =~ ^# ]] && [ -n \"$line\" ]; then echo \"⚠️ Invalid environment variable format: $line\" >&2; ((VALIDATION_ISSUES++)); fi; done < \"$FILE_PATH\"; if [ $VALIDATION_ISSUES -eq 0 ]; then echo \"✅ Environment validation passed\"; VAR_COUNT=$(grep -c \"^[A-Z_][A-Z0-9_]*=\" \"$FILE_PATH\" 2>/dev/null || echo \"0\"); echo \"📊 Found $VAR_COUNT environment variables\"; echo \"💡 Sync options:\"; echo \"  • Manual sync: vercel env pull .env.local\"; echo \"  • Push to Vercel: vercel env add [name] [environment]\"; echo \"  • Bulk sync: Use vercel-env-sync command if available\"; echo \"🔒 Security reminder: Never commit secrets to version control\"; else echo \"❌ Found $VALIDATION_ISSUES validation issues\" >&2; echo \"🚨 Environment sync blocked due to validation errors\" >&2; exit 2; fi; else echo \"❌ File $FILE_PATH not found\"; fi; else echo \"⚠️ VERCEL_TOKEN not configured. Set environment variable to enable sync features.\"; echo \"💡 Get token from: https://vercel.com/account/tokens\"; echo \"💡 Export with: export VERCEL_TOKEN=your_token\"; fi; else echo \"ℹ️ Environment sync skipped (not an .env file or failed operation)\"; fi'",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'input=$(cat); TOOL_NAME=$(echo \"$input\" | jq -r \".tool_name\"); FILE_PATH=$(echo \"$input\" | jq -r \".tool_input.file_path // empty\"); SUCCESS=$(echo \"$input\" | jq -r \".tool_response.success // false\"); if [ \"$SUCCESS\" = \"true\" ] && [[ \"$FILE_PATH\" =~ \\.(js|jsx|ts|tsx|json|md|css|scss|html)$ ]] && [[ ! \"$FILE_PATH\" =~ node_modules ]] && [[ ! \"$FILE_PATH\" =~ \\.next ]] && [[ ! \"$FILE_PATH\" =~ \\.vercel ]]; then echo \"🚀 Code change detected in $FILE_PATH, checking for auto-deployment...\"; if [ -n \"$VERCEL_TOKEN\" ] && [ -n \"$VERCEL_PROJECT_ID\" ]; then BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo \"unknown\"); if [ \"$BRANCH\" = \"main\" ] || [ \"$BRANCH\" = \"master\" ]; then echo \"📦 Triggering production deployment on $BRANCH branch...\"; DEPLOY_RESULT=$(curl -s -X POST \"https://api.vercel.com/v13/deployments\" -H \"Authorization: Bearer $VERCEL_TOKEN\" -H \"Content-Type: application/json\" -d \"{\\\"name\\\":\\\"auto-deploy\\\",\\\"project\\\":\\\"$VERCEL_PROJECT_ID\\\",\\\"gitSource\\\":{\\\"type\\\":\\\"github\\\",\\\"ref\\\":\\\"$BRANCH\\\"}}\"); DEPLOY_URL=$(echo \"$DEPLOY_RESULT\" | jq -r \".url // empty\"); if [ -n \"$DEPLOY_URL\" ]; then echo \"✅ Deployment initiated: https://$DEPLOY_URL\"; echo \"🔄 Monitor status: vercel ls --limit 1\"; else echo \"❌ Deployment failed. Check Vercel logs.\"; fi; elif [ \"$BRANCH\" = \"develop\" ] || [ \"$BRANCH\" = \"staging\" ]; then echo \"🎯 Triggering preview deployment on $BRANCH branch...\"; vercel --yes --force 2>/dev/null && echo \"✅ Preview deployment completed\" || echo \"❌ Preview deployment failed\"; else echo \"ℹ️ Auto-deployment disabled for branch: $BRANCH (only main/master/develop/staging)\"; fi; else echo \"⚠️ VERCEL_TOKEN or VERCEL_PROJECT_ID not configured. Set environment variables to enable auto-deployment.\"; fi; else echo \"ℹ️ File $FILE_PATH not eligible for auto-deployment (non-source file or unsuccessful operation)\"; fi'",
+            "timeout": 120
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.js || \"$CLAUDE_TOOL_FILE_PATH\" == *.ts || \"$CLAUDE_TOOL_FILE_PATH\" == *.jsx || \"$CLAUDE_TOOL_FILE_PATH\" == *.tsx ]]; then npx eslint \"$CLAUDE_TOOL_FILE_PATH\" --fix 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.py ]]; then pylint \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.rb ]]; then rubocop \"$CLAUDE_TOOL_FILE_PATH\" --auto-correct 2>/dev/null || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[$(date '+%Y-%m-%d %H:%M:%S')] File modified: $CLAUDE_TOOL_FILE_PATH\" >> ~/.claude/changes.log"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[$(date '+%Y-%m-%d %H:%M:%S')] File created: $CLAUDE_TOOL_FILE_PATH\" >> ~/.claude/changes.log"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ -n \"$CLAUDE_TOOL_FILE_PATH\" ]] && git rev-parse --git-dir >/dev/null 2>&1; then git add \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.py ]]; then black \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.js || \"$CLAUDE_TOOL_FILE_PATH\" == *.ts || \"$CLAUDE_TOOL_FILE_PATH\" == *.jsx || \"$CLAUDE_TOOL_FILE_PATH\" == *.tsx || \"$CLAUDE_TOOL_FILE_PATH\" == *.json || \"$CLAUDE_TOOL_FILE_PATH\" == *.css || \"$CLAUDE_TOOL_FILE_PATH\" == *.html ]]; then npx prettier --write \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.py ]]; then black \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.go ]]; then gofmt -w \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.rs ]]; then rustfmt \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.php ]]; then php-cs-fixer fix \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'input=$(cat); FILE_PATH=$(echo \"$input\" | jq -r \".tool_input.file_path // empty\"); SUCCESS=$(echo \"$input\" | jq -r \".tool_response.success // false\"); if [ \"$SUCCESS\" = \"true\" ] && [[ \"$FILE_PATH\" =~ \\.(js|jsx|ts|tsx)$ ]] && [[ ! \"$FILE_PATH\" =~ node_modules ]]; then echo \"🔍 Next.js Code Quality Enforcer: Reviewing $FILE_PATH...\"; ISSUES=0; if [ -f \"$FILE_PATH\" ]; then if [[ \"$FILE_PATH\" =~ app/.* ]]; then echo \"📁 App Router file detected: $FILE_PATH\"; if [[ \"$FILE_PATH\" =~ page\\.(js|jsx|ts|tsx)$ ]] && ! grep -q \"export default function\" \"$FILE_PATH\" 2>/dev/null && ! grep -q \"export default async function\" \"$FILE_PATH\" 2>/dev/null; then echo \"❌ Page component must export default function\" >&2; ((ISSUES++)); fi; if [[ \"$FILE_PATH\" =~ layout\\.(js|jsx|ts|tsx)$ ]] && ! grep -q \"children\" \"$FILE_PATH\" 2>/dev/null; then echo \"❌ Layout component should accept children prop\" >&2; ((ISSUES++)); fi; if [[ \"$FILE_PATH\" =~ page\\.(js|jsx|ts|tsx)$ ]] && ! grep -q \"Metadata\" \"$FILE_PATH\" 2>/dev/null && ! grep -q \"metadata\" \"$FILE_PATH\" 2>/dev/null; then echo \"⚠️ Consider adding metadata export for SEO\"; fi; if grep -q \"use client\" \"$FILE_PATH\" 2>/dev/null; then echo \"🖥️ Client Component detected\"; if ! grep -E \"(useState|useEffect|onClick|onChange|onSubmit)\" \"$FILE_PATH\" 2>/dev/null; then echo \"⚠️ Client component without interactivity - consider Server Component\"; fi; else echo \"🚀 Server Component (default)\"; if grep -E \"(useState|useEffect|onClick|onChange|onSubmit)\" \"$FILE_PATH\" 2>/dev/null; then echo \"❌ Interactive features in Server Component - add \\\"use client\\\" directive\" >&2; ((ISSUES++)); fi; fi; fi; if [[ \"$FILE_PATH\" =~ \\.(jsx|tsx)$ ]]; then if ! grep -q \"import.*React\" \"$FILE_PATH\" 2>/dev/null && grep -q \"<\" \"$FILE_PATH\" 2>/dev/null; then echo \"⚠️ JSX without React import (Next.js 17+ handles this automatically)\"; fi; if ! grep -q \"FC\\|FunctionComponent\" \"$FILE_PATH\" 2>/dev/null && grep -q \"props\" \"$FILE_PATH\" 2>/dev/null && [[ \"$FILE_PATH\" =~ \\.tsx$ ]]; then echo \"💡 Consider using React.FC or explicit prop types for TypeScript\"; fi; fi; if [[ \"$FILE_PATH\" =~ \\.js$ ]] && [ -f \"tsconfig.json\" ]; then echo \"📝 JavaScript file in TypeScript project: $FILE_PATH\"; echo \"💡 Consider migrating to TypeScript for better type safety\"; fi; if grep -q \"next/image\" \"$FILE_PATH\" 2>/dev/null; then echo \"✅ Using next/image for optimized images\"; elif grep -q \"<img\" \"$FILE_PATH\" 2>/dev/null; then echo \"🖼️ Regular <img> tag detected\"; echo \"💡 Consider using next/image for better performance\"; fi; if grep -q \"next/link\" \"$FILE_PATH\" 2>/dev/null; then echo \"✅ Using next/link for navigation\"; elif grep -q \"<a href=\" \"$FILE_PATH\" 2>/dev/null && ! grep -q \"http\" \"$FILE_PATH\" 2>/dev/null; then echo \"🔗 Regular <a> tag for internal links detected\"; echo \"💡 Use next/link for internal navigation\"; fi; if grep -q \"getServerSideProps\\|getStaticProps\" \"$FILE_PATH\" 2>/dev/null; then echo \"⚠️ Pages Router data fetching methods detected\"; echo \"💡 Consider migrating to App Router with Server Components\"; fi; if grep -q \"className=.*{\" \"$FILE_PATH\" 2>/dev/null; then echo \"🎨 Dynamic className detected\"; if ! grep -q \"clsx\\|classnames\\|cn(\" \"$FILE_PATH\" 2>/dev/null; then echo \"💡 Consider using clsx or similar utility for className concatenation\"; fi; fi; if [ $ISSUES -eq 0 ]; then echo \"✅ Code quality check passed for $FILE_PATH\"; else echo \"❌ Found $ISSUES code quality issues in $FILE_PATH\" >&2; exit 2; fi; else echo \"❌ File $FILE_PATH not found\"; fi; else echo \"ℹ️ Code quality check skipped (not a JavaScript/TypeScript file or failed operation)\"; fi'",
+            "timeout": 20
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "git add \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "git add \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'input=$(cat); FILE_PATH=$(echo \"$input\" | jq -r \".tool_input.file_path // empty\"); SUCCESS=$(echo \"$input\" | jq -r \".tool_response.success // false\"); if [ \"$SUCCESS\" = \"true\" ] && [[ \"$FILE_PATH\" =~ \\.env ]]; then echo \"🔐 Environment file change detected: $FILE_PATH\"; if [ -n \"$VERCEL_TOKEN\" ]; then echo \"🔄 Environment Sync available - Vercel token configured\"; ENV_TYPE=\"development\"; if [[ \"$FILE_PATH\" =~ \\.env\\.production ]]; then ENV_TYPE=\"production\"; elif [[ \"$FILE_PATH\" =~ \\.env\\.preview ]] || [[ \"$FILE_PATH\" =~ \\.env\\.staging ]]; then ENV_TYPE=\"preview\"; fi; echo \"📋 Environment type detected: $ENV_TYPE\"; if [ -f \"$FILE_PATH\" ]; then echo \"🔍 Validating environment variables in $FILE_PATH...\"; VALIDATION_ISSUES=0; while IFS= read -r line; do if [[ \"$line\" =~ ^[A-Z_][A-Z0-9_]*= ]] && [[ ! \"$line\" =~ ^# ]]; then VAR_NAME=$(echo \"$line\" | cut -d\"=\" -f1); VAR_VALUE=$(echo \"$line\" | cut -d\"=\" -f2-); if [[ \"$VAR_VALUE\" =~ ^[\\\"\\'].*[\\\"\\']$ ]]; then echo \"💡 $VAR_NAME: Quoted value detected (quotes will be included in value)\"; fi; if [[ \"$VAR_NAME\" =~ (SECRET|PRIVATE|KEY|TOKEN) ]] && [ ${#VAR_VALUE} -lt 16 ]; then echo \"⚠️ $VAR_NAME: Secret appears to be too short (${#VAR_VALUE} chars)\" >&2; ((VALIDATION_ISSUES++)); fi; if [[ \"$VAR_VALUE\" == \"your-\"* ]] || [[ \"$VAR_VALUE\" == \"change-me\"* ]] || [[ \"$VAR_VALUE\" == \"replace-\"* ]]; then echo \"❌ $VAR_NAME: Placeholder value detected\" >&2; ((VALIDATION_ISSUES++)); fi; elif [[ \"$line\" =~ ^[A-Za-z] ]] && [[ ! \"$line\" =~ ^# ]] && [ -n \"$line\" ]; then echo \"⚠️ Invalid environment variable format: $line\" >&2; ((VALIDATION_ISSUES++)); fi; done < \"$FILE_PATH\"; if [ $VALIDATION_ISSUES -eq 0 ]; then echo \"✅ Environment validation passed\"; VAR_COUNT=$(grep -c \"^[A-Z_][A-Z0-9_]*=\" \"$FILE_PATH\" 2>/dev/null || echo \"0\"); echo \"📊 Found $VAR_COUNT environment variables\"; echo \"💡 Sync options:\"; echo \"  • Manual sync: vercel env pull .env.local\"; echo \"  • Push to Vercel: vercel env add [name] [environment]\"; echo \"  • Bulk sync: Use vercel-env-sync command if available\"; echo \"🔒 Security reminder: Never commit secrets to version control\"; else echo \"❌ Found $VALIDATION_ISSUES validation issues\" >&2; echo \"🚨 Environment sync blocked due to validation errors\" >&2; exit 2; fi; else echo \"❌ File $FILE_PATH not found\"; fi; else echo \"⚠️ VERCEL_TOKEN not configured. Set environment variable to enable sync features.\"; echo \"💡 Get token from: https://vercel.com/account/tokens\"; echo \"💡 Export with: export VERCEL_TOKEN=your_token\"; fi; else echo \"ℹ️ Environment sync skipped (not an .env file or failed operation)\"; fi'",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'input=$(cat); TOOL_NAME=$(echo \"$input\" | jq -r \".tool_name\"); FILE_PATH=$(echo \"$input\" | jq -r \".tool_input.file_path // empty\"); SUCCESS=$(echo \"$input\" | jq -r \".tool_response.success // false\"); if [ \"$SUCCESS\" = \"true\" ] && [[ \"$FILE_PATH\" =~ \\.(js|jsx|ts|tsx|json|md|css|scss|html)$ ]] && [[ ! \"$FILE_PATH\" =~ node_modules ]] && [[ ! \"$FILE_PATH\" =~ \\.next ]] && [[ ! \"$FILE_PATH\" =~ \\.vercel ]]; then echo \"🚀 Code change detected in $FILE_PATH, checking for auto-deployment...\"; if [ -n \"$VERCEL_TOKEN\" ] && [ -n \"$VERCEL_PROJECT_ID\" ]; then BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo \"unknown\"); if [ \"$BRANCH\" = \"main\" ] || [ \"$BRANCH\" = \"master\" ]; then echo \"📦 Triggering production deployment on $BRANCH branch...\"; DEPLOY_RESULT=$(curl -s -X POST \"https://api.vercel.com/v13/deployments\" -H \"Authorization: Bearer $VERCEL_TOKEN\" -H \"Content-Type: application/json\" -d \"{\\\"name\\\":\\\"auto-deploy\\\",\\\"project\\\":\\\"$VERCEL_PROJECT_ID\\\",\\\"gitSource\\\":{\\\"type\\\":\\\"github\\\",\\\"ref\\\":\\\"$BRANCH\\\"}}\"); DEPLOY_URL=$(echo \"$DEPLOY_RESULT\" | jq -r \".url // empty\"); if [ -n \"$DEPLOY_URL\" ]; then echo \"✅ Deployment initiated: https://$DEPLOY_URL\"; echo \"🔄 Monitor status: vercel ls --limit 1\"; else echo \"❌ Deployment failed. Check Vercel logs.\"; fi; elif [ \"$BRANCH\" = \"develop\" ] || [ \"$BRANCH\" = \"staging\" ]; then echo \"🎯 Triggering preview deployment on $BRANCH branch...\"; vercel --yes --force 2>/dev/null && echo \"✅ Preview deployment completed\" || echo \"❌ Preview deployment failed\"; else echo \"ℹ️ Auto-deployment disabled for branch: $BRANCH (only main/master/develop/staging)\"; fi; else echo \"⚠️ VERCEL_TOKEN or VERCEL_PROJECT_ID not configured. Set environment variables to enable auto-deployment.\"; fi; else echo \"ℹ️ File $FILE_PATH not eligible for auto-deployment (non-source file or unsuccessful operation)\"; fi'",
+            "timeout": 120
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'input=$(cat); TOOL_NAME=$(echo \"$input\" | jq -r \".tool_name\"); FILE_PATH=$(echo \"$input\" | jq -r \".tool_input.file_path // empty\"); SUCCESS=$(echo \"$input\" | jq -r \".tool_response.success // false\"); if [ \"$SUCCESS\" = \"true\" ] && [[ \"$FILE_PATH\" =~ \\.(js|jsx|ts|tsx|json|md|css|scss|html)$ ]] && [[ ! \"$FILE_PATH\" =~ node_modules ]] && [[ ! \"$FILE_PATH\" =~ \\.next ]] && [[ ! \"$FILE_PATH\" =~ \\.vercel ]]; then echo \"🚀 Code change detected in $FILE_PATH, checking for auto-deployment...\"; if [ -n \"$VERCEL_TOKEN\" ] && [ -n \"$VERCEL_PROJECT_ID\" ]; then BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo \"unknown\"); if [ \"$BRANCH\" = \"main\" ] || [ \"$BRANCH\" = \"master\" ]; then echo \"📦 Triggering production deployment on $BRANCH branch...\"; DEPLOY_RESULT=$(curl -s -X POST \"https://api.vercel.com/v13/deployments\" -H \"Authorization: Bearer $VERCEL_TOKEN\" -H \"Content-Type: application/json\" -d \"{\\\"name\\\":\\\"auto-deploy\\\",\\\"project\\\":\\\"$VERCEL_PROJECT_ID\\\",\\\"gitSource\\\":{\\\"type\\\":\\\"github\\\",\\\"ref\\\":\\\"$BRANCH\\\"}}\"); DEPLOY_URL=$(echo \"$DEPLOY_RESULT\" | jq -r \".url // empty\"); if [ -n \"$DEPLOY_URL\" ]; then echo \"✅ Deployment initiated: https://$DEPLOY_URL\"; echo \"🔄 Monitor status: vercel ls --limit 1\"; else echo \"❌ Deployment failed. Check Vercel logs.\"; fi; elif [ \"$BRANCH\" = \"develop\" ] || [ \"$BRANCH\" = \"staging\" ]; then echo \"🎯 Triggering preview deployment on $BRANCH branch...\"; vercel --yes --force 2>/dev/null && echo \"✅ Preview deployment completed\" || echo \"❌ Preview deployment failed\"; else echo \"ℹ️ Auto-deployment disabled for branch: $BRANCH (only main/master/develop/staging)\"; fi; else echo \"⚠️ VERCEL_TOKEN or VERCEL_PROJECT_ID not configured. Set environment variables to enable auto-deployment.\"; fi; else echo \"ℹ️ File $FILE_PATH not eligible for auto-deployment (non-source file or unsuccessful operation)\"; fi'",
+            "timeout": 120
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'input=$(cat); FILE_PATH=$(echo \"$input\" | jq -r \".tool_input.file_path // empty\"); SUCCESS=$(echo \"$input\" | jq -r \".tool_response.success // false\"); if [ \"$SUCCESS\" = \"true\" ] && [[ \"$FILE_PATH\" =~ \\.env ]]; then echo \"🔐 Environment file change detected: $FILE_PATH\"; if [ -n \"$VERCEL_TOKEN\" ]; then echo \"🔄 Environment Sync available - Vercel token configured\"; ENV_TYPE=\"development\"; if [[ \"$FILE_PATH\" =~ \\.env\\.production ]]; then ENV_TYPE=\"production\"; elif [[ \"$FILE_PATH\" =~ \\.env\\.preview ]] || [[ \"$FILE_PATH\" =~ \\.env\\.staging ]]; then ENV_TYPE=\"preview\"; fi; echo \"📋 Environment type detected: $ENV_TYPE\"; if [ -f \"$FILE_PATH\" ]; then echo \"🔍 Validating environment variables in $FILE_PATH...\"; VALIDATION_ISSUES=0; while IFS= read -r line; do if [[ \"$line\" =~ ^[A-Z_][A-Z0-9_]*= ]] && [[ ! \"$line\" =~ ^# ]]; then VAR_NAME=$(echo \"$line\" | cut -d\"=\" -f1); VAR_VALUE=$(echo \"$line\" | cut -d\"=\" -f2-); if [[ \"$VAR_VALUE\" =~ ^[\\\"\\'].*[\\\"\\']$ ]]; then echo \"💡 $VAR_NAME: Quoted value detected (quotes will be included in value)\"; fi; if [[ \"$VAR_NAME\" =~ (SECRET|PRIVATE|KEY|TOKEN) ]] && [ ${#VAR_VALUE} -lt 16 ]; then echo \"⚠️ $VAR_NAME: Secret appears to be too short (${#VAR_VALUE} chars)\" >&2; ((VALIDATION_ISSUES++)); fi; if [[ \"$VAR_VALUE\" == \"your-\"* ]] || [[ \"$VAR_VALUE\" == \"change-me\"* ]] || [[ \"$VAR_VALUE\" == \"replace-\"* ]]; then echo \"❌ $VAR_NAME: Placeholder value detected\" >&2; ((VALIDATION_ISSUES++)); fi; elif [[ \"$line\" =~ ^[A-Za-z] ]] && [[ ! \"$line\" =~ ^# ]] && [ -n \"$line\" ]; then echo \"⚠️ Invalid environment variable format: $line\" >&2; ((VALIDATION_ISSUES++)); fi; done < \"$FILE_PATH\"; if [ $VALIDATION_ISSUES -eq 0 ]; then echo \"✅ Environment validation passed\"; VAR_COUNT=$(grep -c \"^[A-Z_][A-Z0-9_]*=\" \"$FILE_PATH\" 2>/dev/null || echo \"0\"); echo \"📊 Found $VAR_COUNT environment variables\"; echo \"💡 Sync options:\"; echo \"  • Manual sync: vercel env pull .env.local\"; echo \"  • Push to Vercel: vercel env add [name] [environment]\"; echo \"  • Bulk sync: Use vercel-env-sync command if available\"; echo \"🔒 Security reminder: Never commit secrets to version control\"; else echo \"❌ Found $VALIDATION_ISSUES validation issues\" >&2; echo \"🚨 Environment sync blocked due to validation errors\" >&2; exit 2; fi; else echo \"❌ File $FILE_PATH not found\"; fi; else echo \"⚠️ VERCEL_TOKEN not configured. Set environment variable to enable sync features.\"; echo \"💡 Get token from: https://vercel.com/account/tokens\"; echo \"💡 Export with: export VERCEL_TOKEN=your_token\"; fi; else echo \"ℹ️ Environment sync skipped (not an .env file or failed operation)\"; fi'",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ -n \"$CLAUDE_TOOL_FILE_PATH\" && -f \"$CLAUDE_TOOL_FILE_PATH\" ]]; then mkdir -p .backups && cp \"$CLAUDE_TOOL_FILE_PATH\" \".backups/$(basename \"$CLAUDE_TOOL_FILE_PATH\").$(date +%Y%m%d_%H%M%S).bak\"; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "PROTECTED_PATTERNS=('*/etc/*' '*/usr/bin/*' '*/usr/sbin/*' '*.production.*' '*prod*config*' '*/node_modules/*' '*/vendor/*'); for pattern in \"${PROTECTED_PATTERNS[@]}\"; do if [[ \"$CLAUDE_TOOL_FILE_PATH\" == $pattern ]]; then echo \"Error: File $CLAUDE_TOOL_FILE_PATH is protected from modification\" >&2; exit 1; fi; done"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "PROTECTED_PATTERNS=('*/etc/*' '*/usr/bin/*' '*/usr/sbin/*' '*.production.*' '*prod*config*' '*/node_modules/*' '*/vendor/*'); for pattern in \"${PROTECTED_PATTERNS[@]}\"; do if [[ \"$CLAUDE_TOOL_FILE_PATH\" == $pattern ]]; then echo \"Error: File $CLAUDE_TOOL_FILE_PATH is protected from modification\" >&2; exit 1; fi; done"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'echo \"🔐 Environment Sync Status Check...\"; if [ -n \"$VERCEL_TOKEN\" ]; then echo \"✅ Vercel token configured\"; if command -v vercel >/dev/null 2>&1; then echo \"✅ Vercel CLI available\"; PROJECT_STATUS=$(vercel project ls 2>/dev/null | head -1); if [[ \"$PROJECT_STATUS\" =~ \"No projects found\" ]]; then echo \"⚠️ No Vercel project linked to current directory\"; echo \"💡 Run: vercel link\"; else echo \"✅ Vercel project linked\"; fi; else echo \"⚠️ Vercel CLI not installed\"; echo \"💡 Install with: npm i -g vercel\"; fi; if [ -f \".env.example\" ]; then echo \"📋 .env.example found - template available\"; fi; ENV_FILES=($(ls .env* 2>/dev/null | grep -v .env.example || true)); if [ ${#ENV_FILES[@]} -gt 0 ]; then echo \"📁 Environment files found: ${ENV_FILES[*]}\"; for file in \"${ENV_FILES[@]}\"; do VAR_COUNT=$(grep -c \"^[A-Z_][A-Z0-9_]*=\" \"$file\" 2>/dev/null || echo \"0\"); echo \"  $file: $VAR_COUNT variables\"; done; else echo \"ℹ️ No .env files found\"; fi; else echo \"⚠️ VERCEL_TOKEN not configured\"; echo \"💡 Environment sync features disabled\"; fi'",
+            "timeout": 15
+          }
+        ]
+      },
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'echo \"🔐 Environment Sync Status Check...\"; if [ -n \"$VERCEL_TOKEN\" ]; then echo \"✅ Vercel token configured\"; if command -v vercel >/dev/null 2>&1; then echo \"✅ Vercel CLI available\"; PROJECT_STATUS=$(vercel project ls 2>/dev/null | head -1); if [[ \"$PROJECT_STATUS\" =~ \"No projects found\" ]]; then echo \"⚠️ No Vercel project linked to current directory\"; echo \"💡 Run: vercel link\"; else echo \"✅ Vercel project linked\"; fi; else echo \"⚠️ Vercel CLI not installed\"; echo \"💡 Install with: npm i -g vercel\"; fi; if [ -f \".env.example\" ]; then echo \"📋 .env.example found - template available\"; fi; ENV_FILES=($(ls .env* 2>/dev/null | grep -v .env.example || true)); if [ ${#ENV_FILES[@]} -gt 0 ]; then echo \"📁 Environment files found: ${ENV_FILES[*]}\"; for file in \"${ENV_FILES[@]}\"; do VAR_COUNT=$(grep -c \"^[A-Z_][A-Z0-9_]*=\" \"$file\" 2>/dev/null || echo \"0\"); echo \"  $file: $VAR_COUNT variables\"; done; else echo \"ℹ️ No .env files found\"; fi; else echo \"⚠️ VERCEL_TOKEN not configured\"; echo \"💡 Environment sync features disabled\"; fi'",
+            "timeout": 15
+          }
+        ]
+      },
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'echo \"🔐 Environment Sync Status Check...\"; if [ -n \"$VERCEL_TOKEN\" ]; then echo \"✅ Vercel token configured\"; if command -v vercel >/dev/null 2>&1; then echo \"✅ Vercel CLI available\"; PROJECT_STATUS=$(vercel project ls 2>/dev/null | head -1); if [[ \"$PROJECT_STATUS\" =~ \"No projects found\" ]]; then echo \"⚠️ No Vercel project linked to current directory\"; echo \"💡 Run: vercel link\"; else echo \"✅ Vercel project linked\"; fi; else echo \"⚠️ Vercel CLI not installed\"; echo \"💡 Install with: npm i -g vercel\"; fi; if [ -f \".env.example\" ]; then echo \"📋 .env.example found - template available\"; fi; ENV_FILES=($(ls .env* 2>/dev/null | grep -v .env.example || true)); if [ ${#ENV_FILES[@]} -gt 0 ]; then echo \"📁 Environment files found: ${ENV_FILES[*]}\"; for file in \"${ENV_FILES[@]}\"; do VAR_COUNT=$(grep -c \"^[A-Z_][A-Z0-9_]*=\" \"$file\" 2>/dev/null || echo \"0\"); echo \"  $file: $VAR_COUNT variables\"; done; else echo \"ℹ️ No .env files found\"; fi; else echo \"⚠️ VERCEL_TOKEN not configured\"; echo \"💡 Environment sync features disabled\"; fi'",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash -c 'input=$(cat); MODEL=$(echo \"$input\" | jq -r \".model.display_name\"); DIR=$(echo \"$input\" | jq -r \".workspace.current_dir\"); BRANCH=\"\"; if git rev-parse --git-dir >/dev/null 2>&1; then BRANCH=\" | 🌿 $(git branch --show-current 2>/dev/null)\"; fi; echo \"[$MODEL] 📁 ${DIR##*/}$BRANCH\"'"
+  }
+}

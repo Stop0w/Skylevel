@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skylevel - Candidate Dashboard (OKLCH Color System v3.0)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // OKLCH-based Color System - Perceptually Uniform
+                        background: 'oklch(var(--background))',
+                        foreground: 'oklch(var(--foreground))',
+                        card: 'oklch(var(--card))',
+                        'card-foreground': 'oklch(var(--card-foreground))',
+                        popover: 'oklch(var(--popover))',
+                        'popover-foreground': 'oklch(var(--popover-foreground))',
+                        primary: 'oklch(var(--primary))',
+                        'primary-foreground': 'oklch(var(--primary-foreground))',
+                        secondary: 'oklch(var(--secondary))',
+                        'secondary-foreground': 'oklch(var(--secondary-foreground))',
+                        muted: 'oklch(var(--muted))',
+                        'muted-foreground': 'oklch(var(--muted-foreground))',
+                        accent: 'oklch(var(--accent))',
+                        'accent-foreground': 'oklch(var(--accent-foreground))',
+                        destructive: 'oklch(var(--destructive))',
+                        'destructive-foreground': 'oklch(var(--destructive-foreground))',
+                        border: 'oklch(var(--border))',
+                        input: 'oklch(var(--input))',
+                        ring: 'oklch(var(--ring))',
+                        success: 'oklch(var(--success))',
+                        'success-foreground': 'oklch(var(--success-foreground))',
+                        warning: 'oklch(var(--warning))',
+                        'warning-foreground': 'oklch(var(--warning-foreground))',
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.2s ease-out',
+                        'slide-up': 'slideUp 0.3s ease-out',
+                        'slide-down': 'slideDown 0.3s ease-out',
+                        'scale-in': 'scaleIn 0.2s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        slideDown: {
+                            '0%': { transform: 'translateY(-10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.95)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        },
+                    },
+                    boxShadow: {
+                        'xs': 'var(--shadow-xs)',
+                        'sm': 'var(--shadow-sm)',
+                        'md': 'var(--shadow-md)',
+                        'lg': 'var(--shadow-lg)',
+                        'xl': 'var(--shadow-xl)',
+                        'inner': 'var(--shadow-inner)',
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        /* OKLCH Color System CSS Variables */
+        :root {
+            /* Dark Theme (Default) */
+            --background: oklch(0.09 0.002 291); /* Gray 950 */
+            --foreground: oklch(0.97 0.003 291); /* Gray 50 */
+            --card: oklch(0.12 0.004 291); /* Gray 900 */
+            --card-foreground: oklch(0.97 0.003 291); /* Gray 50 */
+            --popover: oklch(0.12 0.004 291); /* Gray 900 */
+            --popover-foreground: oklch(0.97 0.003 291); /* Gray 50 */
+
+            /* Primary - Decisive & Confident Red */
+            --primary: oklch(0.56 0.17 19.3); /* Primary 500 */
+            --primary-foreground: oklch(0.98 0.01 19.3); /* Primary 50 */
+
+            /* Secondary - Calm & Professional Blue */
+            --secondary: oklch(0.48 0.09 252); /* Secondary 500 */
+            --secondary-foreground: oklch(0.96 0.01 252); /* Secondary 50 */
+
+            /* Accent - Premium & Rewarding Gold */
+            --accent: oklch(0.74 0.11 88.5); /* Accent 500 */
+            --accent-foreground: oklch(0.26 0.05 88.5); /* Accent 900 */
+
+            /* Muted tones */
+            --muted: oklch(0.18 0.006 291); /* Gray 800 */
+            --muted-foreground: oklch(0.67 0.01 291); /* Gray 400 */
+
+            /* Destructive - Unambiguous Red */
+            --destructive: oklch(0.56 0.17 19.3); /* Primary 500 */
+            --destructive-foreground: oklch(0.98 0.01 19.3); /* Primary 50 */
+
+            /* UI Elements */
+            --border: oklch(0.22 0.006 291); /* Gray 800 */
+            --input: oklch(0.22 0.006 291); /* Gray 800 */
+            --ring: oklch(0.48 0.09 252); /* Secondary 500 */
+
+            /* Semantic Colors */
+            --success: oklch(0.72 0.15 159); /* Success 500 */
+            --success-foreground: oklch(0.14 0.05 159); /* Success 950 */
+            --warning: oklch(0.63 0.16 63); /* Warning 500 */
+            --warning-foreground: oklch(0.21 0.07 63); /* Warning 950 */
+
+            /* Depth System - Surface Colors */
+            --surface-base: oklch(0.09 0.002 291); /* Main page background */
+            --surface-recessed: oklch(0.12 0.004 291); /* Sunken/contained elements */
+            --surface-level: oklch(0.12 0.004 291); /* Default static content cards */
+            --surface-raised: oklch(0.18 0.006 291); /* Primary interactive elements */
+            --surface-overlay: oklch(1 0 0); /* Transient elements above all content */
+
+            /* Depth System - Shadows */
+            --shadow-color: oklch(0.09 0.002 291);
+            --shadow-xs: 0 1px 2px 0px var(--shadow-color / 0.08);
+            --shadow-sm: 0 1px 3px 0px var(--shadow-color / 0.10);
+            --shadow-md: 0 4px 6px -1px var(--shadow-color / 0.12),
+                        0 2px 4px -2px var(--shadow-color / 0.08);
+            --shadow-lg: 0 10px 15px -3px var(--shadow-color / 0.12),
+                        0 4px 6px -4px var(--shadow-color / 0.08);
+            --shadow-xl: 0 20px 25px -5px var(--shadow-color / 0.12),
+                        0 8px 10px -6px var(--shadow-color / 0.08);
+            --shadow-inner: inset 0 2px 4px 0px var(--shadow-color / 0.06);
+
+            /* Focus System */
+            --focus-ring: oklch(0.48 0.09 252); /* Secondary 500 */
+            --focus-ring-width: 2px;
+            --focus-ring-offset: 2px;
+        }
+
+        /* Light Theme */
+        .light {
+            --background: oklch(0.97 0.003 291); /* Gray 100 */
+            --foreground: oklch(0.12 0.004 291); /* Gray 900 */
+            --card: oklch(1 0 0); /* White */
+            --card-foreground: oklch(0.12 0.004 291); /* Gray 900 */
+            --popover: oklch(1 0 0); /* White */
+            --popover-foreground: oklch(0.12 0.004 291); /* Gray 900 */
+            --accent-foreground: oklch(0.26 0.05 88.5); /* Accent 900 */
+            --muted: oklch(0.94 0.004 291); /* Gray 200 */
+            --muted-foreground: oklch(0.42 0.01 291); /* Gray 600 */
+            --border: oklch(0.91 0.004 291); /* Gray 200 */
+            --input: oklch(0.91 0.004 291); /* Gray 200 */
+            --success-foreground: oklch(0.94 0.03 159); /* Success 50 */
+            --warning-foreground: oklch(0.99 0.03 63); /* Warning 50 */
+            --surface-base: oklch(0.97 0.003 291);
+            --surface-recessed: oklch(0.94 0.004 291);
+            --surface-level: oklch(1 0 0);
+            --surface-raised: oklch(0.94 0.004 291);
+            --surface-overlay: oklch(1 0 0);
+        }
+
+        /* Component Classes */
+        .btn-primary {
+            @apply bg-primary text-primary-foreground font-medium shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+        }
+
+        .btn-primary:active {
+            @apply shadow-sm translate-y-0;
+        }
+
+        .btn-secondary {
+            @apply bg-secondary text-secondary-foreground font-medium shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+        }
+
+        .btn-secondary:active {
+            @apply shadow-sm translate-y-0;
+        }
+
+        .btn-ghost {
+            @apply hover:bg-accent hover:text-accent-foreground font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+        }
+
+        .card {
+            @apply bg-card text-card-foreground rounded-xl shadow-md border transition-all duration-200;
+        }
+
+        .card-interactive {
+            @apply cursor-pointer;
+        }
+
+        .card-interactive:hover {
+            @apply shadow-xl hover:-translate-y-1;
+        }
+
+        .card-raised {
+            @apply bg-surface-raised shadow-lg border-surface-border;
+        }
+
+        .input-field {
+            @apply bg-background border-input shadow-inner transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:border-transparent;
+        }
+
+        .tabs-container {
+            @apply bg-muted border rounded-lg p-1 shadow-inner;
+        }
+
+        .tab-active {
+            @apply bg-background shadow-md;
+        }
+
+        .tab-inactive {
+            @apply hover:bg-muted/50;
+        }
+
+        .modal-backdrop {
+            @apply fixed inset-0 bg-black/50 backdrop-blur-sm z-50;
+        }
+
+        .modal-content {
+            @apply bg-popover text-popover-foreground rounded-xl shadow-xl border z-50;
+        }
+
+        .table-container {
+            @apply bg-card rounded-xl shadow-md border overflow-hidden;
+        }
+
+        .table-header {
+            @apply bg-muted border-b;
+        }
+
+        .table-row-interactive {
+            @apply transition-colors duration-150 hover:bg-muted/50 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-inset;
+        }
+
+        .focus-ring {
+            @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+        }
+
+        .score-pill {
+            @apply inline-flex items-center justify-center rounded-full font-bold shadow-sm transition-all duration-200 focus-ring hover:scale-105 hover:shadow-md;
+        }
+
+        .score-pill.excellent {
+            @apply bg-gradient-to-br from-accent to-accent/90 text-accent-foreground shadow-lg shadow-accent/20;
+        }
+
+        .score-pill.good {
+            @apply bg-gradient-to-br from-success to-success/90 text-success-foreground shadow-lg shadow-success/20;
+        }
+
+        .score-pill.moderate {
+            @apply bg-gradient-to-br from-warning to-warning/90 text-warning-foreground shadow-lg shadow-warning/20;
+        }
+
+        .score-pill.low {
+            @apply bg-gradient-to-br from-destructive to-destructive/90 text-destructive-foreground shadow-lg shadow-destructive/20;
+        }
+
+        /* Utility Classes for Depth System */
+        .depth-surface {
+            background-color: var(--surface-level);
+            border-color: var(--surface-border);
+        }
+
+        .depth-recessed {
+            background-color: var(--surface-recessed);
+            border-color: var(--surface-border);
+            box-shadow: var(--shadow-inner);
+        }
+
+        .depth-raised {
+            background-color: var(--surface-raised);
+            border-color: var(--surface-border-hover);
+            box-shadow: var(--shadow-md);
+        }
+
+        .depth-overlay {
+            background-color: var(--surface-overlay);
+            border-color: var(--surface-border-hover);
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Responsive typography */
+        .text-responsive {
+            @apply text-sm md:text-base lg:text-lg;
+        }
+
+        .heading-responsive {
+            @apply text-2xl md:text-3xl lg:text-4xl;
+        }
+
+        /* Smooth animations */
+        .animate-in {
+            animation-duration: 0.2s;
+            animation-fill-mode: both;
+        }
+
+        .fade-in {
+            animation-name: fadeIn;
+        }
+
+        .slide-up {
+            animation-name: slideUp;
+        }
+
+        .scale-in {
+            animation-name: scaleIn;
+        }
+
+        /* Reduced Motion Support */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground">
+    <!-- Main Container -->
+    <div class="min-h-screen">
+        <!-- Header -->
+        <header class="card border-b border-border sticky top-0 z-40 backdrop-blur-sm">
+            <div class="container mx-auto px-4 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                                <i data-lucide="trending-up" class="w-5 h-5 text-primary-foreground"></i>
+                            </div>
+                            <h1 class="text-xl font-bold text-foreground">Skylevel</h1>
+                        </div>
+                        <nav class="hidden md:flex items-center space-x-6">
+                            <a href="#" class="text-foreground hover:text-primary transition-colors">Dashboard</a>
+                            <a href="#" class="text-muted-foreground hover:text-primary transition-colors">Candidates</a>
+                            <a href="#" class="text-muted-foreground hover:text-primary transition-colors">Jobs</a>
+                            <a href="#" class="text-muted-foreground hover:text-primary transition-colors">Analytics</a>
+                        </nav>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button class="p-2 hover:bg-muted rounded-lg transition-colors">
+                            <i data-lucide="bell" class="w-5 h-5 text-muted-foreground"></i>
+                        </button>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                                <span class="text-sm font-medium text-secondary-foreground">JD</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-6">
+            <!-- Page Header -->
+            <div class="mb-6">
+                <h1 class="heading-responsive font-bold text-foreground mb-2">Candidate Dashboard</h1>
+                <p class="text-lg text-muted-foreground">Review and manage your candidate pipeline with AI-powered Fit Scores</p>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="card card-interactive">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-muted-foreground">Total Candidates</p>
+                                <p class="text-2xl font-bold text-foreground mt-1">247</p>
+                                <p class="text-xs text-success mt-1">+12% from last week</p>
+                            </div>
+                            <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                                <i data-lucide="users" class="w-6 h-6 text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-interactive">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-muted-foreground">Avg Fit Score</p>
+                                <p class="text-2xl font-bold text-foreground mt-1">78.5</p>
+                                <p class="text-xs text-success mt-1">+3.2 from last month</p>
+                            </div>
+                            <div class="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center">
+                                <i data-lucide="target" class="w-6 h-6 text-accent"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-interactive">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-muted-foreground">Interviews Scheduled</p>
+                                <p class="text-2xl font-bold text-foreground mt-1">18</p>
+                                <p class="text-xs text-warning mt-1">This week</p>
+                            </div>
+                            <div class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center">
+                                <i data-lucide="calendar" class="w-6 h-6 text-secondary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-interactive">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-muted-foreground">Open Positions</p>
+                                <p class="text-2xl font-bold text-foreground mt-1">6</p>
+                                <p class="text-xs text-destructive mt-1">2 critical roles</p>
+                            </div>
+                            <div class="w-12 h-12 bg-warning/10 rounded-lg flex items-center justify-center">
+                                <i data-lucide="briefcase" class="w-6 h-6 text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters and Search -->
+            <div class="card mb-6">
+                <div class="p-6">
+                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+                        <div class="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                            <div class="relative">
+                                <i data-lucide="search" class="w-5 h-5 text-muted-foreground absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+                                <input type="text" placeholder="Search candidates..." class="input-field pl-10 pr-4 py-2 rounded-lg w-full sm:w-80">
+                            </div>
+                            <div class="tabs-container">
+                                <div class="flex space-x-1">
+                                    <button class="px-4 py-2 rounded-md text-sm font-medium tab-active">All</button>
+                                    <button class="px-4 py-2 rounded-md text-sm font-medium text-muted-foreground tab-inactive">Excellent</button>
+                                    <button class="px-4 py-2 rounded-md text-sm font-medium text-muted-foreground tab-inactive">Good</button>
+                                    <button class="px-4 py-2 rounded-md text-sm font-medium text-muted-foreground tab-inactive">Moderate</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button class="btn-secondary px-4 py-2 rounded-lg text-sm font-medium">
+                                <i data-lucide="filter" class="w-4 h-4 mr-2"></i>
+                                Filters
+                            </button>
+                            <button class="btn-primary px-4 py-2 rounded-lg text-sm font-medium">
+                                <i data-lucide="plus" class="w-4 h-4 mr-2"></i>
+                                Add Candidate
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Candidates Table -->
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="px-6 py-3 flex items-center justify-between">
+                        <h2 class="text-lg font-semibold text-foreground">Recent Candidates</h2>
+                        <div class="flex items-center space-x-2">
+                            <button class="text-muted-foreground hover:text-foreground transition-colors">
+                                <i data-lucide="download" class="w-5 h-5"></i>
+                            </button>
+                            <button class="text-muted-foreground hover:text-foreground transition-colors">
+                                <i data-lucide="settings" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-card divide-y divide-border">
+                    <!-- Candidate Row 1 -->
+                    <div class="table-row-interactive">
+                        <div class="px-6 py-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-10 h-10 bg-secondary rounded-full flex items-center justify-center">
+                                        <span class="text-sm font-medium text-secondary-foreground">SC</span>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center space-x-2">
+                                            <h3 class="font-medium text-foreground">Sarah Chen</h3>
+                                            <div class="score-pill excellent text-sm px-2 py-1">
+                                                92
+                                            </div>
+                                        </div>
+                                        <p class="text-sm text-muted-foreground">Senior Frontend Developer</p>
+                                        <div class="flex items-center space-x-4 mt-1">
+                                            <span class="text-xs text-muted-foreground">Applied 2 days ago</span>
+                                            <span class="text-xs text-success">New</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-right">
+                                        <div class="text-sm font-medium text-foreground">TMS: 95</div>
+                                        <div class="text-sm font-medium text-success">SRS: 88</div>
+                                        <div class="text-sm font-medium text-accent">RNS: 94</div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="btn-ghost px-3 py-1 rounded-lg text-sm">View</button>
+                                        <button class="btn-primary px-3 py-1 rounded-lg text-sm">Contact</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Candidate Row 2 -->
+                    <div class="table-row-interactive">
+                        <div class="px-6 py-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-10 h-10 bg-secondary rounded-full flex items-center justify-center">
+                                        <span class="text-sm font-medium text-secondary-foreground">MJ</span>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center space-x-2">
+                                            <h3 class="font-medium text-foreground">Michael Johnson</h3>
+                                            <div class="score-pill good text-sm px-2 py-1">
+                                                78
+                                            </div>
+                                        </div>
+                                        <p class="text-sm text-muted-foreground">Product Manager</p>
+                                        <div class="flex items-center space-x-4 mt-1">
+                                            <span class="text-xs text-muted-foreground">Applied 5 days ago</span>
+                                            <span class="text-xs text-secondary">In Review</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-right">
+                                        <div class="text-sm font-medium text-success">TMS: 82</div>
+                                        <div class="text-sm font-medium text-foreground">SRS: 75</div>
+                                        <div class="text-sm font-medium text-warning">RNS: 71</div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="btn-ghost px-3 py-1 rounded-lg text-sm">View</button>
+                                        <button class="btn-primary px-3 py-1 rounded-lg text-sm">Contact</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Candidate Row 3 -->
+                    <div class="table-row-interactive">
+                        <div class="px-6 py-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-10 h-10 bg-secondary rounded-full flex items-center justify-center">
+                                        <span class="text-sm font-medium text-secondary-foreground">EP</span>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center space-x-2">
+                                            <h3 class="font-medium text-foreground">Emily Rodriguez</h3>
+                                            <div class="score-pill moderate text-sm px-2 py-1">
+                                                65
+                                            </div>
+                                        </div>
+                                        <p class="text-sm text-muted-foreground">UX Designer</p>
+                                        <div class="flex items-center space-x-4 mt-1">
+                                            <span class="text-xs text-muted-foreground">Applied 1 week ago</span>
+                                            <span class="text-xs text-warning">Screening</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-right">
+                                        <div class="text-sm font-medium text-warning">TMS: 71</div>
+                                        <div class="text-sm font-medium text-muted-foreground">SRS: 62</div>
+                                        <div class="text-sm font-medium text-muted-foreground">RNS: 58</div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="btn-ghost px-3 py-1 rounded-lg text-sm">View</button>
+                                        <button class="btn-primary px-3 py-1 rounded-lg text-sm">Contact</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Candidate Row 4 -->
+                    <div class="table-row-interactive">
+                        <div class="px-6 py-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-10 h-10 bg-secondary rounded-full flex items-center justify-center">
+                                        <span class="text-sm font-medium text-secondary-foreground">DW</span>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center space-x-2">
+                                            <h3 class="font-medium text-foreground">David Wilson</h3>
+                                            <div class="score-pill low text-sm px-2 py-1">
+                                                45
+                                            </div>
+                                        </div>
+                                        <p class="text-sm text-muted-foreground">Backend Developer</p>
+                                        <div class="flex items-center space-x-4 mt-1">
+                                            <span class="text-xs text-muted-foreground">Applied 2 weeks ago</span>
+                                            <span class="text-xs text-destructive">Not Fit</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-right">
+                                        <div class="text-sm font-medium text-destructive">TMS: 38</div>
+                                        <div class="text-sm font-medium text-warning">SRS: 52</div>
+                                        <div class="text-sm font-medium text-muted-foreground">RNS: 42</div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="btn-ghost px-3 py-1 rounded-lg text-sm">View</button>
+                                        <button class="btn-secondary px-3 py-1 rounded-lg text-sm">Archive</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="mt-6 flex items-center justify-between">
+                <div class="text-sm text-muted-foreground">
+                    Showing 1-4 of 247 candidates
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button class="btn-ghost px-3 py-1 rounded-lg text-sm disabled:opacity-50" disabled>
+                        Previous
+                    </button>
+                    <button class="btn-primary px-3 py-1 rounded-lg text-sm">1</button>
+                    <button class="btn-ghost px-3 py-1 rounded-lg text-sm">2</button>
+                    <button class="btn-ghost px-3 py-1 rounded-lg text-sm">3</button>
+                    <span class="px-2 text-muted-foreground">...</span>
+                    <button class="btn-ghost px-3 py-1 rounded-lg text-sm">62</button>
+                    <button class="btn-ghost px-3 py-1 rounded-lg text-sm">
+                        Next
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Interactive functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching
+            const tabs = document.querySelectorAll('.tabs-container button');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => {
+                        t.classList.remove('tab-active');
+                        t.classList.add('tab-inactive');
+                    });
+                    this.classList.remove('tab-inactive');
+                    this.classList.add('tab-active');
+                });
+            });
+
+            // Card hover effects
+            const cards = document.querySelectorAll('.card-interactive');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-4px)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Score pill animations
+            const scorePills = document.querySelectorAll('.score-pill');
+            scorePills.forEach(pill => {
+                pill.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.1)';
+                });
+                pill.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

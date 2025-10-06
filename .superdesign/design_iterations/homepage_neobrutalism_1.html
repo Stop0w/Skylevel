@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HireWise - Neo-Brutalism Homepage</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="homepage_neobrutalism_theme.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-sans) !important;
+            background: var(--background) !important;
+            color: var(--foreground) !important;
+            letter-spacing: var(--tracking-normal);
+        }
+        
+        /* Neo-brutalist elements */
+        .brutal-border {
+            border: var(--border-width) solid var(--border);
+        }
+        
+        .brutal-shadow {
+            box-shadow: var(--shadow);
+        }
+        
+        .brutal-shadow-lg {
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* Animations */
+        @keyframes slam {
+            0% { transform: scale(0) rotate(-5deg); }
+            80% { transform: scale(1.1) rotate(2deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px) rotate(-1deg); }
+            75% { transform: translateX(5px) rotate(1deg); }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .slam-in {
+            animation: slam 0.6s ease-out;
+        }
+        
+        .shake-hover:hover {
+            animation: shake 0.3s ease-in-out;
+        }
+        
+        .bounce-loop {
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        /* Score transformation */
+        .score-transform {
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Journey pills */
+        .journey-pill {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border: var(--border-width) solid var(--border);
+            padding: 1rem 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .journey-pill:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 8px 8px 0px 0px var(--border);
+        }
+        
+        /* Stat cards */
+        .stat-card {
+            background: var(--card);
+            border: var(--border-width) solid var(--border);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 0;
+        }
+        
+        .stat-card:hover::before {
+            transform: translateX(0);
+        }
+        
+        .stat-card:hover .stat-content {
+            color: var(--primary-foreground);
+        }
+        
+        .stat-content {
+            position: relative;
+            z-index: 1;
+            transition: color 0.3s ease;
+        }
+        
+        /* Interactive elements */
+        .slider-track {
+            height: 12px;
+            background: var(--muted);
+            border: 2px solid var(--border);
+            position: relative;
+        }
+        
+        .slider-fill {
+            height: 100%;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .slider-thumb {
+            width: 24px;
+            height: 24px;
+            background: var(--accent);
+            border: 3px solid var(--border);
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: grab;
+        }
+        
+        /* CTA button */
+        .cta-primary {
+            background: var(--accent);
+            color: var(--accent-foreground);
+            border: var(--border-width) solid var(--border);
+            padding: 1.5rem 3rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: inline-block;
+        }
+        
+        .cta-primary:hover {
+            transform: translate(-6px, -6px);
+            box-shadow: 14px 14px 0px 0px var(--border);
+        }
+        
+        /* Trust logos */
+        .trust-logo {
+            filter: grayscale(100%) contrast(200%);
+            opacity: 0.8;
+            transition: all 0.2s ease;
+        }
+        
+        .trust-logo:hover {
+            filter: grayscale(0%) contrast(100%);
+            opacity: 1;
+            transform: scale(1.1) rotate(-2deg);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="brutal-border bg-white p-4 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 bg-primary brutal-border brutal-shadow"></div>
+                <h1 class="text-2xl font-bold uppercase">HireWise</h1>
+            </div>
+            <div class="flex gap-6 items-center">
+                <a href="#" class="font-bold hover:text-primary shake-hover">PRODUCT</a>
+                <a href="#" class="font-bold hover:text-primary shake-hover">PRICING</a>
+                <a href="#" class="font-bold hover:text-primary shake-hover">ABOUT</a>
+                <button class="journey-pill">GET DEMO</button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="py-20 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="text-6xl md:text-8xl font-bold mb-6 slam-in">
+                START EVERY HIRE WITH
+                <span class="gradient-text block">PROOF, NOT GUESSWORK</span>
+            </h1>
+            
+            <!-- Animated transformation -->
+            <div class="my-12 flex justify-center items-center gap-8">
+                <div class="brutal-border brutal-shadow-lg p-8 bg-secondary">
+                    <i data-lucide="file-text" class="w-16 h-16 mb-4"></i>
+                    <p class="font-bold">BORING RESUME</p>
+                </div>
+                <div class="text-6xl bounce-loop">→</div>
+                <div class="brutal-border brutal-shadow-lg p-8 bg-primary">
+                    <div class="text-6xl font-bold mb-2">87%</div>
+                    <p class="font-bold">FIT SCORE</p>
+                </div>
+            </div>
+            
+            <!-- Journey Pills -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button class="journey-pill bg-primary">
+                    <span class="text-2xl mr-2">👔</span> I'M HIRING
+                </button>
+                <button class="journey-pill bg-secondary">
+                    <span class="text-2xl mr-2">🎯</span> I'M SOURCING
+                </button>
+                <button class="journey-pill bg-accent">
+                    <span class="text-2xl mr-2">🚀</span> I'M APPLYING
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Pain Points -->
+    <section class="py-20 px-4 bg-primary">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-5xl font-bold text-center mb-12 text-primary-foreground">THE COST OF GUESSWORK</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="stat-card brutal-shadow-lg">
+                    <div class="stat-content">
+                        <div class="text-6xl font-bold mb-2">34%</div>
+                        <p class="text-xl font-bold">BETTER HIRES</p>
+                        <p class="text-sm mt-2 opacity-80">When you measure what matters</p>
+                        <div class="mt-4 text-xs font-mono">+12% BOOST POSSIBLE</div>
+                    </div>
+                </div>
+                <div class="stat-card brutal-shadow-lg">
+                    <div class="stat-content">
+                        <div class="text-6xl font-bold mb-2">41%</div>
+                        <p class="text-xl font-bold">FASTER SCREENING</p>
+                        <p class="text-sm mt-2 opacity-80">Skip the resume shuffle</p>
+                        <div class="mt-4 text-xs font-mono">-2.5 HOURS/ROLE</div>
+                    </div>
+                </div>
+                <div class="stat-card brutal-shadow-lg">
+                    <div class="stat-content">
+                        <div class="text-6xl font-bold mb-2">60%</div>
+                        <p class="text-xl font-bold">LESS BIAS</p>
+                        <p class="text-sm mt-2 opacity-80">Focus on fit, not feelings</p>
+                        <div class="mt-4 text-xs font-mono">MEASURED & PROVEN</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- How It Works -->
+    <section class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-5xl font-bold text-center mb-12">BUILD YOUR FIT SCORE</h2>
+            
+            <div class="brutal-border brutal-shadow-lg p-8 bg-white max-w-3xl mx-auto">
+                <div class="space-y-8">
+                    <!-- TMS Slider -->
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <label class="font-bold text-lg">TECHNICAL MATCH (TMS)</label>
+                            <span class="font-mono text-2xl font-bold" id="tms-value">75</span>
+                        </div>
+                        <div class="slider-track">
+                            <div class="slider-fill" style="width: 75%"></div>
+                            <div class="slider-thumb" style="left: 75%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- SRS Slider -->
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <label class="font-bold text-lg">SOFT SKILLS (SRS)</label>
+                            <span class="font-mono text-2xl font-bold" id="srs-value">82</span>
+                        </div>
+                        <div class="slider-track">
+                            <div class="slider-fill" style="width: 82%"></div>
+                            <div class="slider-thumb" style="left: 82%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- RNS Slider -->
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <label class="font-bold text-lg">ROLE NEEDS (RNS)</label>
+                            <span class="font-mono text-2xl font-bold" id="rns-value">90</span>
+                        </div>
+                        <div class="slider-track">
+                            <div class="slider-fill" style="width: 90%"></div>
+                            <div class="slider-thumb" style="left: 90%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Total Score -->
+                    <div class="brutal-border bg-accent p-6 text-center">
+                        <p class="font-bold text-xl mb-2">TOTAL FIT SCORE</p>
+                        <div class="text-6xl font-bold" id="total-score">82%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Before/After -->
+    <section class="py-20 px-4 bg-secondary">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-5xl font-bold text-center mb-12">THE TRANSFORMATION</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Before -->
+                <div class="brutal-border brutal-shadow-lg p-8 bg-white">
+                    <h3 class="text-3xl font-bold mb-6">BEFORE: CHAOS</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <span class="text-2xl">😵</span>
+                            <span class="font-bold">500 resumes, zero clarity</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-2xl">🎲</span>
+                            <span class="font-bold">Gut feelings over data</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-2xl">⏰</span>
+                            <span class="font-bold">Weeks of wasted time</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-2xl">💸</span>
+                            <span class="font-bold">Bad hires = $$$$ lost</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- After -->
+                <div class="brutal-border brutal-shadow-lg p-8 bg-primary text-primary-foreground">
+                    <h3 class="text-3xl font-bold mb-6">AFTER: CLARITY</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <span class="text-2xl">🎯</span>
+                            <span class="font-bold">Top 10 candidates instantly</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-2xl">📊</span>
+                            <span class="font-bold">Data-driven decisions</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-2xl">⚡</span>
+                            <span class="font-bold">Hours, not weeks</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-2xl">💎</span>
+                            <span class="font-bold">Quality hires = ROI++</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Journey Selection -->
+    <section class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-5xl font-bold text-center mb-12">PICK YOUR PATH</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Recruiter -->
+                <div class="brutal-border brutal-shadow-lg p-8 bg-white hover:bg-primary hover:text-primary-foreground transition-all group">
+                    <div class="text-6xl mb-4">👔</div>
+                    <h3 class="text-2xl font-bold mb-4">I'M A RECRUITER</h3>
+                    <p class="mb-6">Build better teams with proof-based hiring</p>
+                    <ul class="space-y-2 mb-8">
+                        <li>✓ Instant fit scores</li>
+                        <li>✓ Bias-free screening</li>
+                        <li>✓ Team chemistry insights</li>
+                    </ul>
+                    <button class="brutal-border bg-white text-black px-6 py-3 font-bold group-hover:bg-primary-foreground group-hover:text-primary">
+                        START HIRING BETTER →
+                    </button>
+                </div>
+                
+                <!-- Sourcer -->
+                <div class="brutal-border brutal-shadow-lg p-8 bg-white hover:bg-secondary hover:text-secondary-foreground transition-all group">
+                    <div class="text-6xl mb-4">🎯</div>
+                    <h3 class="text-2xl font-bold mb-4">I'M A SOURCER</h3>
+                    <p class="mb-6">Find hidden gems with smart matching</p>
+                    <ul class="space-y-2 mb-8">
+                        <li>✓ AI-powered search</li>
+                        <li>✓ Passive candidate scoring</li>
+                        <li>✓ Automated outreach</li>
+                    </ul>
+                    <button class="brutal-border bg-white text-black px-6 py-3 font-bold group-hover:bg-secondary-foreground group-hover:text-secondary">
+                        FIND TOP TALENT →
+                    </button>
+                </div>
+                
+                <!-- Candidate -->
+                <div class="brutal-border brutal-shadow-lg p-8 bg-white hover:bg-accent hover:text-accent-foreground transition-all group">
+                    <div class="text-6xl mb-4">🚀</div>
+                    <h3 class="text-2xl font-bold mb-4">I'M A CANDIDATE</h3>
+                    <p class="mb-6">Stand out with your true fit score</p>
+                    <ul class="space-y-2 mb-8">
+                        <li>✓ Showcase real skills</li>
+                        <li>✓ Skip the ATS games</li>
+                        <li>✓ Get matched faster</li>
+                    </ul>
+                    <button class="brutal-border bg-white text-black px-6 py-3 font-bold group-hover:bg-accent-foreground group-hover:text-accent">
+                        GET DISCOVERED →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Trust Signals -->
+    <section class="py-20 px-4 bg-muted">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12">TRUSTED BY TEAMS WHO GET IT</h2>
+            
+            <div class="flex flex-wrap justify-center items-center gap-12 mb-12">
+                <img src="https://placehold.co/150x60/000000/FFFFFF?text=TECH+CO" alt="Tech Co" class="trust-logo">
+                <img src="https://placehold.co/150x60/000000/FFFFFF?text=STARTUP" alt="Startup" class="trust-logo">
+                <img src="https://placehold.co/150x60/000000/FFFFFF?text=SCALE+UP" alt="Scale Up" class="trust-logo">
+                <img src="https://placehold.co/150x60/000000/FFFFFF?text=UNICORN" alt="Unicorn" class="trust-logo">
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="brutal-border brutal-shadow p-6 bg-white">
+                    <p class="text-lg mb-4">"Cut our time-to-hire by 50% while improving quality. This is the future."</p>
+                    <p class="font-bold">- Sarah Chen, VP People @ TechCo</p>
+                </div>
+                <div class="brutal-border brutal-shadow p-6 bg-white">
+                    <p class="text-lg mb-4">"Finally, hiring based on data not vibes. Game changer for our team."</p>
+                    <p class="font-bold">- Marcus Johnson, Founder @ StartupXYZ</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="py-20 px-4 bg-primary text-primary-foreground">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-5xl font-bold mb-6">READY TO HIRE SMARTER?</h2>
+            <p class="text-2xl mb-12">Join 1,000+ teams building with proof, not guesswork</p>
+            <button class="cta-primary bg-accent text-accent-foreground">
+                🔶 GET MY FIT QUEUE DEMO
+            </button>
+            <p class="mt-6 font-mono">NO CREDIT CARD • 5 MIN SETUP • INSTANT RESULTS</p>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="brutal-border bg-white p-8">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="font-bold">© 2024 HIREWISE • BUILT WITH PROOF • NO BS</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        // Simple slider interaction
+        document.querySelectorAll('.slider-thumb').forEach(thumb => {
+            thumb.addEventListener('mousedown', function(e) {
+                const slider = this.parentElement;
+                const fill = slider.querySelector('.slider-fill');
+                const valueDisplay = slider.parentElement.querySelector('.font-mono');
+                
+                const moveHandler = (e) => {
+                    const rect = slider.getBoundingClientRect();
+                    const percent = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+                    
+                    fill.style.width = percent + '%';
+                    this.style.left = percent + '%';
+                    valueDisplay.textContent = Math.round(percent);
+                    
+                    updateTotalScore();
+                };
+                
+                const upHandler = () => {
+                    document.removeEventListener('mousemove', moveHandler);
+                    document.removeEventListener('mouseup', upHandler);
+                };
+                
+                document.addEventListener('mousemove', moveHandler);
+                document.addEventListener('mouseup', upHandler);
+            });
+        });
+        
+        function updateTotalScore() {
+            const tms = parseInt(document.getElementById('tms-value').textContent);
+            const srs = parseInt(document.getElementById('srs-value').textContent);
+            const rns = parseInt(document.getElementById('rns-value').textContent);
+            const total = Math.round((tms + srs + rns) / 3);
+            document.getElementById('total-score').textContent = total + '%';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fit Queue Card - Analog Film Style</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    
+    <!-- Import Theme CSS -->
+    <link rel="stylesheet" href="analog_film_theme.css">
+    
+    <style>
+        /* Apply theme variables */
+        body {
+            background-color: var(--background) !important;
+            color: var(--foreground) !important;
+            font-family: var(--font-sans) !important;
+        }
+        
+        /* Custom animations */
+        @keyframes slideIn {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes scoreGrow {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes progressFill {
+            from {
+                width: 0%;
+                opacity: 0.6;
+            }
+            to {
+                width: var(--progress-width);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes checkBounce {
+            0% {
+                transform: scale(0) rotate(-180deg);
+            }
+            60% {
+                transform: scale(1.2) rotate(10deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+        }
+        
+        @keyframes swipeHint {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-5px);
+            }
+            75% {
+                transform: translateX(5px);
+            }
+        }
+        
+        @keyframes photoRing {
+            from {
+                border-width: 0;
+                opacity: 0;
+            }
+            to {
+                border-width: 2px;
+                opacity: 1;
+            }
+        }
+        
+        /* Card styles */
+        .candidate-card {
+            animation: slideIn 0.4s ease-out;
+            background: var(--card);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-md);
+            transition: all 0.2s ease-out;
+        }
+        
+        .candidate-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .candidate-card:active {
+            transform: scale(0.98);
+        }
+        
+        /* First card gets swipe hint */
+        .candidate-card:first-child {
+            animation: slideIn 0.4s ease-out, swipeHint 2s ease-in-out infinite 1s;
+        }
+        
+        /* Score pill */
+        .score-pill {
+            animation: scoreGrow 0.6s ease-out 0.2s both;
+            background: var(--fit-score-high);
+            color: var(--accent-foreground);
+            font-family: var(--font-mono);
+        }
+        
+        .score-pill.medium {
+            background: var(--fit-score-medium);
+            color: var(--secondary-foreground);
+        }
+        
+        .score-pill.low {
+            background: var(--fit-score-low);
+            color: var(--muted-foreground);
+        }
+        
+        /* Progress bar */
+        .progress-bar {
+            background: var(--muted);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            animation: progressFill 0.8s ease-out both;
+            background: linear-gradient(to right, var(--accent), var(--primary));
+            height: 100%;
+        }
+        
+        /* Photo with conditional border */
+        .candidate-photo {
+            border: 2px solid transparent;
+            transition: border 0.4s ease-out;
+        }
+        
+        .candidate-photo.high-score {
+            animation: photoRing 0.4s ease-out 0.3s both;
+            border-color: var(--accent);
+        }
+        
+        /* Checkmarks */
+        .check-icon {
+            animation: checkBounce 0.3s ease-out both;
+            color: var(--verified);
+        }
+        
+        .check-icon:nth-child(1) {
+            animation-delay: 0.4s;
+        }
+        
+        .check-icon:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+        
+        .check-icon:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+        
+        /* CTA Button */
+        .cta-button {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            font-family: var(--font-sans);
+            font-weight: 500;
+            transition: all 0.2s ease-out;
+        }
+        
+        .cta-button:hover {
+            background: var(--primary);
+            filter: brightness(0.9);
+        }
+        
+        .cta-button:hover .arrow-icon {
+            transform: translateX(3px);
+        }
+        
+        .arrow-icon {
+            transition: transform 0.2s ease-out;
+        }
+        
+        /* Typography */
+        .candidate-name {
+            font-family: var(--font-serif);
+            font-weight: 600;
+            color: var(--foreground);
+        }
+        
+        .candidate-title {
+            font-family: var(--font-sans);
+            color: var(--muted-foreground);
+        }
+        
+        /* Skeleton loading */
+        @keyframes skeleton {
+            0%, 100% {
+                background-color: var(--muted);
+            }
+            50% {
+                background-color: oklch(0.7451 0.1569 95.3846 / 0.2);
+            }
+        }
+        
+        .skeleton {
+            animation: skeleton 1.5s ease-in-out infinite;
+            border-radius: var(--radius-sm);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <!-- Mobile container (375px) -->
+    <div class="w-full max-w-[375px] space-y-4">
+        
+        <!-- Candidate Card 1 - High Score -->
+        <div class="candidate-card rounded-xl p-5">
+            <!-- Header Row -->
+            <div class="flex items-start justify-between mb-3">
+                <div class="flex items-center gap-3">
+                    <img 
+                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop" 
+                        alt="Sarah Chen"
+                        class="candidate-photo high-score w-12 h-12 rounded-full object-cover"
+                    >
+                    <div>
+                        <h3 class="candidate-name text-lg leading-tight">Sarah Chen</h3>
+                        <p class="candidate-title text-sm">Product Designer</p>
+                    </div>
+                </div>
+                <div class="score-pill px-3 py-1 rounded-full text-sm font-bold">
+                    87
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="mb-4">
+                <div class="progress-bar h-2 rounded-full mb-1">
+                    <div class="progress-fill rounded-full" style="--progress-width: 87%"></div>
+                </div>
+                <p class="text-sm text-right" style="color: var(--muted-foreground)">Strong Match</p>
+            </div>
+            
+            <!-- Key Qualifications -->
+            <div class="space-y-2 mb-4">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="check" class="check-icon w-4 h-4"></i>
+                    <span class="text-sm" style="color: var(--foreground)">8 years experience</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i data-lucide="check" class="check-icon w-4 h-4"></i>
+                    <span class="text-sm" style="color: var(--verified)">Figma expert (verified)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i data-lucide="check" class="check-icon w-4 h-4"></i>
+                    <span class="text-sm" style="color: var(--referral)">2 team referrals</span>
+                </div>
+            </div>
+            
+            <!-- CTA Button -->
+            <button class="cta-button w-full py-3 px-4 rounded-lg flex items-center justify-center gap-2">
+                <span>View Profile</span>
+                <i data-lucide="arrow-right" class="arrow-icon w-4 h-4"></i>
+            </button>
+        </div>
+        
+        <!-- Candidate Card 2 - Medium Score -->
+        <div class="candidate-card rounded-xl p-5" style="animation-delay: 0.1s">
+            <!-- Header Row -->
+            <div class="flex items-start justify-between mb-3">
+                <div class="flex items-center gap-3">
+                    <img 
+                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop" 
+                        alt="Michael Park"
+                        class="candidate-photo w-12 h-12 rounded-full object-cover"
+                    >
+                    <div>
+                        <h3 class="candidate-name text-lg leading-tight">Michael Park</h3>
+                        <p class="candidate-title text-sm">UI/UX Designer</p>
+                    </div>
+                </div>
+                <div class="score-pill medium px-3 py-1 rounded-full text-sm font-bold">
+                    72
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="mb-4">
+                <div class="progress-bar h-2 rounded-full mb-1">
+                    <div class="progress-fill rounded-full" style="--progress-width: 72%; background: var(--secondary)"></div>
+                </div>
+                <p class="text-sm text-right" style="color: var(--muted-foreground)">Good Match</p>
+            </div>
+            
+            <!-- Key Qualifications -->
+            <div class="space-y-2 mb-4">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="check" class="check-icon w-4 h-4"></i>
+                    <span class="text-sm" style="color: var(--foreground)">5 years experience</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i data-lucide="check" class="check-icon w-4 h-4"></i>
+                    <span class="text-sm" style="color: var(--muted-foreground)">Sketch proficient</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i data-lucide="check" class="check-icon w-4 h-4"></i>
+                    <span class="text-sm" style="color: var(--muted-foreground)">Portfolio available</span>
+                </div>
+            </div>
+            
+            <!-- CTA Button -->
+            <button class="cta-button w-full py-3 px-4 rounded-lg flex items-center justify-center gap-2">
+                <span>View Profile</span>
+                <i data-lucide="arrow-right" class="arrow-icon w-4 h-4"></i>
+            </button>
+        </div>
+        
+        <!-- Loading Skeleton Card -->
+        <div class="candidate-card rounded-xl p-5" style="animation-delay: 0.2s">
+            <div class="flex items-start justify-between mb-3">
+                <div class="flex items-center gap-3">
+                    <div class="skeleton w-12 h-12 rounded-full"></div>
+                    <div class="space-y-2">
+                        <div class="skeleton h-5 w-32"></div>
+                        <div class="skeleton h-4 w-24"></div>
+                    </div>
+                </div>
+                <div class="skeleton h-8 w-12 rounded-full"></div>
+            </div>
+            
+            <div class="mb-4">
+                <div class="skeleton h-2 rounded-full mb-1"></div>
+                <div class="skeleton h-4 w-20 ml-auto"></div>
+            </div>
+            
+            <div class="space-y-2 mb-4">
+                <div class="skeleton h-4 w-40"></div>
+                <div class="skeleton h-4 w-48"></div>
+                <div class="skeleton h-4 w-36"></div>
+            </div>
+            
+            <div class="skeleton h-12 rounded-lg"></div>
+        </div>
+        
+    </div>
+    
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        // Add stagger animation to checkmarks
+        document.querySelectorAll('.check-icon').forEach((icon, index) => {
+            icon.style.animationDelay = `${0.4 + (index * 0.1)}s`;
+        });
+    </script>
+</body>
+</html>

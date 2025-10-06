@@ -1,0 +1,365 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Skylevel :: OKLCH Color System */
+
+/* Skylevel :: Dark Theme (Default) */
+:root {
+  /* Base colors - Sophisticated & Focused */
+  --background: oklch(0.09 0.002 291); /* Gray 950 */
+  --foreground: oklch(0.97 0.003 291); /* Gray 50 */
+
+  --card: oklch(0.12 0.004 291); /* Gray 900 */
+  --card-foreground: oklch(0.97 0.003 291); /* Gray 50 */
+
+  --popover: oklch(0.12 0.004 291); /* Gray 900 */
+  --popover-foreground: oklch(0.97 0.003 291); /* Gray 50 */
+
+  /* Primary - Decisive & Confident Red */
+  --primary: oklch(0.56 0.17 19.3); /* Primary 500 */
+  --primary-foreground: oklch(0.98 0.01 19.3); /* Primary 50 */
+
+  /* Secondary - Calm & Professional Blue */
+  --secondary: oklch(0.48 0.09 252); /* Secondary 500 */
+  --secondary-foreground: oklch(0.96 0.01 252); /* Secondary 50 */
+
+  /* Accent - Premium & Rewarding Gold */
+  --accent: oklch(0.74 0.11 88.5); /* Accent 500 */
+  --accent-foreground: oklch(0.26 0.05 88.5); /* Accent 900 */
+
+  /* Muted tones for hover states and secondary info */
+  --muted: oklch(0.18 0.006 291); /* Gray 800 */
+  --muted-foreground: oklch(0.67 0.01 291); /* Gray 400 */
+
+  /* Destructive - Unambiguous Red */
+  --destructive: oklch(0.56 0.17 19.3); /* Primary 500 */
+  --destructive-foreground: oklch(0.98 0.01 19.3); /* Primary 50 */
+
+  /* UI Elements */
+  --border: oklch(0.22 0.006 291); /* Gray 800 */
+  --input: oklch(0.22 0.006 291); /* Gray 800 */
+  --ring: oklch(0.48 0.09 252); /* Secondary 500 */
+
+  /* Additional Skylevel Semantic Colors */
+  --success: oklch(0.72 0.15 159); /* Success 500 */
+  --success-foreground: oklch(0.14 0.05 159); /* Success 950 */
+  --warning: oklch(0.63 0.16 63); /* Warning 500 */
+  --warning-foreground: oklch(0.21 0.07 63); /* Warning 950 */
+
+  /* Spacing and sizing */
+  --radius: 0.5rem;
+
+  /* Depth System - Surface Colors */
+  --surface-base: oklch(0.09 0.002 291); /* Main page background */
+  --surface-recessed: oklch(0.12 0.004 291); /* Sunken/contained elements */
+  --surface-level: oklch(0.12 0.004 291); /* Default static content cards */
+  --surface-raised: oklch(0.18 0.006 291); /* Primary interactive elements */
+  --surface-overlay: oklch(1 0 0); /* Transient elements above all content */
+
+  /* UI Elements */
+  --surface-border: oklch(0.22 0.006 291); /* Consistent border color */
+  --surface-border-hover: oklch(0.42 0.01 291); /* Hover state borders */
+
+  /* Depth System - Shadows */
+  --shadow-color: oklch(0.09 0.002 291);
+  --shadow-xs: 0 1px 2px 0px var(--shadow-color / 0.08);
+  --shadow-sm: 0 1px 3px 0px var(--shadow-color / 0.10);
+  --shadow-md: 0 4px 6px -1px var(--shadow-color / 0.12),
+              0 2px 4px -2px var(--shadow-color / 0.08);
+  --shadow-lg: 0 10px 15px -3px var(--shadow-color / 0.12),
+              0 4px 6px -4px var(--shadow-color / 0.08);
+  --shadow-xl: 0 20px 25px -5px var(--shadow-color / 0.12),
+              0 8px 10px -6px var(--shadow-color / 0.08);
+  --shadow-inner: inset 0 2px 4px 0px var(--shadow-color / 0.06);
+
+  /* Focus System */
+  --focus-ring: oklch(0.48 0.09 252); /* Secondary 500 */
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+}
+
+/* Skylevel :: Light Theme */
+.light {
+  /* Base colors */
+  --background: oklch(0.97 0.003 291); /* Gray 100 */
+  --foreground: oklch(0.12 0.004 291); /* Gray 900 */
+
+  --card: oklch(1 0 0); /* White */
+  --card-foreground: oklch(0.12 0.004 291); /* Gray 900 */
+
+  --popover: oklch(1 0 0); /* White */
+  --popover-foreground: oklch(0.12 0.004 291); /* Gray 900 */
+
+  /* Accent Foreground needs to be darker on a light background */
+  --accent-foreground: oklch(0.26 0.05 88.5); /* Accent 900 */
+
+  /* Muted tones */
+  --muted: oklch(0.94 0.004 291); /* Gray 200 */
+  --muted-foreground: oklch(0.42 0.01 291); /* Gray 600 */
+
+  /* UI Elements */
+  --border: oklch(0.91 0.004 291); /* Gray 200 */
+  --input: oklch(0.91 0.004 291); /* Gray 200 */
+
+  /* Additional Skylevel Semantic Colors */
+  --success: oklch(0.72 0.15 159); /* Success 500 */
+  --success-foreground: oklch(0.94 0.03 159); /* Success 50 */
+  --warning: oklch(0.63 0.16 63); /* Warning 500 */
+  --warning-foreground: oklch(0.99 0.03 63); /* Warning 50 */
+
+  /* Depth System - Surface Colors */
+  --surface-base: oklch(0.97 0.003 291); /* Main page background */
+  --surface-recessed: oklch(0.94 0.004 291); /* Sunken/contained elements */
+  --surface-level: oklch(1 0 0); /* Default static content cards */
+  --surface-raised: oklch(0.94 0.004 291); /* Primary interactive elements */
+  --surface-overlay: oklch(1 0 0); /* Transient elements above all content */
+
+  /* UI Elements */
+  --surface-border: oklch(0.91 0.004 291); /* Consistent border color */
+  --surface-border-hover: oklch(0.42 0.01 291); /* Hover state borders */
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Depth System Components */
+@layer components {
+  /* Button System */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground font-medium;
+    @apply shadow-md hover:shadow-lg hover:-translate-y-0.5;
+    @apply transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+
+  .btn-primary:active {
+    @apply shadow-sm translate-y-0;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground font-medium;
+    @apply shadow-md hover:shadow-lg hover:-translate-y-0.5;
+    @apply transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+
+  .btn-secondary:active {
+    @apply shadow-sm translate-y-0;
+  }
+
+  .btn-ghost {
+    @apply hover:bg-accent hover:text-accent-foreground font-medium;
+    @apply transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+
+  /* Card System */
+  .card {
+    @apply bg-card text-card-foreground rounded-xl;
+    @apply shadow-md border;
+    @apply transition-all duration-200;
+  }
+
+  .card-interactive {
+    @apply cursor-pointer;
+  }
+
+  .card-interactive:hover {
+    @apply shadow-xl hover:-translate-y-1;
+  }
+
+  .card-raised {
+    @apply bg-surface-raised shadow-lg border-surface-border;
+  }
+
+  /* Input System */
+  .input-field {
+    @apply bg-background border-input;
+    @apply shadow-inner;
+    @apply transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:border-transparent;
+  }
+
+  /* Tabs System */
+  .tabs-container {
+    @apply bg-muted border rounded-lg p-1;
+    @apply shadow-inner;
+  }
+
+  .tab-active {
+    @apply bg-background shadow-md;
+  }
+
+  .tab-inactive {
+    @apply hover:bg-muted/50;
+  }
+
+  /* Modal System */
+  .modal-backdrop {
+    @apply fixed inset-0 bg-black/50 backdrop-blur-sm;
+    @apply z-50;
+  }
+
+  .modal-content {
+    @apply bg-popover text-popover-foreground rounded-xl;
+    @apply shadow-xl border;
+    @apply z-50;
+  }
+
+  /* Table System */
+  .table-container {
+    @apply bg-card rounded-xl shadow-md border;
+    @apply overflow-hidden;
+  }
+
+  .table-header {
+    @apply bg-muted border-b;
+  }
+
+  .table-row-interactive {
+    @apply transition-colors duration-150;
+    @apply hover:bg-muted/50;
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-inset;
+  }
+}
+
+/* ScorePill Component */
+@layer components {
+  .score-pill {
+    @apply inline-flex items-center justify-center rounded-full font-bold;
+    @apply shadow-sm transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+
+  .score-pill:hover {
+    @apply scale-105 shadow-md;
+  }
+
+  .score-pill.excellent {
+    @apply bg-gradient-to-br from-accent to-accent/90 text-accent-foreground;
+    @apply shadow-lg shadow-accent/20;
+  }
+
+  .score-pill.good {
+    @apply bg-gradient-to-br from-success to-success/90 text-success-foreground;
+    @apply shadow-lg shadow-success/20;
+  }
+
+  .score-pill.moderate {
+    @apply bg-gradient-to-br from-warning to-warning/90 text-warning-foreground;
+    @apply shadow-lg shadow-warning/20;
+  }
+
+  .score-pill.low {
+    @apply bg-gradient-to-br from-destructive to-destructive/90 text-destructive-foreground;
+    @apply shadow-lg shadow-destructive/20;
+  }
+}
+
+/* Utility Classes for Depth System */
+@layer utilities {
+  .depth-surface {
+    background-color: var(--surface-level);
+    border-color: var(--surface-border);
+  }
+
+  .depth-recessed {
+    background-color: var(--surface-recessed);
+    border-color: var(--surface-border);
+    box-shadow: var(--shadow-inner);
+  }
+
+  .depth-raised {
+    background-color: var(--surface-raised);
+    border-color: var(--surface-border-hover);
+    box-shadow: var(--shadow-md);
+  }
+
+  .depth-overlay {
+    background-color: var(--surface-overlay);
+    border-color: var(--surface-border-hover);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+
+  /* Responsive typography */
+  .text-responsive {
+    @apply text-sm md:text-base lg:text-lg;
+  }
+
+  .heading-responsive {
+    @apply text-2xl md:text-3xl lg:text-4xl;
+  }
+
+  /* Smooth animations */
+  .animate-in {
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+  }
+
+  .fade-in {
+    animation-name: fadeIn;
+  }
+
+  .slide-up {
+    animation-name: slideUp;
+  }
+
+  .scale-in {
+    animation-name: scaleIn;
+  }
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

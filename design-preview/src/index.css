@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: #F5F2E8; /* neutral-50 - Skylevel text primary */
+  background-color: #0A0606; /* neutral-950 - Skylevel background */
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #0A0606; /* neutral-950 - Skylevel background */
+}
+
+/* Debug styles */
+.debug-border {
+  border: 2px solid red !important;
+}
+
+.debug-bg {
+  background-color: #fef2f2 !important;
+}

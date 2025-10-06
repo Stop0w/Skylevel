@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Post Form - Analog Film Style</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    
+    <!-- Import Theme CSS -->
+    <link rel="stylesheet" href="analog_film_theme.css">
+    
+    <style>
+        /* Apply theme variables */
+        body {
+            background-color: var(--background) !important;
+            color: var(--foreground) !important;
+            font-family: var(--font-sans) !important;
+        }
+        
+        /* Custom animations - Warm and organic */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes progressGrow {
+            from {
+                width: var(--progress-from);
+            }
+            to {
+                width: var(--progress-to);
+            }
+        }
+        
+        @keyframes tipSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes buttonPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+        }
+        
+        /* Progress bar styles */
+        .progress-container {
+            background: var(--muted);
+            height: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--accent), var(--primary));
+            animation: progressGrow 0.5s ease-out forwards;
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4));
+        }
+        
+        /* Question styles */
+        .question-text {
+            font-family: var(--font-serif);
+            font-weight: 500;
+            color: var(--foreground);
+            animation: fadeInUp 0.4s ease-out;
+        }
+        
+        /* Input styles */
+        .form-input {
+            background: var(--card);
+            border: 2px solid var(--border);
+            color: var(--foreground);
+            font-family: var(--font-sans);
+            transition: all 0.3s ease-out;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+        
+        .form-input::placeholder {
+            color: var(--muted-foreground);
+            opacity: 0.7;
+        }
+        
+        /* Textarea specific */
+        .form-textarea {
+            resize: none;
+            min-height: 120px;
+        }
+        
+        /* Help tip styles */
+        .help-tip {
+            background: oklch(0.7451 0.1569 95.3846 / 0.1);
+            border: 1px solid oklch(0.7451 0.1569 95.3846 / 0.2);
+            animation: tipSlideIn 0.5s ease-out 0.3s both;
+        }
+        
+        .help-icon {
+            color: var(--accent);
+        }
+        
+        /* Button styles */
+        .next-button {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            font-family: var(--font-sans);
+            font-weight: 600;
+            transition: all 0.3s ease-out;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .next-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .next-button:hover::before {
+            width: 200px;
+            height: 200px;
+        }
+        
+        .next-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .next-button:active {
+            transform: scale(0.95);
+        }
+        
+        .next-button:disabled {
+            background: var(--muted);
+            color: var(--muted-foreground);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .next-button:not(:disabled) {
+            animation: buttonPulse 2s ease-in-out infinite;
+        }
+        
+        /* Step indicator */
+        .step-indicator {
+            color: var(--muted-foreground);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+        }
+        
+        /* Screen transition */
+        .form-screen {
+            animation: fadeInUp 0.4s ease-out;
+        }
+        
+        /* Radio/Checkbox styles */
+        .form-radio,
+        .form-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            background: var(--card);
+            transition: all 0.2s ease-out;
+        }
+        
+        .form-radio:checked,
+        .form-checkbox:checked {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .form-radio {
+            border-radius: 50%;
+        }
+        
+        .form-checkbox {
+            border-radius: 4px;
+        }
+        
+        /* Option card styles */
+        .option-card {
+            background: var(--card);
+            border: 2px solid var(--border);
+            transition: all 0.3s ease-out;
+            cursor: pointer;
+        }
+        
+        .option-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .option-card.selected {
+            border-color: var(--primary);
+            background: oklch(0.4510 0.1569 29.2308 / 0.05);
+        }
+        
+        /* Back button */
+        .back-button {
+            color: var(--muted-foreground);
+            transition: color 0.2s ease-out;
+        }
+        
+        .back-button:hover {
+            color: var(--foreground);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <!-- Mobile container (375px) -->
+    <div class="w-full max-w-[375px] min-h-[600px] flex flex-col">
+        
+        <!-- Screen 1: Role Title -->
+        <div class="form-screen flex-1 flex flex-col" id="screen1">
+            <!-- Progress Bar -->
+            <div class="progress-container rounded-full mb-8">
+                <div class="progress-fill rounded-full" style="--progress-from: 0%; --progress-to: 14.3%;"></div>
+            </div>
+            
+            <!-- Step Indicator -->
+            <p class="step-indicator mb-6">Step 1 of 7</p>
+            
+            <!-- Question -->
+            <h2 class="question-text text-2xl mb-8">What's the role?</h2>
+            
+            <!-- Input -->
+            <input 
+                type="text" 
+                placeholder="e.g., Senior Product Designer"
+                class="form-input rounded-xl px-5 py-4 text-lg mb-6"
+                id="roleInput"
+            >
+            
+            <!-- Help Tip -->
+            <div class="help-tip rounded-xl p-4 mb-auto flex gap-3">
+                <i data-lucide="lightbulb" class="help-icon w-5 h-5 flex-shrink-0 mt-0.5"></i>
+                <p class="text-sm">
+                    <strong>Tip:</strong> Be specific. "Senior Product Designer (Growth)" 
+                    performs better than just "Designer"
+                </p>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-8">
+                <button class="back-button p-2" onclick="previousScreen()">
+                    <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                </button>
+                <button class="next-button px-8 py-3 rounded-xl flex items-center gap-2" onclick="nextScreen()" disabled>
+                    <span>Next</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Screen 2: Department -->
+        <div class="form-screen flex-1 flex-col hidden" id="screen2">
+            <!-- Progress Bar -->
+            <div class="progress-container rounded-full mb-8">
+                <div class="progress-fill rounded-full" style="--progress-from: 14.3%; --progress-to: 28.6%;"></div>
+            </div>
+            
+            <!-- Step Indicator -->
+            <p class="step-indicator mb-6">Step 2 of 7</p>
+            
+            <!-- Question -->
+            <h2 class="question-text text-2xl mb-8">Which department?</h2>
+            
+            <!-- Options -->
+            <div class="space-y-3 mb-6">
+                <div class="option-card rounded-xl p-4" onclick="selectOption(this, 'department')">
+                    <div class="flex items-center gap-3">
+                        <input type="radio" name="department" value="engineering" class="form-radio">
+                        <label class="text-base font-medium">Engineering</label>
+                    </div>
+                </div>
+                <div class="option-card rounded-xl p-4" onclick="selectOption(this, 'department')">
+                    <div class="flex items-center gap-3">
+                        <input type="radio" name="department" value="design" class="form-radio">
+                        <label class="text-base font-medium">Design</label>
+                    </div>
+                </div>
+                <div class="option-card rounded-xl p-4" onclick="selectOption(this, 'department')">
+                    <div class="flex items-center gap-3">
+                        <input type="radio" name="department" value="product" class="form-radio">
+                        <label class="text-base font-medium">Product</label>
+                    </div>
+                </div>
+                <div class="option-card rounded-xl p-4" onclick="selectOption(this, 'department')">
+                    <div class="flex items-center gap-3">
+                        <input type="radio" name="department" value="marketing" class="form-radio">
+                        <label class="text-base font-medium">Marketing</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-auto">
+                <button class="back-button p-2" onclick="previousScreen()">
+                    <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                </button>
+                <button class="next-button px-8 py-3 rounded-xl flex items-center gap-2" onclick="nextScreen()" disabled>
+                    <span>Next</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Screen 3: Experience Level -->
+        <div class="form-screen flex-1 flex-col hidden" id="screen3">
+            <!-- Progress Bar -->
+            <div class="progress-container rounded-full mb-8">
+                <div class="progress-fill rounded-full" style="--progress-from: 28.6%; --progress-to: 42.9%;"></div>
+            </div>
+            
+            <!-- Step Indicator -->
+            <p class="step-indicator mb-6">Step 3 of 7</p>
+            
+            <!-- Question -->
+            <h2 class="question-text text-2xl mb-8">Experience level?</h2>
+            
+            <!-- Slider Input -->
+            <div class="mb-8">
+                <div class="flex justify-between text-sm mb-3" style="color: var(--muted-foreground)">
+                    <span>Junior</span>
+                    <span>Senior</span>
+                    <span>Lead</span>
+                </div>
+                <input 
+                    type="range" 
+                    min="1" 
+                    max="10" 
+                    value="5" 
+                    class="w-full"
+                    style="accent-color: var(--primary)"
+                    oninput="updateExperienceLabel(this.value)"
+                >
+                <p class="text-center mt-4 text-lg font-medium" id="experienceLabel">5-7 years</p>
+            </div>
+            
+            <!-- Help Tip -->
+            <div class="help-tip rounded-xl p-4 mb-auto flex gap-3">
+                <i data-lucide="lightbulb" class="help-icon w-5 h-5 flex-shrink-0 mt-0.5"></i>
+                <p class="text-sm">
+                    <strong>Tip:</strong> Consider the actual responsibilities, not just years. 
+                    A strong 3-year candidate might outperform someone with 10 years.
+                </p>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-8">
+                <button class="back-button p-2" onclick="previousScreen()">
+                    <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                </button>
+                <button class="next-button px-8 py-3 rounded-xl flex items-center gap-2" onclick="nextScreen()">
+                    <span>Next</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Screen 4: Key Skills -->
+        <div class="form-screen flex-1 flex-col hidden" id="screen4">
+            <!-- Progress Bar -->
+            <div class="progress-container rounded-full mb-8">
+                <div class="progress-fill rounded-full" style="--progress-from: 42.9%; --progress-to: 57.1%;"></div>
+            </div>
+            
+            <!-- Step Indicator -->
+            <p class="step-indicator mb-6">Step 4 of 7</p>
+            
+            <!-- Question -->
+            <h2 class="question-text text-2xl mb-8">Must-have skills?</h2>
+            
+            <!-- Textarea -->
+            <textarea 
+                placeholder="List the essential skills, one per line&#10;&#10;e.g.,&#10;Figma&#10;Design systems&#10;User research"
+                class="form-input form-textarea rounded-xl px-5 py-4 text-base mb-6"
+                oninput="checkTextarea(this)"
+            ></textarea>
+            
+            <!-- Character count -->
+            <p class="text-sm text-right mb-auto" style="color: var(--muted-foreground)">
+                <span id="charCount">0</span> / 200
+            </p>
+            
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-8">
+                <button class="back-button p-2" onclick="previousScreen()">
+                    <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                </button>
+                <button class="next-button px-8 py-3 rounded-xl flex items-center gap-2" onclick="nextScreen()" disabled>
+                    <span>Next</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Screen 5: Location -->
+        <div class="form-screen flex-1 flex-col hidden" id="screen5">
+            <!-- Progress Bar -->
+            <div class="progress-container rounded-full mb-8">
+                <div class="progress-fill rounded-full" style="--progress-from: 57.1%; --progress-to: 71.4%;"></div>
+            </div>
+            
+            <!-- Step Indicator -->
+            <p class="step-indicator mb-6">Step 5 of 7</p>
+            
+            <!-- Question -->
+            <h2 class="question-text text-2xl mb-8">Work location?</h2>
+            
+            <!-- Options -->
+            <div class="space-y-3 mb-6">
+                <div class="option-card rounded-xl p-4" onclick="selectMultiple(this)">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" value="remote" class="form-checkbox">
+                        <div>
+                            <label class="text-base font-medium block">Remote</label>
+                            <span class="text-sm" style="color: var(--muted-foreground)">Work from anywhere</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="option-card rounded-xl p-4" onclick="selectMultiple(this)">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" value="hybrid" class="form-checkbox">
+                        <div>
+                            <label class="text-base font-medium block">Hybrid</label>
+                            <span class="text-sm" style="color: var(--muted-foreground)">Mix of office and remote</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="option-card rounded-xl p-4" onclick="selectMultiple(this)">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" value="onsite" class="form-checkbox">
+                        <div>
+                            <label class="text-base font-medium block">On-site</label>
+                            <span class="text-sm" style="color: var(--muted-foreground)">Office-based role</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-auto">
+                <button class="back-button p-2" onclick="previousScreen()">
+                    <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                </button>
+                <button class="next-button px-8 py-3 rounded-xl flex items-center gap-2" onclick="nextScreen()" disabled>
+                    <span>Next</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Screen 6: Salary Range -->
+        <div class="form-screen flex-1 flex-col hidden" id="screen6">
+            <!-- Progress Bar -->
+            <div class="progress-container rounded-full mb-8">
+                <div class="progress-fill rounded-full" style="--progress-from: 71.4%; --progress-to: 85.7%;"></div>
+            </div>
+            
+            <!-- Step Indicator -->
+            <p class="step-indicator mb-6">Step 6 of 7</p>
+            
+            <!-- Question -->
+            <h2 class="question-text text-2xl mb-8">Salary range?</h2>
+            
+            <!-- Salary Inputs -->
+            <div class="space-y-4 mb-6">
+                <div>
+                    <label class="text-sm block mb-2" style="color: var(--muted-foreground)">Minimum</label>
+                    <div class="relative">
+                        <span class="absolute left-5 top-1/2 -translate-y-1/2 text-lg">$</span>
+                        <input 
+                            type="number" 
+                            placeholder="80,000"
+                            class="form-input rounded-xl pl-10 pr-5 py-4 text-lg w-full"
+                            oninput="checkSalary()"
+                        >
+                    </div>
+                </div>
+                <div>
+                    <label class="text-sm block mb-2" style="color: var(--muted-foreground)">Maximum</label>
+                    <div class="relative">
+                        <span class="absolute left-5 top-1/2 -translate-y-1/2 text-lg">$</span>
+                        <input 
+                            type="number" 
+                            placeholder="120,000"
+                            class="form-input rounded-xl pl-10 pr-5 py-4 text-lg w-full"
+                            oninput="checkSalary()"
+                        >
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Help Tip -->
+            <div class="help-tip rounded-xl p-4 mb-auto flex gap-3">
+                <i data-lucide="lightbulb" class="help-icon w-5 h-5 flex-shrink-0 mt-0.5"></i>
+                <p class="text-sm">
+                    <strong>Tip:</strong> Competitive salaries attract 3x more qualified candidates
+                </p>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-8">
+                <button class="back-button p-2" onclick="previousScreen()">
+                    <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                </button>
+                <button class="next-button px-8 py-3 rounded-xl flex items-center gap-2" onclick="nextScreen()" disabled>
+                    <span>Next</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Screen 7: Review -->
+        <div class="form-screen flex-1 flex-col hidden" id="screen7">
+            <!-- Progress Bar -->
+            <div class="progress-container rounded-full mb-8">
+                <div class="progress-fill rounded-full" style="--progress-from: 85.7%; --progress-to: 100%;"></div>
+            </div>
+            
+            <!-- Step Indicator -->
+            <p class="step-indicator mb-6">Step 7 of 7</p>
+            
+            <!-- Question -->
+            <h2 class="question-text text-2xl mb-8">Almost done! 🎉</h2>
+            
+            <!-- Summary Card -->
+            <div class="bg-white rounded-xl p-5 mb-6" style="box-shadow: var(--shadow-md)">
+                <h3 class="font-semibold mb-4">Your job post summary:</h3>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between">
+                        <span style="color: var(--muted-foreground)">Role:</span>
+                        <span class="font-medium">Senior Product Designer</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span style="color: var(--muted-foreground)">Department:</span>
+                        <span class="font-medium">Design</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span style="color: var(--muted-foreground)">Experience:</span>
+                        <span class="font-medium">5-7 years</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span style="color: var(--muted-foreground)">Location:</span>
+                        <span class="font-medium">Remote, Hybrid</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span style="color: var(--muted-foreground)">Salary:</span>
+                        <span class="font-medium">$80k - $120k</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="flex justify-between items-center mt-auto">
+                <button class="back-button p-2" onclick="previousScreen()">
+                    <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                </button>
+                <button class="next-button px-8 py-3 rounded-xl flex items-center gap-2" style="background: var(--accent); color: var(--accent-foreground)">
+                    <span>Post Job</span>
+                    <i data-lucide="check" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+        
+    </div>
+    
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        let currentScreen = 1;
+        const totalScreens = 7;
+        
+        // Screen navigation
+        function nextScreen() {
+            if (currentScreen < totalScreens) {
+                document.getElementById(`screen${currentScreen}`).classList.add('hidden');
+                currentScreen++;
+                document.getElementById(`screen${currentScreen}`).classList.remove('hidden');
+                lucide.createIcons();
+            }
+        }
+        
+        function previousScreen() {
+            if (currentScreen > 1) {
+                document.getElementById(`screen${currentScreen}`).classList.add('hidden');
+                currentScreen--;
+                document.getElementById(`screen${currentScreen}`).classList.remove('hidden');
+                lucide.createIcons();
+            }
+        }
+        
+        // Input validation
+        document.getElementById('roleInput').addEventListener('input', function(e) {
+            const nextBtn = document.querySelector('#screen1 .next-button');
+            nextBtn.disabled = e.target.value.trim().length < 3;
+        });
+        
+        // Radio selection
+        function selectOption(card, name) {
+            // Remove selected class from all cards
+            document.querySelectorAll('.option-card').forEach(c => {
+                if (c.querySelector(`input[name="${name}"]`)) {
+                    c.classList.remove('selected');
+                }
+            });
+            
+            // Add selected class and check radio
+            card.classList.add('selected');
+            const radio = card.querySelector('input[type="radio"]');
+            radio.checked = true;
+            
+            // Enable next button
+            const nextBtn = card.closest('.form-screen').querySelector('.next-button');
+            nextBtn.disabled = false;
+        }
+        
+        // Checkbox selection
+        function selectMultiple(card) {
+            const checkbox = card.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            card.classList.toggle('selected', checkbox.checked);
+            
+            // Check if at least one is selected
+            const screen = card.closest('.form-screen');
+            const hasSelection = screen.querySelectorAll('input[type="checkbox"]:checked').length > 0;
+            screen.querySelector('.next-button').disabled = !hasSelection;
+        }
+        
+        // Experience slider
+        function updateExperienceLabel(value) {
+            const labels = {
+                1: '0-2 years',
+                2: '2-3 years',
+                3: '3-5 years',
+                4: '5-7 years',
+                5: '5-7 years',
+                6: '7-10 years',
+                7: '10-12 years',
+                8: '12-15 years',
+                9: '15+ years',
+                10: '20+ years'
+            };
+            document.getElementById('experienceLabel').textContent = labels[value] || '5-7 years';
+        }
+        
+        // Textarea validation
+        function checkTextarea(textarea) {
+            const charCount = textarea.value.length;
+            document.getElementById('charCount').textContent = charCount;
+            
+            const nextBtn = textarea.closest('.form-screen').querySelector('.next-button');
+            nextBtn.disabled = charCount < 10 || charCount > 200;
+        }
+        
+        // Salary validation
+        function checkSalary() {
+            const inputs = document.querySelectorAll('#screen6 input[type="number"]');
+            const values = Array.from(inputs).map(i => parseInt(i.value) || 0);
+            
+            const nextBtn = document.querySelector('#screen6 .next-button');
+            nextBtn.disabled = values[0] <= 0 || values[1] <= 0 || values[0] >= values[1];
+        }
+    </script>
+</body>
+</html>

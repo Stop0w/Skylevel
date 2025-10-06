@@ -1,0 +1,193 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  clerkId       String    @unique
+  email         String    @unique
+  firstName     String?
+  lastName      String?
+  role          UserRole  @default(CANDIDATE)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  jobs          Job[]
+  shortlists    Shortlist[]
+  candidate     Candidate?
+
+  @@map("users")
+}
+
+model Candidate {
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  headline      String?
+  summary       String?
+  location      String?
+  skills        String[]  // JSON array of skills
+  experience    Json?     // Work experience data
+  education     Json?     // Education data
+  resumeUrl     String?
+  status        CandidateStatus @default(ACTIVE)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  applications  Application[]
+  fitScores     FitScore[]
+  referrals     Referral[]
+
+  @@map("candidates")
+}
+
+model Job {
+  id            String    @id @default(cuid())
+  title         String
+  description   String
+  requirements  String[]  // JSON array of requirements
+  location      String?
+  type          JobType   @default(FULL_TIME)
+  department    String?
+  salary        Json?     // Salary range data
+  status        JobStatus @default(ACTIVE)
+  createdBy     String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // JobPrint™ calibration weights
+  tmsWeight     Float     @default(0.5)
+  srsWeight     Float     @default(0.3)
+  rnsWeight     Float     @default(0.2)
+
+  // Relations
+  creator       User      @relation(fields: [createdBy], references: [id])
+  applications  Application[]
+  fitScores     FitScore[]
+
+  @@map("jobs")
+}
+
+model Application {
+  id            String    @id @default(cuid())
+  candidateId   String
+  jobId         String
+  status        ApplicationStatus @default(PENDING)
+  appliedAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  candidate     Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  job           Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  fitScore      FitScore?
+
+  @@unique([candidateId, jobId])
+  @@map("applications")
+}
+
+model FitScore {
+  id            String    @id @default(cuid())
+  candidateId   String
+  jobId         String
+  tmsScore      Float     // Technical Match Score (0-100)
+  srsScore      Float     // Soft Skills Rating (0-100)
+  rnsScore      Float     // Referral Network Score (0-100)
+  overallScore  Float     // Weighted combination
+  confidence    Float     // Confidence level (0-100)
+  breakdown     Json?     // Detailed score breakdown
+  calculatedAt  DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  candidate     Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  job           Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  application   Application? @relation(fields: [candidateId, jobId], references: [candidateId, jobId])
+
+  @@unique([candidateId, jobId])
+  @@map("fit_scores")
+}
+
+model Referral {
+  id            String    @id @default(cuid())
+  candidateId   String
+  referrerEmail String
+  referrerName  String
+  relationship  String
+  validation    Json      // Validation responses
+  trustScore    Float     @default(1.0) // Trust weight for RNS calculation
+  status        ReferralStatus @default(PENDING)
+  token         String    @unique @default(cuid()) // Public referral token
+  createdAt     DateTime  @default(now())
+  respondedAt   DateTime?
+
+  // Relations
+  candidate     Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+
+  @@map("referrals")
+}
+
+model Shortlist {
+  id            String    @id @default(cuid())
+  name          String
+  description   String?
+  createdBy     String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  creator       User      @relation(fields: [createdBy], references: [id])
+  candidates    Candidate[]
+
+  @@map("shortlists")
+}
+
+// Enums
+enum UserRole {
+  RECRUITER
+  HIRING_MANAGER
+  ADMIN
+  CANDIDATE
+}
+
+enum CandidateStatus {
+  ACTIVE
+  INACTIVE
+  ARCHIVED
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  INTERNSHIP
+}
+
+enum JobStatus {
+  ACTIVE
+  INACTIVE
+  CLOSED
+}
+
+enum ApplicationStatus {
+  PENDING
+  REVIEWING
+  SHORTLISTED
+  REJECTED
+  HIRED
+}
+
+enum ReferralStatus {
+  PENDING
+  COMPLETED
+  EXPIRED
+}

@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skylevel - How It Works | Multi-Journey Experience</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#FFF8F1',
+                            100: '#FED7AA',
+                            200: '#FDBA74',
+                            300: '#FB923C',
+                            400: '#F97316',
+                            500: '#EA580C',
+                            600: '#DC2626',
+                            700: '#C2410C',
+                            800: '#9A3412',
+                            900: '#7C2D12',
+                            950: '#431407',
+                        },
+                        accent: {
+                            50: '#FFFBEB',
+                            100: '#FEF3C7',
+                            200: '#FDE68A',
+                            300: '#FCD34D',
+                            400: '#FBBF24',
+                            500: '#F59E0B',
+                            600: '#D97706',
+                            700: '#B45309',
+                            800: '#92400E',
+                            900: '#78350F',
+                            950: '#451A03',
+                        },
+                        neutral: {
+                            50: '#FFFBFA',
+                            100: '#F5F1F1',
+                            200: '#E7E5E5',
+                            300: '#D6D3D1',
+                            400: '#A8A29E',
+                            500: '#78716C',
+                            600: '#57534E',
+                            700: '#44403C',
+                            800: '#292524',
+                            900: '#1C1917',
+                            950: '#0C0A09',
+                        },
+                        sage: {
+                            50: '#F0FDF4',
+                            100: '#DCFCE7',
+                            200: '#BBF7D0',
+                            300: '#86EFAC',
+                            400: '#4ADE80',
+                            500: '#22C55E',
+                            600: '#16A34A',
+                            700: '#15803D',
+                            800: '#166534',
+                            900: '#14532D',
+                            950: '#052E16',
+                        },
+                        professional: {
+                            50: '#F0F9FF',
+                            100: '#E0F2FE',
+                            200: '#BAE6FD',
+                            300: '#7DD3FC',
+                            400: '#38BDF8',
+                            500: '#0EA5E9',
+                            600: '#0284C7',
+                            700: '#0369A1',
+                            800: '#075985',
+                            900: '#0C4A6E',
+                            950: '#082F49',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.4s ease-out',
+                        'slide-up': 'slideUp 0.3s ease-out',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'warm-glow': 'warmGlow 2s ease-in-out infinite alternate',
+                        'score-fill': 'scoreFill 1.5s ease-out forwards',
+                        'slide-in-left': 'slideInLeft 0.5s ease-out',
+                        'bounce-gentle': 'bounceGentle 2s infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(12px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        warmGlow: {
+                            '0%': { boxShadow: '0 0 20px rgba(249, 115, 22, 0.1)' },
+                            '100%': { boxShadow: '0 0 30px rgba(249, 115, 22, 0.2)' },
+                        },
+                        scoreFill: {
+                            '0%': { width: '0%', opacity: '0' },
+                            '50%': { opacity: '1' },
+                            '100%': { width: 'var(--score-width)', opacity: '1' },
+                        },
+                        slideInLeft: {
+                            '0%': { transform: 'translateX(-20px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' },
+                        },
+                        bounceGentle: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-5px)' },
+                        }
+                    },
+                    spacing: {
+                        '18': '4.5rem',
+                        '88': '22rem',
+                        '92': '23rem',
+                        '96': '24rem',
+                        '100': '25rem',
+                        '104': '26rem',
+                        '108': '27rem',
+                        '112': '28rem',
+                        '116': '29rem',
+                        '120': '30rem',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-neutral-50 text-neutral-900 font-sans antialiased">
+    <!-- Sticky Journey Navigation -->
+    <div id="journey-nav" class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-neutral-200 transition-all duration-300">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="flex items-center justify-between py-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-xl font-normal text-neutral-900">How Skylevel Works</h2>
+                </div>
+
+                <!-- Journey Selection Pills -->
+                <div class="hidden md:flex items-center gap-3">
+                    <button onclick="switchJourney('hiring')" id="hiring-pill" class="journey-pill px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-primary-500 text-white shadow-md">
+                        <span class="flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A7.002 7.002 0 0112 21a7.002 7.002 0 01-9-6.745M21 13.255V7a2 2 0 00-2-2h-6.172a2 2 0 01-1.414-.586l-4.828-4.828A2 2 0 004.828 0H3a2 2 0 00-2 2v8.255"></path>
+                            </svg>
+                            Hiring
+                        </span>
+                    </button>
+                    <button onclick="switchJourney('sourcing')" id="sourcing-pill" class="journey-pill px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-white border-2 border-neutral-200 text-neutral-700 hover:border-primary-300">
+                        <span class="flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                            Sourcing
+                        </span>
+                    </button>
+                    <button onclick="switchJourney('applying')" id="applying-pill" class="journey-pill px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-white border-2 border-neutral-200 text-neutral-700 hover:border-primary-300">
+                        <span class="flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                            Applying
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="fixed top-20 left-0 right-0 h-1 bg-neutral-200 z-40">
+        <div id="progress-bar" class="h-full bg-gradient-to-r from-primary-400 to-primary-600 transition-all duration-300 ease-out" style="width: 0%"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden bg-gradient-to-br from-primary-50 via-white to-accent-50 py-20">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-2 bg-primary-100 text-primary-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    AI-Powered Recruitment Intelligence
+                </div>
+
+                <h1 class="text-5xl md:text-6xl font-light text-neutral-900 mb-6">
+                    Transform Hiring with
+                    <span class="font-normal text-primary-600">Confidence</span>
+                </h1>
+
+                <p id="journey-description" class="text-xl text-neutral-700 max-w-3xl mx-auto leading-relaxed mb-8">
+                    From 200+ resumes to 5 high-confidence candidates. Our AI-driven Fit Scores accelerate hiring decisions by <span class="font-semibold text-primary-600">70%</span> while reducing bad hires by <span class="font-semibold text-sage-600">60%</span>.
+                </p>
+
+                <!-- Journey-Specific Stats -->
+                <div id="journey-stats" class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                    <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-primary-200">
+                        <div class="text-3xl font-light text-primary-600 mb-2">70%</div>
+                        <div class="text-sm text-neutral-600 font-medium">Faster Screening</div>
+                    </div>
+                    <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-sage-200">
+                        <div class="text-3xl font-light text-sage-600 mb-2">60%</div>
+                        <div class="text-sm text-neutral-600 font-medium">Fewer Bad Hires</div>
+                    </div>
+                    <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-accent-200">
+                        <div class="text-3xl font-light text-accent-600 mb-2">85%</div>
+                        <div class="text-sm text-neutral-600 font-medium">Confidence Score</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decorative Elements -->
+        <div class="absolute top-20 right-10 w-64 h-64 bg-primary-200/20 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-20 left-10 w-96 h-96 bg-accent-200/20 rounded-full blur-3xl"></div>
+    </section>
+
+    <!-- Main Journey Content -->
+    <main class="container mx-auto px-4 max-w-6xl py-16">
+        <!-- Journey Steps Container -->
+        <div id="journey-content" class="space-y-32">
+            <!-- Hiring Journey Content -->
+            <div id="hiring-content" class="journey-content">
+                <!-- Step 1 -->
+                <div class="step-container opacity-0 transition-all duration-700">
+                    <div class="flex flex-col lg:flex-row gap-12 items-center">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-12 h-12 bg-primary-500 text-white rounded-full flex items-center justify-center text-xl font-light">1</div>
+                                <h3 class="text-3xl font-light text-neutral-900">Upload Job Requirements</h3>
+                            </div>
+                            <p class="text-lg text-neutral-700 leading-relaxed mb-6">
+                                Input your job requirements or import from existing job postings. Our AI automatically extracts key skills, experience levels, and qualifications needed for success.
+                            </p>
+                            <div class="bg-neutral-100 rounded-xl p-4">
+                                <div class="flex items-center gap-2 text-sm text-neutral-600 mb-2">
+                                    <svg class="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    Smart parsing of 50+ job boards and ATS platforms
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="bg-white rounded-2xl border border-neutral-200 shadow-lg p-8 relative overflow-hidden">
+                                <div class="absolute top-4 right-4 w-2 h-2 bg-primary-500 rounded-full animate-pulse"></div>
+                                <div class="space-y-4">
+                                    <div class="h-4 bg-neutral-200 rounded w-3/4"></div>
+                                    <div class="h-4 bg-neutral-200 rounded w-1/2"></div>
+                                    <div class="h-4 bg-primary-200 rounded w-5/6"></div>
+                                    <div class="h-4 bg-neutral-200 rounded w-2/3"></div>
+                                    <div class="flex gap-2 mt-6">
+                                        <div class="px-3 py-1 bg-primary-100 text-primary-700 rounded-full text-sm">React</div>
+                                        <div class="px-3 py-1 bg-primary-100 text-primary-700 rounded-full text-sm">5+ Years</div>
+                                        <div class="px-3 py-1 bg-primary-100 text-primary-700 rounded-full text-sm">Remote</div>
+                                    </div>
+                                </div>
+                                <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-400 to-primary-600"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step-container opacity-0 transition-all duration-700">
+                    <div class="flex flex-col lg:flex-row-reverse gap-12 items-center">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-12 h-12 bg-primary-500 text-white rounded-full flex items-center justify-center text-xl font-light">2</div>
+                                <h3 class="text-3xl font-light text-neutral-900">AI-Powered Candidate Matching</h3>
+                            </div>
+                            <p class="text-lg text-neutral-700 leading-relaxed mb-6">
+                                Our AI analyzes hundreds of resumes, evaluating technical skills, experience relevance, and soft indicators. Each candidate receives a comprehensive Fit Score breakdown.
+                            </p>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-sage-50 rounded-lg p-3 border border-sage-200">
+                                    <div class="text-sm text-sage-700 font-medium mb-1">Technical Match</div>
+                                    <div class="text-2xl font-light text-sage-600">TMS</div>
+                                </div>
+                                <div class="bg-professional-50 rounded-lg p-3 border border-professional-200">
+                                    <div class="text-sm text-professional-700 font-medium mb-1">Soft Skills</div>
+                                    <div class="text-2xl font-light text-professional-600">SRS</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="bg-white rounded-2xl border border-neutral-200 shadow-lg p-8">
+                                <div class="text-center mb-6">
+                                    <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-sage-400 to-sage-600 text-white text-3xl font-light mb-4">
+                                        87
+                                    </div>
+                                    <div class="text-sm text-neutral-600 font-medium">Fit Score</div>
+                                </div>
+                                <div class="space-y-3">
+                                    <div>
+                                        <div class="flex justify-between text-sm mb-1">
+                                            <span class="text-neutral-700">Technical Skills</span>
+                                            <span class="font-medium text-sage-600">92%</span>
+                                        </div>
+                                        <div class="h-2 bg-neutral-200 rounded-full overflow-hidden">
+                                            <div class="h-full bg-sage-500 rounded-full" style="width: 92%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-sm mb-1">
+                                            <span class="text-neutral-700">Experience Level</span>
+                                            <span class="font-medium text-professional-600">85%</span>
+                                        </div>
+                                        <div class="h-2 bg-neutral-200 rounded-full overflow-hidden">
+                                            <div class="h-full bg-professional-500 rounded-full" style="width: 85%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-sm mb-1">
+                                            <span class="text-neutral-700">Soft Skills</span>
+                                            <span class="font-medium text-accent-600">78%</span>
+                                        </div>
+                                        <div class="h-2 bg-neutral-200 rounded-full overflow-hidden">
+                                            <div class="h-full bg-accent-500 rounded-full" style="width: 78%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step-container opacity-0 transition-all duration-700">
+                    <div class="flex flex-col lg:flex-row gap-12 items-center">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-12 h-12 bg-primary-500 text-white rounded-full flex items-center justify-center text-xl font-light">3</div>
+                                <h3 class="text-3xl font-light text-neutral-900">Peer Validation Boost</h3>
+                            </div>
+                            <p class="text-lg text-neutral-700 leading-relaxed mb-6">
+                                Candidates share referral links with colleagues who can validate their skills. Each validated skill increases their Referral Network Score (RNS) and overall confidence.
+                            </p>
+                            <div class="bg-accent-50 rounded-xl p-4 border border-accent-200">
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-8 h-8 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                    </svg>
+                                    <div>
+                                        <div class="text-sm font-medium text-accent-800">+15 Point RNS Boost</div>
+                                        <div class="text-xs text-accent-600">Each peer validation adds confidence</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="bg-white rounded-2xl border border-neutral-200 shadow-lg p-8">
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between p-3 bg-neutral-50 rounded-lg">
+                                        <div class="flex items-center gap-3">
+                                            <img src="https://picsum.photos/seed/user1/40/40.jpg" alt="Referrer" class="w-10 h-10 rounded-full">
+                                            <div>
+                                                <div class="font-medium text-neutral-900">Alex Chen</div>
+                                                <div class="text-sm text-neutral-600">Senior Developer</div>
+                                            </div>
+                                        </div>
+                                        <div class="text-sm font-medium text-sage-600">Validated React</div>
+                                    </div>
+                                    <div class="flex items-center justify-between p-3 bg-neutral-50 rounded-lg">
+                                        <div class="flex items-center gap-3">
+                                            <img src="https://picsum.photos/seed/user2/40/40.jpg" alt="Referrer" class="w-10 h-10 rounded-full">
+                                            <div>
+                                                <div class="font-medium text-neutral-900">Sarah Miller</div>
+                                                <div class="text-sm text-neutral-600">Tech Lead</div>
+                                            </div>
+                                        </div>
+                                        <div class="text-sm font-medium text-sage-600">Validated TypeScript</div>
+                                    </div>
+                                    <div class="flex items-center justify-between p-3 bg-neutral-50 rounded-lg">
+                                        <div class="flex items-center gap-3">
+                                            <img src="https://picsum.photos/seed/user3/40/40.jpg" alt="Referrer" class="w-10 h-10 rounded-full">
+                                            <div>
+                                                <div class="font-medium text-neutral-900">Mike Johnson</div>
+                                                <div class="text-sm text-neutral-600">CTO</div>
+                                            </div>
+                                        </div>
+                                        <div class="text-sm font-medium text-sage-600">Validated Leadership</div>
+                                    </div>
+                                </div>
+                                <div class="mt-6 text-center">
+                                    <div class="inline-flex items-center gap-2 bg-accent-100 text-accent-700 px-4 py-2 rounded-full text-sm font-medium">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                        </svg>
+                                        RNS Score: 92/100
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="step-container opacity-0 transition-all duration-700">
+                    <div class="flex flex-col lg:flex-row-reverse gap-12 items-center">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-12 h-12 bg-primary-500 text-white rounded-full flex items-center justify-center text-xl font-light">4</div>
+                                <h3 class="text-3xl font-light text-neutral-900">Intelligent Shortlisting</h3>
+                            </div>
+                            <p class="text-lg text-neutral-700 leading-relaxed mb-6">
+                                Review your top 5 candidates with detailed breakdowns. Compare Fit Scores, skill alignments, and peer validations side-by-side to make confident decisions.
+                            </p>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-primary-50 rounded-lg p-4 border border-primary-200">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <span class="text-sm font-medium text-primary-800">Top 5 Candidates</span>
+                                    </div>
+                                    <div class="text-xs text-primary-600">From 200+ applications</div>
+                                </div>
+                                <div class="bg-sage-50 rounded-lg p-4 border border-sage-200">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <svg class="w-5 h-5 text-sage-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                        </svg>
+                                        <span class="text-sm font-medium text-sage-800">85% Match Rate</span>
+                                    </div>
+                                    <div class="text-xs text-sage-600">Average success placement</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="bg-white rounded-2xl border border-neutral-200 shadow-lg p-8">
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between p-3 bg-accent-50 rounded-lg border border-accent-200">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-accent-400 to-accent-600 text-white flex items-center justify-center font-bold">
+                                                92
+                                            </div>
+                                            <div>
+                                                <div class="font-medium text-neutral-900">Sarah Chen</div>
+                                                <div class="text-sm text-neutral-600">Senior Frontend Dev</div>
+                                            </div>
+                                        </div>
+                                        <div class="text-xs text-accent-700 font-medium">TOP MATCH</div>
+                                    </div>
+                                    <div class="flex items-center justify-between p-3 bg-sage-50 rounded-lg border border-sage-200">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-sage-400 to-sage-600 text-white flex items-center justify-center font-bold">
+                                                88
+                                            </div>
+                                            <div>
+                                                <div class="font-medium text-neutral-900">Mike Johnson</div>
+                                                <div class="text-sm text-neutral-600">Full Stack Engineer</div>
+                                            </div>
+                                        </div>
+                                        <div class="text-xs text-sage-700 font-medium">STRONG MATCH</div>
+                                    </div>
+                                    <div class="flex items-center justify-between p-3 bg-professional-50 rounded-lg border border-professional-200">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-professional-400 to-professional-600 text-white flex items-center justify-center font-bold">
+                                                85
+                                            </div>
+                                            <div>
+                                                <div class="font-medium text-neutral-900">Emily Davis</div>
+                                                <div class="text-sm text-neutral-600">React Developer</div>
+                                            </div>
+                                        </div>
+                                        <div class="text-xs text-professional-700 font-medium">GOOD MATCH</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="step-container opacity-0 transition-all duration-700">
+                    <div class="flex flex-col lg:flex-row gap-12 items-center">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-12 h-12 bg-primary-500 text-white rounded-full flex items-center justify-center text-xl font-light">5</div>
+                                <h3 class="text-3xl font-light text-neutral-900">Confident Hiring Decisions</h3>
+                            </div>
+                            <p class="text-lg text-neutral-700 leading-relaxed mb-6">
+                                Move forward with your top candidates armed with AI insights and peer validations. Schedule interviews with confidence knowing each candidate has been thoroughly vetted.
+                            </p>
+                            <div class="flex gap-4">
+                                <button class="px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md">
+                                    Schedule Interviews
+                                </button>
+                                <button class="px-6 py-3 bg-white border-2 border-primary-500 text-primary-600 hover:bg-primary-50 font-medium rounded-lg transition-colors duration-200">
+                                    View Full Reports
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="bg-gradient-to-br from-primary-50 to-accent-50 rounded-2xl border border-primary-200 shadow-lg p-8 text-center">
+                                <div class="mb-6">
+                                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white shadow-lg mb-4">
+                                        <svg class="w-10 h-10 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <h4 class="text-2xl font-light text-neutral-900 mb-2">Ready to Interview</h4>
+                                    <p class="text-neutral-600">Your top 5 candidates are pre-vetted and ready</p>
+                                </div>
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div class="bg-white/80 backdrop-blur rounded-lg p-3">
+                                        <div class="text-xl font-light text-primary-600">70%</div>
+                                        <div class="text-xs text-neutral-600">Time Saved</div>
+                                    </div>
+                                    <div class="bg-white/80 backdrop-blur rounded-lg p-3">
+                                        <div class="text-xl font-light text-sage-600">60%</div>
+                                        <div class="text-xs text-neutral-600">Fewer Bad Hires</div>
+                                    </div>
+                                    <div class="bg-white/80 backdrop-blur rounded-lg p-3">
+                                        <div class="text-xl font-light text-accent-600">85%</div>
+                                        <div class="text-xs text-neutral-600">Confidence</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rally Navigator Module -->
+            <div class="py-16 border-t border-neutral-200">
+                <div class="max-w-4xl mx-auto">
+                    <div class="text-center mb-12">
+                        <h3 class="text-3xl font-light text-neutral-900 mb-4">Rally Navigator Dashboard</h3>
+                        <p class="text-lg text-neutral-600">Real-time insights and performance metrics</p>
+                    </div>
+
+                    <div class="bg-white rounded-3xl border border-neutral-200 shadow-xl p-8">
+                        <!-- Dashboard Header -->
+                        <div class="flex items-center justify-between mb-8">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 bg-gradient-to-br from-primary-400 to-primary-600 rounded-2xl flex items-center justify-center">
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-normal text-neutral-900">Performance Dashboard</h4>
+                                    <p class="text-sm text-neutral-600">Live recruitment metrics</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 bg-sage-500 rounded-full animate-pulse"></div>
+                                <span class="text-sm text-sage-600 font-medium">Live</span>
+                            </div>
+                        </div>
+
+                        <!-- Speedometer Metrics -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                            <div class="text-center">
+                                <div class="relative w-32 h-32 mx-auto mb-4">
+                                    <svg class="transform -rotate-90 w-32 h-32">
+                                        <circle cx="64" cy="64" r="56" stroke="#E7E5E5" stroke-width="12" fill="none"></circle>
+                                        <circle cx="64" cy="64" r="56" stroke="#22C55E" stroke-width="12" fill="none"
+                                                stroke-dasharray="351.86" stroke-dashoffset="88" stroke-linecap="round"></circle>
+                                    </svg>
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <span class="text-2xl font-light text-sage-600">75%</span>
+                                    </div>
+                                </div>
+                                <div class="text-sm font-medium text-neutral-700">Screening Speed</div>
+                                <div class="text-xs text-neutral-500">vs industry avg</div>
+                            </div>
+
+                            <div class="text-center">
+                                <div class="relative w-32 h-32 mx-auto mb-4">
+                                    <svg class="transform -rotate-90 w-32 h-32">
+                                        <circle cx="64" cy="64" r="56" stroke="#E7E5E5" stroke-width="12" fill="none"></circle>
+                                        <circle cx="64" cy="64" r="56" stroke="#F59E0B" stroke-width="12" fill="none"
+                                                stroke-dasharray="351.86" stroke-dashoffset="70" stroke-linecap="round"></circle>
+                                    </svg>
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <span class="text-2xl font-light text-accent-600">80%</span>
+                                    </div>
+                                </div>
+                                <div class="text-sm font-medium text-neutral-700">Quality Score</div>
+                                <div class="text-xs text-neutral-500">candidate fit</div>
+                            </div>
+
+                            <div class="text-center">
+                                <div class="relative w-32 h-32 mx-auto mb-4">
+                                    <svg class="transform -rotate-90 w-32 h-32">
+                                        <circle cx="64" cy="64" r="56" stroke="#E7E5E5" stroke-width="12" fill="none"></circle>
+                                        <circle cx="64" cy="64" r="56" stroke="#EA580C" stroke-width="12" fill="none"
+                                                stroke-dasharray="351.86" stroke-dashoffset="53" stroke-linecap="round"></circle>
+                                    </svg>
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <span class="text-2xl font-light text-primary-600">85%</span>
+                                    </div>
+                                </div>
+                                <div class="text-sm font-medium text-neutral-700">Satisfaction</div>
+                                <div class="text-xs text-neutral-500">recruiter rating</div>
+                            </div>
+                        </div>
+
+                        <!-- Action Stats -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="bg-sage-50 rounded-xl p-4 border border-sage-200">
+                                <div class="text-2xl font-light text-sage-600 mb-1">247</div>
+                                <div class="text-xs text-sage-700 font-medium">Candidates Screened</div>
+                            </div>
+                            <div class="bg-primary-50 rounded-xl p-4 border border-primary-200">
+                                <div class="text-2xl font-light text-primary-600 mb-1">42</div>
+                                <div class="text-xs text-primary-700 font-medium">Interviews Scheduled</div>
+                            </div>
+                            <div class="bg-accent-50 rounded-xl p-4 border border-accent-200">
+                                <div class="text-2xl font-light text-accent-600 mb-1">8</div>
+                                <div class="text-xs text-accent-700 font-medium">Positions Filled</div>
+                            </div>
+                            <div class="bg-professional-50 rounded-xl p-4 border border-professional-200">
+                                <div class="text-2xl font-light text-professional-600 mb-1">92%</div>
+                                <div class="text-xs text-professional-700 font-medium">Retention Rate</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ATS Integration Preview -->
+            <div class="py-16 border-t border-neutral-200">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h3 class="text-3xl font-light text-neutral-900 mb-4">Seamless ATS Integration</h3>
+                    <p class="text-lg text-neutral-600 mb-12">Works with your existing recruitment ecosystem</p>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div class="bg-white rounded-xl border border-neutral-200 p-6 hover:shadow-lg transition-shadow duration-300">
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                                <span class="text-blue-600 font-bold text-lg">GH</span>
+                            </div>
+                            <div class="text-sm font-medium text-neutral-900">Greenhouse</div>
+                        </div>
+                        <div class="bg-white rounded-xl border border-neutral-200 p-6 hover:shadow-lg transition-shadow duration-300">
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                                <span class="text-green-600 font-bold text-lg">LH</span>
+                            </div>
+                            <div class="text-sm font-medium text-neutral-900">Lever</div>
+                        </div>
+                        <div class="bg-white rounded-xl border border-neutral-200 p-6 hover:shadow-lg transition-shadow duration-300">
+                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                                <span class="text-purple-600 font-bold text-lg">WC</span>
+                            </div>
+                            <div class="text-sm font-medium text-neutral-900">Workday</div>
+                        </div>
+                        <div class="bg-white rounded-xl border border-neutral-200 p-6 hover:shadow-lg transition-shadow duration-300">
+                            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                                <span class="text-orange-600 font-bold text-lg">SF</span>
+                            </div>
+                            <div class="text-sm font-medium text-neutral-900">SmartRecruiters</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Final CTA -->
+            <div class="py-16 text-center">
+                <div class="bg-gradient-to-r from-primary-500 to-primary-600 rounded-3xl p-12 text-white">
+                    <h3 class="text-3xl font-light mb-4">Transform Your Recruitment Process</h3>
+                    <p class="text-xl mb-8 opacity-90">Join hundreds of companies hiring smarter with AI-powered Fit Scores</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button class="px-8 py-4 bg-white text-primary-600 font-medium rounded-lg hover:bg-neutral-50 transition-colors duration-200 shadow-lg">
+                            Start Free Trial
+                        </button>
+                        <button class="px-8 py-4 bg-primary-700 text-white font-medium rounded-lg hover:bg-primary-800 transition-colors duration-200">
+                            Schedule Demo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Journey switching functionality
+        let currentJourney = 'hiring';
+        const journeys = {
+            hiring: {
+                description: 'From 200+ resumes to 5 high-confidence candidates. Our AI-driven Fit Scores accelerate hiring decisions by <span class="font-semibold text-primary-600">70%</span> while reducing bad hires by <span class="font-semibold text-sage-600">60%</span>.',
+                stats: [
+                    { value: '70%', label: 'Faster Screening', color: 'primary' },
+                    { value: '60%', label: 'Fewer Bad Hires', color: 'sage' },
+                    { value: '85%', label: 'Confidence Score', color: 'accent' }
+                ],
+                color: 'primary'
+            },
+            sourcing: {
+                description: 'Maximize your placement potential with AI-validated candidates. Source smarter with <span class="font-semibold text-accent-600">45% higher commissions</span> and <span class="font-semibold text-sage-600">90% client retention</span>.',
+                stats: [
+                    { value: '70%', label: 'Faster Placements', color: 'primary' },
+                    { value: '45%', label: 'Higher Commissions', color: 'accent' },
+                    { value: '90%', label: 'Client Retention', color: 'sage' }
+                ],
+                color: 'accent'
+            },
+            applying: {
+                description: 'Stand out from the crowd with validated Fit Scores. Get <span class="font-semibold text-professional-600">3x more interviews</span> and find roles with <span class="font-semibold text-sage-600">92% satisfaction</span>.',
+                stats: [
+                    { value: '3x', label: 'More Interviews', color: 'professional' },
+                    { value: '65%', label: 'Faster Job Search', color: 'primary' },
+                    { value: '92%', label: 'Role Satisfaction', color: 'sage' }
+                ],
+                color: 'professional'
+            }
+        };
+
+        function switchJourney(journey) {
+            currentJourney = journey;
+            const journeyData = journeys[journey];
+
+            // Update pills
+            document.querySelectorAll('.journey-pill').forEach(pill => {
+                pill.classList.remove('bg-primary-500', 'text-white', 'shadow-md', 'bg-accent-500', 'bg-professional-500');
+                pill.classList.add('bg-white', 'border-2', 'border-neutral-200', 'text-neutral-700');
+            });
+
+            const activePill = document.getElementById(`${journey}-pill`);
+            activePill.classList.remove('bg-white', 'border-2', 'border-neutral-200', 'text-neutral-700');
+
+            if (journey === 'hiring') {
+                activePill.classList.add('bg-primary-500', 'text-white', 'shadow-md');
+            } else if (journey === 'sourcing') {
+                activePill.classList.add('bg-accent-500', 'text-white', 'shadow-md');
+            } else if (journey === 'applying') {
+                activePill.classList.add('bg-professional-500', 'text-white', 'shadow-md');
+            }
+
+            // Update description
+            document.getElementById('journey-description').innerHTML = journeyData.description;
+
+            // Update stats
+            const statsContainer = document.getElementById('journey-stats');
+            statsContainer.innerHTML = journeyData.stats.map(stat => `
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-${stat.color}-200">
+                    <div class="text-3xl font-light text-${stat.color}-600 mb-2">${stat.value}</div>
+                    <div class="text-sm text-neutral-600 font-medium">${stat.label}</div>
+                </div>
+            `).join('');
+
+            // Reset animations
+            document.querySelectorAll('.step-container').forEach((step, index) => {
+                step.style.opacity = '0';
+                step.style.transform = 'translateY(20px)';
+            });
+
+            // Trigger reflow
+            void document.body.offsetWidth;
+
+            // Re-animate steps
+            setTimeout(() => {
+                document.querySelectorAll('.step-container').forEach((step, index) => {
+                    setTimeout(() => {
+                        step.style.opacity = '1';
+                        step.style.transform = 'translateY(0)';
+                    }, index * 200);
+                });
+            }, 100);
+        }
+
+        // Scroll-based animations and progress
+        let scoreAnimationStarted = false;
+
+        function updateProgressBar() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollProgress = (scrollTop / scrollHeight) * 100;
+
+            document.getElementById('progress-bar').style.width = scrollProgress + '%';
+
+            // Animate steps based on scroll
+            document.querySelectorAll('.step-container').forEach((step, index) => {
+                const rect = step.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+
+                if (isVisible && step.style.opacity === '0') {
+                    setTimeout(() => {
+                        step.style.opacity = '1';
+                        step.style.transform = 'translateY(0)';
+                    }, index * 100);
+                }
+            });
+
+            // Trigger score animation when reaching specific sections
+            if (!scoreAnimationStarted && scrollProgress > 20) {
+                scoreAnimationStarted = true;
+                animateScoreElements();
+            }
+        }
+
+        function animateScoreElements() {
+            document.querySelectorAll('[data-score]').forEach(element => {
+                const targetScore = parseInt(element.dataset.score);
+                let currentScore = 0;
+                const increment = targetScore / 30;
+
+                const timer = setInterval(() => {
+                    currentScore += increment;
+                    if (currentScore >= targetScore) {
+                        currentScore = targetScore;
+                        clearInterval(timer);
+                    }
+                    element.textContent = Math.round(currentScore);
+                }, 50);
+            });
+        }
+
+        // Initialize scroll listeners
+        window.addEventListener('scroll', updateProgressBar);
+        window.addEventListener('resize', updateProgressBar);
+
+        // Initial animation on load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateProgressBar();
+
+            // Animate first step
+            setTimeout(() => {
+                document.querySelector('.step-container').style.opacity = '1';
+                document.querySelector('.step-container').style.transform = 'translateY(0)';
+            }, 500);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

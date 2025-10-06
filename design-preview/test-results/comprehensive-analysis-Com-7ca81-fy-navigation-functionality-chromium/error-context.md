@@ -1,0 +1,323 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - heading "Skylevel Design Territories" [level=1] [ref=e8]
+        - paragraph [ref=e9]: Compare and evaluate different design approaches for the recruitment platform
+      - generic [ref=e10]:
+        - heading "Select Design Territory" [level=2] [ref=e11]
+        - generic [ref=e12]:
+          - button "Territory A Confident Clarity ✓" [ref=e13]:
+            - generic [ref=e14]:
+              - generic [ref=e15]: Territory A
+              - generic [ref=e16]: Confident Clarity
+            - generic [ref=e17]: ✓
+          - button "Territory B Thoughtful & Calm" [ref=e18]:
+            - generic [ref=e19]:
+              - generic [ref=e20]: Territory B
+              - generic [ref=e21]: Thoughtful & Calm
+          - button "Territory C Professional Efficiency" [ref=e22]:
+            - generic [ref=e23]:
+              - generic [ref=e24]: Territory C
+              - generic [ref=e25]: Professional Efficiency
+      - generic [ref=e26]:
+        - heading "Select View" [level=2] [ref=e27]
+        - generic [ref=e28]:
+          - button "Dashboard" [ref=e29]
+          - button "Fit Queue" [active] [ref=e30]
+  - main [ref=e31]:
+    - generic [ref=e32]: Territory A - FitQueue View
+    - generic [ref=e33]:
+      - generic [ref=e36]:
+        - generic [ref=e37]:
+          - heading "Fit Queue" [level=1] [ref=e38]
+          - paragraph [ref=e39]: Review and evaluate candidates with AI-powered Fit Scores
+        - generic [ref=e40]:
+          - generic [ref=e42]: 5 Candidates
+          - button "Create Shortlist" [ref=e43]:
+            - img [ref=e44]
+            - text: Create Shortlist
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - generic [ref=e48]:
+            - generic [ref=e49]:
+              - img [ref=e50]
+              - textbox "Search candidates by name, skills, or location..." [ref=e53]
+            - generic [ref=e54]:
+              - combobox [ref=e55]:
+                - option "All Experience Levels" [selected]
+                - option "Entry Level (0-2 years)"
+                - option "Mid Level (3-5 years)"
+                - option "Senior Level (6+ years)"
+              - combobox [ref=e56]:
+                - option "All Locations" [selected]
+                - option "San Francisco, CA"
+                - option "New York, NY"
+                - option "Austin, TX"
+                - option "Seattle, WA"
+                - option "Boston, MA"
+              - button "Advanced Filters" [ref=e57]:
+                - img [ref=e58]
+                - text: Advanced Filters
+          - generic [ref=e60]:
+            - generic [ref=e61]: "Fit Score Range:"
+            - generic [ref=e62]:
+              - slider [ref=e63]: "50"
+              - generic [ref=e64]: 0 - 100
+        - generic [ref=e65]:
+          - generic [ref=e66]:
+            - generic [ref=e67]: "Sort by:"
+            - combobox [ref=e68]:
+              - option "Fit Score" [selected]
+              - option "Applied Date"
+              - option "Name"
+            - button [ref=e69]:
+              - img [ref=e70]
+          - generic [ref=e72]:
+            - img [ref=e73]
+            - generic [ref=e78]: Showing 5 candidates
+        - generic [ref=e79]:
+          - generic [ref=e82]:
+            - generic [ref=e83]:
+              - checkbox [ref=e84]
+              - generic [ref=e85]:
+                - generic [ref=e86]:
+                  - heading "Sarah Johnson" [level=3] [ref=e87]
+                  - generic [ref=e88]:
+                    - img [ref=e89]
+                    - text: New
+                  - generic [ref=e92]:
+                    - img [ref=e93]
+                    - text: "92"
+                - generic [ref=e96]:
+                  - generic [ref=e97]:
+                    - img [ref=e98]
+                    - generic [ref=e101]: Senior Frontend Developer
+                  - generic [ref=e102]:
+                    - img [ref=e103]
+                    - generic [ref=e106]: San Francisco, CA
+                  - generic [ref=e107]:
+                    - img [ref=e108]
+                    - generic [ref=e110]: 8 years
+                - generic [ref=e111]:
+                  - generic [ref=e112]: React
+                  - generic [ref=e113]: TypeScript
+                  - generic [ref=e114]: Node.js
+                  - generic [ref=e115]: AWS
+                  - generic [ref=e116]: GraphQL
+                - generic [ref=e117]:
+                  - generic [ref=e118]:
+                    - generic [ref=e119]: Technical Match
+                    - generic [ref=e120]: 95%
+                  - generic [ref=e121]:
+                    - generic [ref=e122]: Soft Skills
+                    - generic [ref=e123]: 88%
+                  - generic [ref=e124]:
+                    - generic [ref=e125]: Referral Network
+                    - generic [ref=e126]: 91%
+                - generic [ref=e127]:
+                  - generic [ref=e128]: "Applied: 2 hours ago"
+                  - generic [ref=e129]: •
+                  - generic [ref=e130]: "Source: LinkedIn"
+                  - generic [ref=e131]: •
+                  - generic [ref=e132]: "Last active: 5 minutes ago"
+            - generic [ref=e133]:
+              - button "View Profile" [ref=e134]
+              - button "Add to Shortlist" [ref=e135]
+              - button "Show Details" [ref=e136]
+          - generic [ref=e139]:
+            - generic [ref=e140]:
+              - checkbox [ref=e141]
+              - generic [ref=e142]:
+                - generic [ref=e143]:
+                  - heading "Michael Chen" [level=3] [ref=e144]
+                  - generic [ref=e145]:
+                    - img [ref=e146]
+                    - text: Reviewing
+                  - generic [ref=e149]:
+                    - img [ref=e150]
+                    - text: "88"
+                - generic [ref=e153]:
+                  - generic [ref=e154]:
+                    - img [ref=e155]
+                    - generic [ref=e158]: Full Stack Engineer
+                  - generic [ref=e159]:
+                    - img [ref=e160]
+                    - generic [ref=e163]: New York, NY
+                  - generic [ref=e164]:
+                    - img [ref=e165]
+                    - generic [ref=e167]: 6 years
+                - generic [ref=e168]:
+                  - generic [ref=e169]: Python
+                  - generic [ref=e170]: Django
+                  - generic [ref=e171]: React
+                  - generic [ref=e172]: PostgreSQL
+                  - generic [ref=e173]: Docker
+                - generic [ref=e174]:
+                  - generic [ref=e175]:
+                    - generic [ref=e176]: Technical Match
+                    - generic [ref=e177]: 90%
+                  - generic [ref=e178]:
+                    - generic [ref=e179]: Soft Skills
+                    - generic [ref=e180]: 85%
+                  - generic [ref=e181]:
+                    - generic [ref=e182]: Referral Network
+                    - generic [ref=e183]: 87%
+                - generic [ref=e184]:
+                  - generic [ref=e185]: "Applied: 4 hours ago"
+                  - generic [ref=e186]: •
+                  - generic [ref=e187]: "Source: Referral"
+                  - generic [ref=e188]: •
+                  - generic [ref=e189]: "Last active: 1 hour ago"
+            - generic [ref=e190]:
+              - button "View Profile" [ref=e191]
+              - button "Add to Shortlist" [ref=e192]
+              - button "Show Details" [ref=e193]
+          - generic [ref=e196]:
+            - generic [ref=e197]:
+              - checkbox [ref=e198]
+              - generic [ref=e199]:
+                - generic [ref=e200]:
+                  - heading "David Kim" [level=3] [ref=e201]
+                  - generic [ref=e202]:
+                    - img [ref=e203]
+                    - text: Reviewing
+                  - generic [ref=e206]:
+                    - img [ref=e207]
+                    - text: "85"
+                - generic [ref=e210]:
+                  - generic [ref=e211]:
+                    - img [ref=e212]
+                    - generic [ref=e215]: DevOps Engineer
+                  - generic [ref=e216]:
+                    - img [ref=e217]
+                    - generic [ref=e220]: Seattle, WA
+                  - generic [ref=e221]:
+                    - img [ref=e222]
+                    - generic [ref=e224]: 7 years
+                - generic [ref=e225]:
+                  - generic [ref=e226]: Kubernetes
+                  - generic [ref=e227]: Terraform
+                  - generic [ref=e228]: Jenkins
+                  - generic [ref=e229]: AWS
+                  - generic [ref=e230]: Python
+                - generic [ref=e231]:
+                  - generic [ref=e232]:
+                    - generic [ref=e233]: Technical Match
+                    - generic [ref=e234]: 88%
+                  - generic [ref=e235]:
+                    - generic [ref=e236]: Soft Skills
+                    - generic [ref=e237]: 80%
+                  - generic [ref=e238]:
+                    - generic [ref=e239]: Referral Network
+                    - generic [ref=e240]: 85%
+                - generic [ref=e241]:
+                  - generic [ref=e242]: "Applied: 1 day ago"
+                  - generic [ref=e243]: •
+                  - generic [ref=e244]: "Source: GitHub"
+                  - generic [ref=e245]: •
+                  - generic [ref=e246]: "Last active: 30 minutes ago"
+            - generic [ref=e247]:
+              - button "View Profile" [ref=e248]
+              - button "Add to Shortlist" [ref=e249]
+              - button "Show Details" [ref=e250]
+          - generic [ref=e253]:
+            - generic [ref=e254]:
+              - checkbox [ref=e255]
+              - generic [ref=e256]:
+                - generic [ref=e257]:
+                  - heading "Emily Rodriguez" [level=3] [ref=e258]
+                  - generic [ref=e259]:
+                    - img [ref=e260]
+                    - text: Shortlisted
+                  - generic [ref=e263]:
+                    - img [ref=e264]
+                    - text: "79"
+                - generic [ref=e267]:
+                  - generic [ref=e268]:
+                    - img [ref=e269]
+                    - generic [ref=e272]: Product Designer
+                  - generic [ref=e273]:
+                    - img [ref=e274]
+                    - generic [ref=e277]: Austin, TX
+                  - generic [ref=e278]:
+                    - img [ref=e279]
+                    - generic [ref=e281]: 5 years
+                - generic [ref=e282]:
+                  - generic [ref=e283]: Figma
+                  - generic [ref=e284]: Sketch
+                  - generic [ref=e285]: Adobe XD
+                  - generic [ref=e286]: Prototyping
+                  - generic [ref=e287]: User Research
+                - generic [ref=e288]:
+                  - generic [ref=e289]:
+                    - generic [ref=e290]: Technical Match
+                    - generic [ref=e291]: 82%
+                  - generic [ref=e292]:
+                    - generic [ref=e293]: Soft Skills
+                    - generic [ref=e294]: 85%
+                  - generic [ref=e295]:
+                    - generic [ref=e296]: Referral Network
+                    - generic [ref=e297]: 68%
+                - generic [ref=e298]:
+                  - generic [ref=e299]: "Applied: 1 day ago"
+                  - generic [ref=e300]: •
+                  - generic [ref=e301]: "Source: Company Website"
+                  - generic [ref=e302]: •
+                  - generic [ref=e303]: "Last active: 3 hours ago"
+            - generic [ref=e304]:
+              - button "View Profile" [ref=e305]
+              - button "Add to Shortlist" [ref=e306]
+              - button "Show Details" [ref=e307]
+          - generic [ref=e310]:
+            - generic [ref=e311]:
+              - checkbox [ref=e312]
+              - generic [ref=e313]:
+                - generic [ref=e314]:
+                  - heading "Jessica Taylor" [level=3] [ref=e315]
+                  - generic [ref=e316]:
+                    - img [ref=e317]
+                    - text: New
+                  - generic [ref=e320]:
+                    - img [ref=e321]
+                    - text: "71"
+                - generic [ref=e324]:
+                  - generic [ref=e325]:
+                    - img [ref=e326]
+                    - generic [ref=e329]: Backend Developer
+                  - generic [ref=e330]:
+                    - img [ref=e331]
+                    - generic [ref=e334]: Boston, MA
+                  - generic [ref=e335]:
+                    - img [ref=e336]
+                    - generic [ref=e338]: 4 years
+                - generic [ref=e339]:
+                  - generic [ref=e340]: Java
+                  - generic [ref=e341]: Spring Boot
+                  - generic [ref=e342]: MySQL
+                  - generic [ref=e343]: Redis
+                  - generic [ref=e344]: Microservices
+                - generic [ref=e345]:
+                  - generic [ref=e346]:
+                    - generic [ref=e347]: Technical Match
+                    - generic [ref=e348]: 75%
+                  - generic [ref=e349]:
+                    - generic [ref=e350]: Soft Skills
+                    - generic [ref=e351]: 70%
+                  - generic [ref=e352]:
+                    - generic [ref=e353]: Referral Network
+                    - generic [ref=e354]: 65%
+                - generic [ref=e355]:
+                  - generic [ref=e356]: "Applied: 2 days ago"
+                  - generic [ref=e357]: •
+                  - generic [ref=e358]: "Source: Indeed"
+                  - generic [ref=e359]: •
+                  - generic [ref=e360]: "Last active: 2 hours ago"
+            - generic [ref=e361]:
+              - button "View Profile" [ref=e362]
+              - button "Add to Shortlist" [ref=e363]
+              - button "Show Details" [ref=e364]
+```

@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skylevel - AI-Powered Candidate Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Base (True Black & White)
+                        white: '#FFFFFF',
+                        black: '#000000',
+
+                        // Neutral Grays (Cool-toned for modern feel)
+                        neutral: {
+                            50: '#F9FAFB',
+                            100: '#F3F4F6',
+                            200: '#E5E7EB',
+                            300: '#D1D5DB',
+                            400: '#9CA3AF',
+                            500: '#6B7280',
+                            600: '#4B5563',
+                            700: '#374151',
+                            800: '#1F2937',
+                            900: '#111827',
+                            950: '#030712',
+                        },
+
+                        // Primary: Electric Blue (Modern, Trustworthy)
+                        primary: {
+                            50: '#EFF6FF',
+                            100: '#DBEAFE',
+                            200: '#BFDBFE',
+                            300: '#93C5FD',
+                            400: '#60A5FA',
+                            500: '#3B82F6',
+                            600: '#2563EB',
+                            700: '#1D4ED8',
+                            800: '#1E40AF',
+                            900: '#1E3A8A',
+                            950: '#172554',
+                        },
+
+                        // Accent: Vivid Purple (AI/Intelligence)
+                        accent: {
+                            50: '#FAF5FF',
+                            100: '#F3E8FF',
+                            200: '#E9D5FF',
+                            300: '#D8B4FE',
+                            400: '#C084FC',
+                            500: '#A855F7',
+                            600: '#9333EA',
+                            700: '#7E22CE',
+                            800: '#6B21A8',
+                            900: '#581C87',
+                            950: '#3B0764',
+                        },
+
+                        // Success: Emerald Green
+                        success: {
+                            50: '#ECFDF5',
+                            100: '#D1FAE5',
+                            200: '#A7F3D0',
+                            300: '#6EE7B7',
+                            400: '#34D399',
+                            500: '#10B981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065F46',
+                            900: '#064E3B',
+                        },
+
+                        // Warning: Amber
+                        warning: {
+                            50: '#FFFBEB',
+                            100: '#FEF3C7',
+                            200: '#FDE68A',
+                            300: '#FCD34D',
+                            400: '#FBBF24',
+                            500: '#F59E0B',
+                            600: '#D97706',
+                            700: '#B45309',
+                            800: '#92400E',
+                            900: '#78350F',
+                        },
+
+                        // Error: Rose Red
+                        error: {
+                            50: '#FFF1F2',
+                            100: '#FFE4E6',
+                            200: '#FECDD3',
+                            300: '#FDA4AF',
+                            400: '#FB7185',
+                            500: '#F43F5E',
+                            600: '#E11D48',
+                            700: '#BE123C',
+                            800: '#9F1239',
+                            900: '#881337',
+                        },
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    fontSize: {
+                        xs: ['0.75rem', { lineHeight: '1rem', letterSpacing: '0.025em' }],
+                        sm: ['0.875rem', { lineHeight: '1.25rem', letterSpacing: '0.01em' }],
+                        base: ['1rem', { lineHeight: '1.5rem', letterSpacing: '0' }],
+                        lg: ['1.125rem', { lineHeight: '1.75rem', letterSpacing: '-0.01em' }],
+                        xl: ['1.25rem', { lineHeight: '1.875rem', letterSpacing: '-0.015em' }],
+                        '2xl': ['1.5rem', { lineHeight: '2rem', letterSpacing: '-0.02em' }],
+                        '3xl': ['1.875rem', { lineHeight: '2.25rem', letterSpacing: '-0.025em' }],
+                        '4xl': ['2.25rem', { lineHeight: '2.5rem', letterSpacing: '-0.03em' }],
+                        '5xl': ['3rem', { lineHeight: '1.2', letterSpacing: '-0.035em' }],
+                        '6xl': ['3.75rem', { lineHeight: '1.1', letterSpacing: '-0.04em' }],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 300ms ease-out',
+                        'slide-up': 'slideUp 400ms ease-out',
+                        'scale-in': 'scaleIn 300ms ease-out',
+                        'shimmer': 'shimmer 2s linear infinite',
+                        'glow': 'glow 3s ease-in-out infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.9)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        },
+                        shimmer: {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(100%)' },
+                        },
+                        glow: {
+                            '0%, 100%': { opacity: '0.3' },
+                            '50%': { opacity: '0.7' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                    },
+                },
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(31, 41, 55, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.5);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(59, 130, 246, 0.7);
+        }
+
+        /* Glassmorphism base */
+        .glass {
+            background: rgba(17, 24, 39, 0.5);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(31, 41, 55, 0.5);
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #60A5FA 0%, #C084FC 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="bg-black text-white overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass border-b border-neutral-800">
+        <div class="container mx-auto px-4 max-w-7xl">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-8">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-gradient-to-br from-primary-500 to-accent-500 rounded-lg"></div>
+                        <span class="text-xl font-bold">Skylevel</span>
+                    </div>
+                    <div class="hidden md:flex space-x-6">
+                        <a href="#" class="text-neutral-300 hover:text-white transition-colors">Product</a>
+                        <a href="#" class="text-neutral-300 hover:text-white transition-colors">How it Works</a>
+                        <a href="#" class="text-neutral-300 hover:text-white transition-colors">Pricing</a>
+                        <a href="#" class="text-neutral-300 hover:text-white transition-colors">Resources</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="text-neutral-300 hover:text-white transition-colors">Sign In</button>
+                    <button class="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 hover:scale-105">
+                        Get Started
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Gradient background -->
+        <div class="absolute inset-0 bg-gradient-to-br from-black via-neutral-950 to-black"></div>
+
+        <!-- Animated gradient orbs -->
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-500/20 rounded-full blur-3xl animate-glow"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-500/20 rounded-full blur-3xl animate-glow" style="animation-delay: '1s'"></div>
+
+        <div class="relative z-10 container mx-auto px-4 text-center pt-16">
+            <div class="max-w-5xl mx-auto">
+                <h1 class="font-display text-5xl md:text-6xl font-bold text-white mb-6 animate-fade-in">
+                    Start every hire with
+                    <span class="bg-gradient-to-r from-primary-400 to-accent-400 bg-clip-text text-transparent block mt-2">
+                        proof, not guesswork
+                    </span>
+                </h1>
+
+                <p class="text-xl text-neutral-300 mb-12 max-w-2xl mx-auto animate-slide-up">
+                    AI-powered Fit Scores turn 200 resumes into 5 high-confidence candidates.
+                    Stop playing talent roulette and start hiring with intelligence.
+                </p>
+
+                <!-- Journey Pills -->
+                <div class="flex flex-wrap gap-4 justify-center mb-12 animate-scale-in">
+                    <button class="group relative px-6 py-3 rounded-full glass border border-neutral-700 hover:border-primary-500 transition-all duration-300 hover:scale-105">
+                        <span class="flex items-center space-x-2">
+                            <span class="text-2xl">👔</span>
+                            <span class="font-medium">I'm Hiring</span>
+                        </span>
+                        <div class="absolute inset-0 rounded-full bg-gradient-to-r from-primary-500/20 to-accent-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl -z-10"></div>
+                    </button>
+
+                    <button class="group relative px-6 py-3 rounded-full glass border border-neutral-700 hover:border-primary-500 transition-all duration-300 hover:scale-105">
+                        <span class="flex items-center space-x-2">
+                            <span class="text-2xl">🎯</span>
+                            <span class="font-medium">I'm Sourcing</span>
+                        </span>
+                        <div class="absolute inset-0 rounded-full bg-gradient-to-r from-primary-500/20 to-accent-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl -z-10"></div>
+                    </button>
+
+                    <button class="group relative px-6 py-3 rounded-full glass border border-neutral-700 hover:border-primary-500 transition-all duration-300 hover:scale-105">
+                        <span class="flex items-center space-x-2">
+                            <span class="text-2xl">🚀</span>
+                            <span class="font-medium">I'm Applying</span>
+                        </span>
+                        <div class="absolute inset-0 rounded-full bg-gradient-to-r from-primary-500/20 to-accent-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl -z-10"></div>
+                    </button>
+                </div>
+
+                <!-- Primary CTA -->
+                <div class="animate-scale-in">
+                    <button class="relative overflow-hidden group inline-flex items-center space-x-2 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105">
+                        <span class="text-xl">🔶</span>
+                        <span class="relative z-10">Get My Fit Queue Demo</span>
+                        <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                        <!-- Shimmer effect -->
+                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                    </button>
+
+                    <p class="text-sm text-neutral-400 mt-4">No credit card required • 14-day free trial</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <svg class="w-6 h-6 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Pain Points Section -->
+    <section class="relative py-24 bg-gradient-to-b from-black to-neutral-950">
+        <div class="container mx-auto px-4 max-w-7xl">
+            <div class="text-center mb-16">
+                <h2 class="font-display text-4xl font-bold text-white mb-4">
+                    The Cost of Hiring Guesswork
+                </h2>
+                <p class="text-xl text-neutral-300 max-w-2xl mx-auto">
+                    Traditional recruiting is expensive and inefficient. Here's what guesswork really costs you.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Pain Tile 1 -->
+                <div class="group relative glass rounded-2xl p-8 border border-neutral-800 hover:border-error-500/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-error-500/10">
+                    <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-error-500/10 to-error-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl -z-10"></div>
+                    <div class="text-error-400 mb-4">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-18C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">$4,700</h3>
+                    <p class="text-neutral-300 mb-4">Average cost per bad hire</p>
+                    <div class="flex items-center space-x-2 text-sm text-error-400">
+                        <span class="font-medium">86% higher turnover</span>
+                    </div>
+                </div>
+
+                <!-- Pain Tile 2 -->
+                <div class="group relative glass rounded-2xl p-8 border border-neutral-800 hover:border-warning-500/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-warning-500/10">
+                    <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-warning-500/10 to-warning-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl -z-10"></div>
+                    <div class="text-warning-400 mb-4">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">23 hours</h3>
+                    <p class="text-neutral-300 mb-4">Time wasted screening unqualified candidates</p>
+                    <div class="flex items-center space-x-2 text-sm text-warning-400">
+                        <span class="font-medium">Per job opening</span>
+                    </div>
+                </div>
+
+                <!-- Pain Tile 3 -->
+                <div class="group relative glass rounded-2xl p-8 border border-neutral-800 hover:border-error-500/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-error-500/10">
+                    <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-error-500/10 to-error-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl -z-10"></div>
+                    <div class="text-error-400 mb-4">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">60%</h3>
+                    <p class="text-neutral-300 mb-4">Of hiring decisions influenced by unconscious bias</p>
+                    <div class="flex items-center space-x-2 text-sm text-error-400">
+                        <span class="font-medium">Leading to missed opportunities</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fit Score Calculator -->
+    <section class="relative py-24 bg-gradient-to-b from-neutral-950 to-black">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <div class="text-center mb-16">
+                <h2 class="font-display text-4xl font-bold text-white mb-4">
+                    Calculate Your Fit Score
+                </h2>
+                <p class="text-xl text-neutral-300">
+                    See how our AI combines technical skills, soft skills, and peer validation
+                </p>
+            </div>
+
+            <div class="glass rounded-3xl p-8 md:p-12 border border-neutral-800">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <!-- Calculator Controls -->
+                    <div class="space-y-8">
+                        <!-- TMS Slider -->
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <label class="text-white font-medium">Technical Match Score (TMS)</label>
+                                <span class="font-mono text-lg font-bold text-primary-400" id="tms-value">75</span>
+                            </div>
+                            <input type="range" id="tms-slider" min="0" max="100" value="75"
+                                   class="w-full h-2 bg-neutral-800 rounded-lg appearance-none cursor-pointer slider">
+                            <p class="text-sm text-neutral-400 mt-2">Skills alignment vs job requirements</p>
+                        </div>
+
+                        <!-- SRS Slider -->
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <label class="text-white font-medium">Soft Skills Rating (SRS)</label>
+                                <span class="font-mono text-lg font-bold text-accent-400" id="srs-value">80</span>
+                            </div>
+                            <input type="range" id="srs-slider" min="0" max="100" value="80"
+                                   class="w-full h-2 bg-neutral-800 rounded-lg appearance-none cursor-pointer slider">
+                            <p class="text-sm text-neutral-400 mt-2">Behavioral fit and cultural alignment</p>
+                        </div>
+
+                        <!-- RNS Slider -->
+                        <div>
+                            <div class="flex justify-between items-center mb-3">
+                                <label class="text-white font-medium">Referral Network Score (RNS)</label>
+                                <span class="font-mono text-lg font-bold text-success-400" id="rns-value">70</span>
+                            </div>
+                            <input type="range" id="rns-slider" min="0" max="100" value="70"
+                                   class="w-full h-2 bg-neutral-800 rounded-lg appearance-none cursor-pointer slider">
+                            <p class="text-sm text-neutral-400 mt-2">Peer validation and recommendations</p>
+                        </div>
+
+                        <!-- Weights -->
+                        <div class="bg-neutral-900/50 rounded-xl p-4">
+                            <p class="text-sm text-neutral-400 mb-2">Default weights:</p>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-primary-400">TMS: 50%</span>
+                                <span class="text-accent-400">SRS: 30%</span>
+                                <span class="text-success-400">RNS: 20%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Score Display -->
+                    <div class="flex flex-col items-center justify-center">
+                        <div class="relative mb-8">
+                            <div id="score-display" class="relative w-48 h-48 rounded-full bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center shadow-2xl">
+                                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-primary-500/20 to-accent-500/20 blur-2xl animate-glow"></div>
+                                <div class="relative z-10 text-center">
+                                    <div class="font-mono text-5xl font-bold text-white" id="overall-score">76</div>
+                                    <div class="text-sm text-white/80">Fit Score</div>
+                                </div>
+                            </div>
+                            <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
+                                <div class="bg-neutral-900 px-3 py-1 rounded-full border border-neutral-700">
+                                    <span class="text-xs text-neutral-400">Confidence:</span>
+                                    <span class="text-xs text-white font-medium ml-1">High</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <div class="text-success-400 font-semibold mb-2">Good Match</div>
+                            <p class="text-sm text-neutral-400">Above average fit for the role</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI Calculator Widget -->
+    <section class="relative py-24 bg-gradient-to-b from-black to-neutral-950">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="font-display text-4xl font-bold text-white mb-4">
+                    See Your ROI in Real-Time
+                </h2>
+                <p class="text-xl text-neutral-300">
+                    Calculate how much time and money you'll save with Skylevel
+                </p>
+            </div>
+
+            <div class="glass rounded-3xl p-8 md:p-12 border border-neutral-800">
+                <div class="grid md:grid-cols-3 gap-8 mb-12">
+                    <!-- Team Size -->
+                    <div>
+                        <label class="block text-white font-medium mb-3">Team Size</label>
+                        <select id="team-size" class="w-full bg-neutral-900/50 border-2 border-neutral-800 rounded-xl px-4 py-3 text-white focus:border-primary-500 focus:outline-none">
+                            <option value="1-5">1-5 recruiters</option>
+                            <option value="6-20">6-20 recruiters</option>
+                            <option value="21-50">21-50 recruiters</option>
+                            <option value="50+">50+ recruiters</option>
+                        </select>
+                    </div>
+
+                    <!-- Monthly Hires -->
+                    <div>
+                        <label class="block text-white font-medium mb-3">Monthly Hires</label>
+                        <select id="monthly-hires" class="w-full bg-neutral-900/50 border-2 border-neutral-800 rounded-xl px-4 py-3 text-white focus:border-primary-500 focus:outline-none">
+                            <option value="1-10">1-10 hires</option>
+                            <option value="11-25">11-25 hires</option>
+                            <option value="26-50">26-50 hires</option>
+                            <option value="50+">50+ hires</option>
+                        </select>
+                    </div>
+
+                    <!-- Industry -->
+                    <div>
+                        <label class="block text-white font-medium mb-3">Industry</label>
+                        <select id="industry" class="w-full bg-neutral-900/50 border-2 border-neutral-800 rounded-xl px-4 py-3 text-white focus:border-primary-500 focus:outline-none">
+                            <option value="tech">Technology</option>
+                            <option value="finance">Finance</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="retail">Retail</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- ROI Results -->
+                <div class="grid md:grid-cols-4 gap-6">
+                    <div class="text-center p-6 bg-gradient-to-br from-primary-500/10 to-primary-600/10 rounded-2xl border border-primary-500/20">
+                        <div class="text-3xl font-bold text-primary-400 mb-2" id="time-saved">156</div>
+                        <div class="text-sm text-neutral-300">Hours Saved Monthly</div>
+                    </div>
+
+                    <div class="text-center p-6 bg-gradient-to-br from-success-500/10 to-success-600/10 rounded-2xl border border-success-500/20">
+                        <div class="text-3xl font-bold text-success-400 mb-2" id="cost-saved">$47,200</div>
+                        <div class="text-sm text-neutral-300">Annual Cost Savings</div>
+                    </div>
+
+                    <div class="text-center p-6 bg-gradient-to-br from-accent-500/10 to-accent-600/10 rounded-2xl border border-accent-500/20">
+                        <div class="text-3xl font-bold text-accent-400 mb-2" id="quality-improve">34%</div>
+                        <div class="text-sm text-neutral-300">Better Hire Quality</div>
+                    </div>
+
+                    <div class="text-center p-6 bg-gradient-to-br from-warning-500/10 to-warning-600/10 rounded-2xl border border-warning-500/20">
+                        <div class="text-3xl font-bold text-warning-400 mb-2" id="time-to-hire">41%</div>
+                        <div class="text-sm text-neutral-300">Faster Time to Hire</div>
+                    </div>
+                </div>
+
+                <div class="mt-8 text-center">
+                    <button class="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-semibold px-8 py-3 rounded-xl transition-all duration-200 hover:scale-105">
+                        Get Detailed ROI Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Section -->
+    <section class="relative py-24 bg-gradient-to-b from-neutral-950 to-black">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="font-display text-4xl font-bold text-white mb-4">
+                    Trusted by Leading Companies
+                </h2>
+                <p class="text-xl text-neutral-300">
+                    Join hundreds of teams hiring smarter with data-driven decisions
+                </p>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <div class="text-center">
+                    <div class="text-5xl font-bold gradient-text mb-4">34%</div>
+                    <div class="text-lg text-neutral-300">Better Hires</div>
+                    <div class="text-sm text-neutral-400">Improved candidate quality through validated fit scoring</div>
+                </div>
+
+                <div class="text-center">
+                    <div class="text-5xl font-bold gradient-text mb-4">41%</div>
+                    <div class="text-lg text-neutral-300">Faster Screening</div>
+                    <div class="text-sm text-neutral-400">Reduced time-to-interview with AI-powered prioritization</div>
+                </div>
+
+                <div class="text-center">
+                    <div class="text-5xl font-bold gradient-text mb-4">60%</div>
+                    <div class="text-lg text-neutral-300">Less Bias</div>
+                    <div class="text-sm text-neutral-400">Objective scoring reduces unconscious bias in hiring</div>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="glass rounded-3xl p-12 text-center border border-neutral-800 relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-primary-500/10 to-accent-500/10 opacity-50"></div>
+                <div class="relative z-10">
+                    <h3 class="font-display text-3xl font-bold text-white mb-4">
+                        Ready to Transform Your Hiring?
+                    </h3>
+                    <p class="text-xl text-neutral-300 mb-8 max-w-2xl mx-auto">
+                        Join the companies that have already reduced their hiring costs by an average of 47% while improving candidate quality.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button class="group relative overflow-hidden bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-200 hover:scale-105">
+                            <span class="relative z-10 flex items-center space-x-2">
+                                <span>🔶 Get My Fit Queue Demo</span>
+                                <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </span>
+                            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                        </button>
+
+                        <button class="border-2 border-primary-500 hover:bg-primary-500 text-primary-500 hover:text-white font-semibold px-8 py-4 rounded-xl transition-all duration-200 hover:scale-105">
+                            Schedule a Call
+                        </button>
+                    </div>
+
+                    <p class="text-sm text-neutral-400 mt-4">
+                        14-day free trial • No credit card required • Cancel anytime
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative bg-black border-t border-neutral-800">
+        <div class="container mx-auto px-4 max-w-7xl py-12">
+            <div class="grid md:grid-cols-5 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-br from-primary-500 to-accent-500 rounded-lg"></div>
+                        <span class="text-xl font-bold">Skylevel</span>
+                    </div>
+                    <p class="text-neutral-400 mb-4">
+                        AI-powered candidate intelligence that helps you hire with confidence, not guesswork.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-neutral-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-neutral-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Product</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-neutral-400 hover:text-white transition-colors">How it Works</a></li>
+                        <li><a href="#" class="text-neutral-400 hover:text-white transition-colors">Pricing</a></li>
+                        <li><a href="#" class="text-neutral-400 hover:text-white transition-colors">Integrations</a></li>
+                        <li><a href="#" class="text-neutral-400 hover:text-white transition-colors">API</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-neutral-400 hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-neutral-400 hover:text-white transition-colors">Case Studies</a></li>
+                        <li><a href="#" class="text-neutral-400 hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#" class="text-neutral-400 hover:text-white transition-colors">Webinars</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-neutral-400 hover:text-white transition-colors">About</a></li>
+                        <li><a href="#" class="text-neutral-400 hover:text-white transition-colors">Careers</a></li>
+                        <li><a href="#" class="text-neutral-400 hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="#" class="text-neutral-400 hover:text-white transition-colors">Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-12 pt-8 border-t border-neutral-800 text-center text-neutral-400">
+                <p>&copy; 2025 Skylevel. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Fit Score Calculator
+        const tmsSlider = document.getElementById('tms-slider');
+        const srsSlider = document.getElementById('srs-slider');
+        const rnsSlider = document.getElementById('rns-slider');
+        const tmsValue = document.getElementById('tms-value');
+        const srsValue = document.getElementById('srs-value');
+        const rnsValue = document.getElementById('rns-value');
+        const overallScore = document.getElementById('overall-score');
+        const scoreDisplay = document.getElementById('score-display');
+
+        function updateScore() {
+            const tms = parseInt(tmsSlider.value);
+            const srs = parseInt(srsSlider.value);
+            const rns = parseInt(rnsSlider.value);
+
+            tmsValue.textContent = tms;
+            srsValue.textContent = srs;
+            rnsValue.textContent = rns;
+
+            // Calculate weighted score (default weights)
+            const score = Math.round((tms * 0.5) + (srs * 0.3) + (rns * 0.2));
+            overallScore.textContent = score;
+
+            // Update score color
+            let gradientClass = 'from-error-500 to-error-600';
+            if (score >= 85) gradientClass = 'from-primary-500 to-primary-600';
+            else if (score >= 70) gradientClass = 'from-success-500 to-success-600';
+            else if (score >= 50) gradientClass = 'from-warning-500 to-warning-600';
+
+            scoreDisplay.className = scoreDisplay.className.replace(/from-\w+-500 to-\w+-600/g, gradientClass);
+        }
+
+        tmsSlider.addEventListener('input', updateScore);
+        srsSlider.addEventListener('input', updateScore);
+        rnsSlider.addEventListener('input', updateScore);
+
+        // ROI Calculator
+        const teamSize = document.getElementById('team-size');
+        const monthlyHires = document.getElementById('monthly-hires');
+        const industry = document.getElementById('industry');
+
+        function updateROI() {
+            // Simplified ROI calculation
+            const teamMultiplier = {
+                '1-5': 1,
+                '6-20': 3,
+                '21-50': 8,
+                '50+': 15
+            };
+
+            const hiresMultiplier = {
+                '1-10': 1,
+                '11-25': 2,
+                '26-50': 4,
+                '50+': 8
+            };
+
+            const baseTimeSaved = 52;
+            const baseCostSaved = 15600;
+
+            const team = teamMultiplier[teamSize.value] || 1;
+            const hires = hiresMultiplier[monthlyHires.value] || 1;
+
+            const timeSaved = baseTimeSaved * team * hires;
+            const costSaved = baseCostSaved * team * hires;
+
+            document.getElementById('time-saved').textContent = timeSaved.toLocaleString();
+            document.getElementById('cost-saved').textContent = '$' + costSaved.toLocaleString();
+        }
+
+        teamSize.addEventListener('change', updateROI);
+        monthlyHires.addEventListener('change', updateROI);
+        industry.addEventListener('change', updateROI);
+
+        // Custom slider styling
+        const style = document.createElement('style');
+        style.textContent = `
+            .slider::-webkit-slider-thumb {
+                appearance: none;
+                height: 20px;
+                width: 20px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #3B82F6 0%, #A855F7 100%);
+                cursor: pointer;
+                box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+                transition: all 0.2s;
+            }
+
+            .slider::-webkit-slider-thumb:hover {
+                transform: scale(1.1);
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.7);
+            }
+
+            .slider::-moz-range-thumb {
+                height: 20px;
+                width: 20px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #3B82F6 0%, #A855F7 100%);
+                cursor: pointer;
+                border: none;
+                box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

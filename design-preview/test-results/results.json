@@ -1,0 +1,479 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\hayde\\Skylevel\\design-preview\\playwright.config.ts",
+    "rootDir": "C:/Users/hayde/Skylevel/design-preview/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "C:/Users/hayde/Skylevel/design-preview/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/hayde/Skylevel/design-preview/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/hayde/Skylevel/design-preview/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "C:/Users/hayde/Skylevel/design-preview/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/hayde/Skylevel/design-preview/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "C:/Users/hayde/Skylevel/design-preview/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/hayde/Skylevel/design-preview/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "Mobile Chrome",
+        "name": "Mobile Chrome",
+        "testDir": "C:/Users/hayde/Skylevel/design-preview/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/hayde/Skylevel/design-preview/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "Mobile Safari",
+        "name": "Mobile Safari",
+        "testDir": "C:/Users/hayde/Skylevel/design-preview/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.55.1",
+    "workers": 6,
+    "webServer": {
+      "command": "npm run dev",
+      "url": "http://localhost:5173",
+      "reuseExistingServer": true,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "comprehensive-analysis.spec.ts",
+      "file": "comprehensive-analysis.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Comprehensive Analysis - Design Territories",
+          "file": "comprehensive-analysis.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should analyze all territory implementations",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 9953,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Analysis completed: Territory A - Dashboard\n"
+                        },
+                        {
+                          "text": "Analysis completed: Territory A - Fit Queue\n"
+                        },
+                        {
+                          "text": "Analysis completed: Territory B - Dashboard\n"
+                        },
+                        {
+                          "text": "Analysis completed: Territory B - Fit Queue\n"
+                        },
+                        {
+                          "text": "Analysis completed: Territory C - Dashboard\n"
+                        },
+                        {
+                          "text": "Analysis completed: Territory C - Fit Queue\n"
+                        },
+                        {
+                          "text": "\n=== COMPREHENSIVE ANALYSIS REPORT ===\n"
+                        },
+                        {
+                          "text": "=====================================\n\n"
+                        },
+                        {
+                          "text": "Territory A - Dashboard:\n"
+                        },
+                        {
+                          "text": "  ✅ Has Content: true\n"
+                        },
+                        {
+                          "text": "  📊 Element Count: 202\n"
+                        },
+                        {
+                          "text": "  📝 Content Summary: Recruiter Dashboard, Total Candidates, Avg Fit Score, Recent Candidates, Sarah Johnson\n"
+                        },
+                        {
+                          "text": "  📸 Screenshot: territory-a-dashboard.png\n"
+                        },
+                        {
+                          "text": "\n"
+                        },
+                        {
+                          "text": "Territory A - Fit Queue:\n"
+                        },
+                        {
+                          "text": "  ✅ Has Content: true\n"
+                        },
+                        {
+                          "text": "  📊 Element Count: 361\n"
+                        },
+                        {
+                          "text": "  📝 Content Summary: 150 elements found\n"
+                        },
+                        {
+                          "text": "  📸 Screenshot: territory-a-fit-queue.png\n"
+                        },
+                        {
+                          "text": "\n"
+                        },
+                        {
+                          "text": "Territory B - Dashboard:\n"
+                        },
+                        {
+                          "text": "  ✅ Has Content: true\n"
+                        },
+                        {
+                          "text": "  📊 Element Count: 213\n"
+                        },
+                        {
+                          "text": "  📝 Content Summary: Recruiter Dashboard, Total Candidates, Average Fit Score, Recent Candidate Activity\n"
+                        },
+                        {
+                          "text": "  📸 Screenshot: territory-b-dashboard.png\n"
+                        },
+                        {
+                          "text": "\n"
+                        },
+                        {
+                          "text": "Territory B - Fit Queue:\n"
+                        },
+                        {
+                          "text": "  ✅ Has Content: true\n"
+                        },
+                        {
+                          "text": "  📊 Element Count: 211\n"
+                        },
+                        {
+                          "text": "  📝 Content Summary: 110 elements found\n"
+                        },
+                        {
+                          "text": "  📸 Screenshot: territory-b-fit-queue.png\n"
+                        },
+                        {
+                          "text": "\n"
+                        },
+                        {
+                          "text": "Territory C - Dashboard:\n"
+                        },
+                        {
+                          "text": "  ✅ Has Content: true\n"
+                        },
+                        {
+                          "text": "  📊 Element Count: 262\n"
+                        },
+                        {
+                          "text": "  📝 Content Summary: Recruiter Dashboard, Total Candidates, Avg Fit Score, Recent Candidates\n"
+                        },
+                        {
+                          "text": "  📸 Screenshot: territory-c-dashboard.png\n"
+                        },
+                        {
+                          "text": "\n"
+                        },
+                        {
+                          "text": "Territory C - Fit Queue:\n"
+                        },
+                        {
+                          "text": "  ✅ Has Content: true\n"
+                        },
+                        {
+                          "text": "  📊 Element Count: 290\n"
+                        },
+                        {
+                          "text": "  📝 Content Summary: 85 elements found\n"
+                        },
+                        {
+                          "text": "  📸 Screenshot: territory-c-fit-queue.png\n"
+                        },
+                        {
+                          "text": "\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-04T05:16:32.810Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3ff8f614ce28b58a07b0-c8c0bb7e82e53a3a98e6",
+              "file": "comprehensive-analysis.spec.ts",
+              "line": 9,
+              "column": 3
+            },
+            {
+              "title": "should check for Tailwind CSS styling",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 2376,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Found 29 elements with primary colors\n"
+                        },
+                        {
+                          "text": "Found 105 elements with Tailwind styling classes\n"
+                        },
+                        {
+                          "text": "Found 5 elements with responsive design classes\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-04T05:16:32.809Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3ff8f614ce28b58a07b0-ef6c598b363ec8cf4f90",
+              "file": "comprehensive-analysis.spec.ts",
+              "line": 130,
+              "column": 3
+            },
+            {
+              "title": "should verify navigation functionality",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 6606,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"current-territory\"]')\nExpected string: \u001b[32m\"Territory A - Fit\u001b[7m \u001b[27mQueue View\"\u001b[39m\nReceived string: \u001b[31m\"Territory A - FitQueue View\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"current-territory\"]')\u001b[22m\n\u001b[2m    9 × locator resolved to <div data-testid=\"current-territory\" class=\"bg-primary-600 text-white p-3 text-center font-bold\">Territory A - FitQueue View</div>\u001b[22m\n\u001b[2m      - unexpected value \"Territory A - FitQueue View\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"current-territory\"]')\nExpected string: \u001b[32m\"Territory A - Fit\u001b[7m \u001b[27mQueue View\"\u001b[39m\nReceived string: \u001b[31m\"Territory A - FitQueue View\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"current-territory\"]')\u001b[22m\n\u001b[2m    9 × locator resolved to <div data-testid=\"current-territory\" class=\"bg-primary-600 text-white p-3 text-center font-bold\">Territory A - FitQueue View</div>\u001b[22m\n\u001b[2m      - unexpected value \"Territory A - FitQueue View\"\u001b[22m\n\n    at C:\\Users\\hayde\\Skylevel\\design-preview\\tests\\comprehensive-analysis.spec.ts:172:73",
+                        "location": {
+                          "file": "C:\\Users\\hayde\\Skylevel\\design-preview\\tests\\comprehensive-analysis.spec.ts",
+                          "column": 73,
+                          "line": 172
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 170 |\u001b[39m\n \u001b[90m 171 |\u001b[39m         \u001b[90m// Check debug indicator\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 172 |\u001b[39m         \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"current-territory\"]'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m`Territory ${territory} - ${view} View`\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 173 |\u001b[39m       }\n \u001b[90m 174 |\u001b[39m     }\n \u001b[90m 175 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\hayde\\Skylevel\\design-preview\\tests\\comprehensive-analysis.spec.ts",
+                            "column": 73,
+                            "line": 172
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"current-territory\"]')\nExpected string: \u001b[32m\"Territory A - Fit\u001b[7m \u001b[27mQueue View\"\u001b[39m\nReceived string: \u001b[31m\"Territory A - FitQueue View\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"current-territory\"]')\u001b[22m\n\u001b[2m    9 × locator resolved to <div data-testid=\"current-territory\" class=\"bg-primary-600 text-white p-3 text-center font-bold\">Territory A - FitQueue View</div>\u001b[22m\n\u001b[2m      - unexpected value \"Territory A - FitQueue View\"\u001b[22m\n\n\n  170 |\n  171 |         // Check debug indicator\n> 172 |         await expect(page.locator('[data-testid=\"current-territory\"]')).toContainText(`Territory ${territory} - ${view} View`);\n      |                                                                         ^\n  173 |       }\n  174 |     }\n  175 |   });\n    at C:\\Users\\hayde\\Skylevel\\design-preview\\tests\\comprehensive-analysis.spec.ts:172:73"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-04T05:16:32.809Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\hayde\\Skylevel\\design-preview\\test-results\\comprehensive-analysis-Com-7ca81-fy-navigation-functionality-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\hayde\\Skylevel\\design-preview\\test-results\\comprehensive-analysis-Com-7ca81-fy-navigation-functionality-chromium\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\hayde\\Skylevel\\design-preview\\test-results\\comprehensive-analysis-Com-7ca81-fy-navigation-functionality-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\hayde\\Skylevel\\design-preview\\tests\\comprehensive-analysis.spec.ts",
+                        "column": 73,
+                        "line": 172
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "3ff8f614ce28b58a07b0-8a4f06bb72ae1886ad51",
+              "file": "comprehensive-analysis.spec.ts",
+              "line": 151,
+              "column": 3
+            },
+            {
+              "title": "should capture comparison screenshots",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 8482,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-04T05:16:32.855Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3ff8f614ce28b58a07b0-a7506b8bb60114543662",
+              "file": "comprehensive-analysis.spec.ts",
+              "line": 177,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-10-04T05:16:31.707Z",
+    "duration": 11711.699,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

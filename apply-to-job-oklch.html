@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skylevel - Apply to Senior Frontend Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: 'oklch(var(--background))',
+                        foreground: 'oklch(var(--foreground))',
+                        card: 'oklch(var(--card))',
+                        'card-foreground': 'oklch(var(--card-foreground))',
+                        popover: 'oklch(var(--popover))',
+                        'popover-foreground': 'oklch(var(--popover-foreground))',
+                        primary: 'oklch(var(--primary))',
+                        'primary-foreground': 'oklch(var(--primary-foreground))',
+                        secondary: 'oklch(var(--secondary))',
+                        'secondary-foreground': 'oklch(var(--secondary-foreground))',
+                        muted: 'oklch(var(--muted))',
+                        'muted-foreground': 'oklch(var(--muted-foreground))',
+                        accent: 'oklch(var(--accent))',
+                        'accent-foreground': 'oklch(var(--accent-foreground))',
+                        destructive: 'oklch(var(--destructive))',
+                        'destructive-foreground': 'oklch(var(--destructive-foreground))',
+                        border: 'oklch(var(--border))',
+                        input: 'oklch(var(--input))',
+                        ring: 'oklch(var(--ring))',
+                        success: 'oklch(var(--success))',
+                        'success-foreground': 'oklch(var(--success-foreground))',
+                        warning: 'oklch(var(--warning))',
+                        'warning-foreground': 'oklch(var(--warning-foreground))',
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.2s ease-out',
+                        'slide-up': 'slideUp 0.3s ease-out',
+                        'scale-in': 'scaleIn 0.2s ease-out',
+                        'pulse-gentle': 'pulseGentle 2s ease-in-out infinite',
+                        'bounce-slow': 'bounceSlow 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.95)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        },
+                        pulseGentle: {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.05)' },
+                        },
+                        bounceSlow: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-5px)' },
+                        },
+                    },
+                    boxShadow: {
+                        'xs': 'var(--shadow-xs)',
+                        'sm': 'var(--shadow-sm)',
+                        'md': 'var(--shadow-md)',
+                        'lg': 'var(--shadow-lg)',
+                        'xl': 'var(--shadow-xl)',
+                        'inner': 'inset 0 2px 4px 0px var(--shadow-color / 0.06)',
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        /* OKLCH Color System CSS Variables */
+        :root {
+            /* Base colors - Sophisticated & Focused */
+            --background: oklch(0.09 0.002 291); /* Gray 950 */
+            --foreground: oklch(0.97 0.003 291); /* Gray 50 */
+
+            --card: oklch(0.12 0.004 291); /* Gray 900 */
+            --card-foreground: oklch(0.97 0.003 291); /* Gray 50 */
+
+            --popover: oklch(0.12 0.004 291); /* Gray 900 */
+            --popover-foreground: oklch(0.97 0.003 291); /* Gray 50 */
+
+            /* Primary - Decisive & Confident Red */
+            --primary: oklch(0.56 0.17 19.3); /* Primary 500 */
+            --primary-foreground: oklch(0.98 0.01 19.3); /* Primary 50 */
+
+            /* Secondary - Calm & Professional Blue */
+            --secondary: oklch(0.48 0.09 252); /* Secondary 500 */
+            --secondary-foreground: oklch(0.96 0.01 252); /* Secondary 50 */
+
+            /* Accent - Premium & Rewarding Gold */
+            --accent: oklch(0.74 0.11 88.5); /* Accent 500 */
+            --accent-foreground: oklch(0.26 0.05 88.5); /* Accent 900 */
+
+            /* Muted tones for hover states and secondary info */
+            --muted: oklch(0.18 0.006 291); /* Gray 800 */
+            --muted-foreground: oklch(0.67 0.01 291); /* Gray 400 */
+
+            /* Destructive - Unambiguous Red */
+            --destructive: oklch(0.56 0.17 19.3); /* Primary 500 */
+            --destructive-foreground: oklch(0.98 0.01 19.3); /* Primary 50 */
+
+            /* UI Elements */
+            --border: oklch(0.22 0.006 291); /* Gray 800 */
+            --input: oklch(0.22 0.006 291); /* Gray 800 */
+            --ring: oklch(0.48 0.09 252); /* Secondary 500 */
+
+            /* Additional Skylevel Semantic Colors */
+            --success: oklch(0.72 0.15 159); /* Success 500 */
+            --success-foreground: oklch(0.14 0.05 159); /* Success 950 */
+            --warning: oklch(0.63 0.16 63); /* Warning 500 */
+            --warning-foreground: oklch(0.21 0.07 63); /* Warning 950 */
+
+            /* Spacing and sizing */
+            --radius: 0.5rem;
+
+            /* Shadows - Soft and neutral */
+            --shadow-color: oklch(0.09 0.002 291);
+            --shadow-xs: 0 1px 2px 0px var(--shadow-color / 0.08);
+            --shadow-sm: 0 1px 3px 0px var(--shadow-color / 0.10);
+            --shadow-md: 0 4px 6px -1px var(--shadow-color / 0.12), 0 2px 4px -2px var(--shadow-color / 0.08);
+            --shadow-lg: 0 10px 15px -3px var(--shadow-color / 0.12), 0 4px 6px -4px var(--shadow-color / 0.08);
+            --shadow-xl: 0 20px 25px -5px var(--shadow-color / 0.12), 0 8px 10px -6px var(--shadow-color / 0.08);
+        }
+
+        /* Component Classes */
+        .btn-primary {
+            @apply bg-primary text-primary-foreground font-medium shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+        }
+
+        .btn-primary:active {
+            @apply shadow-sm translate-y-0;
+        }
+
+        .btn-secondary {
+            @apply bg-secondary text-secondary-foreground font-medium shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+        }
+
+        .btn-secondary:active {
+            @apply shadow-sm translate-y-0;
+        }
+
+        .btn-ghost {
+            @apply hover:bg-accent hover:text-accent-foreground font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+        }
+
+        .card {
+            @apply bg-card text-card-foreground rounded-xl shadow-md border transition-all duration-200;
+        }
+
+        .card-interactive {
+            @apply cursor-pointer;
+        }
+
+        .card-interactive:hover {
+            @apply shadow-xl hover:-translate-y-1;
+        }
+
+        .card-raised {
+            @apply shadow-lg;
+        }
+
+        .input-field {
+            @apply bg-background border-input shadow-inner transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:border-transparent;
+        }
+
+        .score-pill {
+            @apply inline-flex items-center justify-center rounded-full font-bold shadow-sm transition-all duration-200 focus-ring hover:scale-105 hover:shadow-md;
+        }
+
+        .score-pill.excellent {
+            @apply bg-gradient-to-br from-success to-success/90 text-success-foreground shadow-lg shadow-success/20;
+        }
+
+        .score-pill.good {
+            @apply bg-gradient-to-br from-warning to-warning/90 text-warning-foreground shadow-lg shadow-warning/20;
+        }
+
+        .score-pill.moderate {
+            @apply bg-gradient-to-br from-accent to-accent/90 text-accent-foreground shadow-lg shadow-accent/20;
+        }
+
+        .score-pill.low {
+            @apply bg-gradient-to-br from-destructive to-destructive/90 text-destructive-foreground shadow-lg shadow-destructive/20;
+        }
+
+        .fit-score-badge {
+            @apply inline-flex items-center justify-center px-4 py-2 rounded-full font-bold text-lg shadow-lg transition-all duration-200;
+        }
+
+        .fit-score-badge.excellent {
+            @apply bg-gradient-to-br from-success to-success/90 text-success-foreground;
+        }
+
+        .fit-score-badge.good {
+            @apply bg-gradient-to-br from-warning to-warning/90 text-warning-foreground;
+        }
+
+        .fit-score-badge.moderate {
+            @apply bg-gradient-to-br from-accent to-accent/90 text-accent-foreground;
+        }
+
+        .fit-score-badge.low {
+            @apply bg-gradient-to-br from-destructive to-destructive/90 text-destructive-foreground;
+        }
+
+        .progress-bar {
+            @apply w-full bg-muted rounded-full h-3 overflow-hidden;
+        }
+
+        .progress-fill {
+            @apply h-full rounded-full transition-all duration-500 ease-out;
+        }
+
+        .boost-card {
+            @apply card p-4 cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all duration-200 border-l-4;
+        }
+
+        .boost-card.high-value {
+            @apply border-l-success;
+        }
+
+        .boost-card.medium-value {
+            @apply border-l-warning;
+        }
+
+        .boost-card.low-value {
+            @apply border-l-accent;
+        }
+
+        .sticky-submit-bar {
+            @apply fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-lg z-50;
+        }
+
+        .file-upload {
+            @apply border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary transition-colors duration-200 cursor-pointer;
+        }
+
+        .file-upload.dragging {
+            @apply border-primary bg-primary/5;
+        }
+
+        /* Reduced Motion Support */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground">
+    <!-- Main Container -->
+    <div class="min-h-screen pb-24">
+        <!-- Header -->
+        <header class="card border-b border-border sticky top-0 z-40 backdrop-blur-sm">
+            <div class="container mx-auto px-4 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                                <i data-lucide="trending-up" class="w-5 h-5 text-primary-foreground"></i>
+                            </div>
+                            <h1 class="text-xl font-bold text-foreground">Skylevel</h1>
+                        </div>
+                        <nav class="hidden md:flex items-center space-x-6">
+                            <a href="#" class="text-muted-foreground hover:text-primary transition-colors">← Back to Job</a>
+                        </nav>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div class="fit-score-badge excellent text-sm px-3 py-1">
+                            92
+                        </div>
+                        <span class="text-sm text-muted-foreground">Current Score</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Main Application Form (2 columns) -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Job Summary Card -->
+                    <div class="card animate-fade-in">
+                        <div class="p-6">
+                            <div class="flex items-center space-x-4 mb-4">
+                                <div class="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
+                                    <img src="https://picsum.photos/seed/techcorp/48/48.jpg" alt="TechCorp" class="w-10 h-10 rounded-lg">
+                                </div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-foreground">Senior Frontend Developer</h2>
+                                    <p class="text-muted-foreground">TechCorp Inc. • San Francisco, CA</p>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap items-center gap-3">
+                                <div class="flex items-center text-muted-foreground">
+                                    <i data-lucide="dollar-sign" class="w-4 h-4 mr-1"></i>
+                                    $150k - $200k
+                                </div>
+                                <div class="flex items-center text-muted-foreground">
+                                    <i data-lucide="briefcase" class="w-4 h-4 mr-1"></i>
+                                    Full-time
+                                </div>
+                                <div class="flex items-center text-muted-foreground">
+                                    <i data-lucide="home" class="w-4 h-4 mr-1"></i>
+                                    Remote
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fit Score Visualizer -->
+                    <div class="card animate-fade-in">
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold text-foreground mb-4">Your Fit Score Potential</h3>
+
+                            <div class="mb-6">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-foreground font-medium">Current Score</span>
+                                    <span class="fit-score-badge excellent text-base px-3 py-1">92</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill bg-gradient-to-r from-success to-success/80" style="width: 92%"></div>
+                                </div>
+                            </div>
+
+                            <div class="mb-6">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-foreground font-medium">Potential Score</span>
+                                    <span class="fit-score-badge excellent text-base px-3 py-1">100+</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill bg-gradient-to-r from-success to-success/80" style="width: 100%"></div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="text-center p-3 bg-muted/50 rounded-lg">
+                                    <div class="text-2xl font-bold text-success">95</div>
+                                    <div class="text-sm text-muted-foreground">Base Score</div>
+                                </div>
+                                <div class="text-center p-3 bg-success/10 rounded-lg border border-success/20">
+                                    <div class="text-2xl font-bold text-success">+15</div>
+                                    <div class="text-sm text-muted-foreground">Referral Boost</div>
+                                </div>
+                                <div class="text-center p-3 bg-accent/10 rounded-lg border border-accent/20">
+                                    <div class="text-2xl font-bold text-accent">+8</div>
+                                    <div class="text-sm text-muted-foreground">Profile Boost</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Application Form -->
+                    <div class="card animate-fade-in">
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold text-foreground mb-6">Application Details</h3>
+
+                            <form class="space-y-6">
+                                <!-- Personal Information -->
+                                <div>
+                                    <h4 class="font-semibold text-foreground mb-4">Personal Information</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-foreground mb-2">First Name</label>
+                                            <input type="text" value="Sarah" class="input-field w-full px-4 py-3 rounded-lg" readonly>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-foreground mb-2">Last Name</label>
+                                            <input type="text" value="Chen" class="input-field w-full px-4 py-3 rounded-lg" readonly>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-foreground mb-2">Email</label>
+                                            <input type="email" value="sarah.chen@email.com" class="input-field w-full px-4 py-3 rounded-lg" readonly>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-foreground mb-2">Phone</label>
+                                            <input type="tel" value="+1 (555) 123-4567" class="input-field w-full px-4 py-3 rounded-lg" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Resume Upload -->
+                                <div>
+                                    <h4 class="font-semibold text-foreground mb-4">Resume</h4>
+                                    <div class="file-upload">
+                                        <i data-lucide="file-text" class="w-8 h-8 text-muted-foreground mx-auto mb-2"></i>
+                                        <p class="font-medium text-foreground mb-1">Sarah_Chen_Resume.pdf</p>
+                                        <p class="text-sm text-muted-foreground">Current resume from your profile</p>
+                                        <button type="button" class="btn-ghost mt-2 text-sm">Change Resume</button>
+                                    </div>
+                                </div>
+
+                                <!-- Cover Letter -->
+                                <div>
+                                    <h4 class="font-semibold text-foreground mb-4">Cover Letter (Optional)</h4>
+                                    <div class="space-y-3">
+                                        <div class="flex items-center space-x-3">
+                                            <input type="radio" id="no-cover" name="cover-letter" class="text-primary" checked>
+                                            <label for="no-cover" class="text-foreground">No cover letter</label>
+                                        </div>
+                                        <div class="flex items-center space-x-3">
+                                            <input type="radio" id="use-template" name="cover-letter" class="text-primary">
+                                            <label for="use-template" class="text-foreground">Use template</label>
+                                        </div>
+                                        <div class="flex items-center space-x-3">
+                                            <input type="radio" id="write-custom" name="cover-letter" class="text-primary">
+                                            <label for="write-custom" class="text-foreground">Write custom</label>
+                                        </div>
+                                    </div>
+                                    <div id="cover-letter-textarea" class="hidden mt-3">
+                                        <textarea class="input-field w-full px-4 py-3 rounded-lg h-32" placeholder="Write your cover letter here..."></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Work Samples -->
+                                <div>
+                                    <h4 class="font-semibold text-foreground mb-4">Work Samples (Optional)</h4>
+                                    <div class="file-upload">
+                                        <i data-lucide="paperclip" class="w-8 h-8 text-muted-foreground mx-auto mb-2"></i>
+                                        <p class="font-medium text-foreground mb-1">Add work samples</p>
+                                        <p class="text-sm text-muted-foreground">Upload portfolio links, GitHub, or project files</p>
+                                        <button type="button" class="btn-ghost mt-2 text-sm">Add Samples</button>
+                                    </div>
+                                </div>
+
+                                <!-- Personal Note -->
+                                <div>
+                                    <h4 class="font-semibold text-foreground mb-4">Personal Note to Hiring Manager (Optional)</h4>
+                                    <textarea class="input-field w-full px-4 py-3 rounded-lg h-24" placeholder="Add any additional information you'd like to share..."></textarea>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar (1 column) -->
+                <div class="space-y-6">
+                    <!-- Boost Panel -->
+                    <div class="card sticky top-24 animate-slide-up">
+                        <div class="p-6">
+                            <div class="flex items-center space-x-2 mb-4">
+                                <i data-lucide="zap" class="w-5 h-5 text-accent"></i>
+                                <h3 class="font-bold text-foreground">Boost Your Application</h3>
+                            </div>
+
+                            <div class="space-y-3">
+                                <div class="boost-card high-value">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 bg-success/10 rounded-lg flex items-center justify-center">
+                                            <i data-lucide="user-plus" class="w-4 h-4 text-success"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="font-medium text-foreground">Get a Referral</p>
+                                            <p class="text-sm text-success">+15% to score</p>
+                                        </div>
+                                        <div class="score-pill excellent px-2 py-1 text-sm">
+                                            +15
+                                        </div>
+                                    </div>
+                                    <button class="w-full mt-3 btn-secondary text-sm py-2">
+                                        Get Referral
+                                    </button>
+                                </div>
+
+                                <div class="boost-card medium-value">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 bg-warning/10 rounded-lg flex items-center justify-center">
+                                            <i data-lucide="file-check" class="w-4 h-4 text-warning"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="font-medium text-foreground">Add Cover Letter</p>
+                                            <p class="text-sm text-warning">+8% to score</p>
+                                        </div>
+                                        <div class="score-pill good px-2 py-1 text-sm">
+                                            +8
+                                        </div>
+                                    </div>
+                                    <button class="w-full mt-3 btn-secondary text-sm py-2">
+                                        Add Cover Letter
+                                    </button>
+                                </div>
+
+                                <div class="boost-card low-value">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 bg-accent/10 rounded-lg flex items-center justify-center">
+                                            <i data-lucide="link" class="w-4 h-4 text-accent"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="font-medium text-foreground">Add Work Samples</p>
+                                            <p class="text-sm text-accent">+5% to score</p>
+                                        </div>
+                                        <div class="score-pill good px-2 py-1 text-sm">
+                                            +5
+                                        </div>
+                                    </div>
+                                    <button class="w-full mt-3 btn-secondary text-sm py-2">
+                                        Add Samples
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 p-4 bg-muted/50 rounded-lg">
+                                <div class="flex items-center space-x-2 mb-2">
+                                    <i data-lucide="info" class="w-4 h-4 text-primary"></i>
+                                    <p class="text-sm font-medium text-foreground">Pro Tip</p>
+                                </div>
+                                <p class="text-sm text-muted-foreground">Add a referral to increase your visibility by 3x and get priority review.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Application Tips -->
+                    <div class="card">
+                        <div class="p-6">
+                            <h3 class="font-bold text-foreground mb-4">Application Tips</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-start space-x-2">
+                                    <i data-lucide="check-circle" class="w-4 h-4 text-success mt-0.5"></i>
+                                    <p class="text-sm text-muted-foreground">Your profile matches 90% of required skills</p>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <i data-lucide="check-circle" class="w-4 h-4 text-success mt-0.5"></i>
+                                    <p class="text-sm text-muted-foreground">You have 3 mutual connections at TechCorp</p>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <i data-lucide="lightbulb" class="w-4 h-4 text-warning mt-0.5"></i>
+                                    <p class="text-sm text-muted-foreground">Consider mentioning your remote work experience</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Sticky Submit Bar -->
+        <div class="sticky-submit-bar">
+            <div class="container mx-auto px-4 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="fit-score-badge excellent text-sm px-3 py-1">
+                            92
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-foreground">Ready to submit</p>
+                            <p class="text-xs text-muted-foreground">Excellent match • More likely to be seen than 95% of applicants</p>
+                        </div>
+                    </div>
+                    <button class="btn-primary px-8 py-3 rounded-lg font-medium text-lg animate-bounce-slow">
+                        🚀 Submit Application
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Interactive functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cover letter radio buttons
+            const coverLetterRadios = document.querySelectorAll('input[name="cover-letter"]');
+            const coverLetterTextarea = document.getElementById('cover-letter-textarea');
+
+            coverLetterRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.id === 'write-custom') {
+                        coverLetterTextarea.classList.remove('hidden');
+                    } else {
+                        coverLetterTextarea.classList.add('hidden');
+                    }
+                });
+            });
+
+            // File upload interactions
+            const fileUploads = document.querySelectorAll('.file-upload');
+            fileUploads.forEach(upload => {
+                upload.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('dragging');
+                });
+
+                upload.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('dragging');
+                });
+
+                upload.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('dragging');
+                });
+            });
+
+            // Boost card interactions
+            const boostCards = document.querySelectorAll('.boost-card');
+            boostCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-4px)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Form interactions for real-time score updates
+            const coverLetterOption = document.getElementById('use-template');
+            const writeCustomOption = document.getElementById('write-custom');
+            const currentScoreBadge = document.querySelector('.fit-score-badge');
+            const progressBar = document.querySelector('.progress-fill');
+
+            function updateScore(newScore) {
+                currentScoreBadge.textContent = newScore;
+                progressBar.style.width = newScore + '%';
+            }
+
+            coverLetterOption?.addEventListener('change', function() {
+                if (this.checked) {
+                    updateScore(100);
+                }
+            });
+
+            writeCustomOption?.addEventListener('change', function() {
+                if (this.checked) {
+                    updateScore(100);
+                }
+            });
+
+            document.getElementById('no-cover')?.addEventListener('change', function() {
+                if (this.checked) {
+                    updateScore(92);
+                }
+            });
+
+            // Submit button click handler
+            const submitButton = document.querySelector('.sticky-submit-bar button');
+            submitButton.addEventListener('click', function() {
+                // Show loading state
+                this.innerHTML = '⏳ Submitting...';
+                this.disabled = true;
+
+                // Simulate submission
+                setTimeout(() => {
+                    // Show confirmation modal or redirect
+                    alert('Application submitted successfully! You\'ll be redirected to the confirmation page.');
+                }, 2000);
+            });
+
+            // Re-initialize Lucide icons after any dynamic content changes
+            setTimeout(() => {
+                lucide.createIcons();
+            }, 100);
+        });
+    </script>
+</body>
+</html>

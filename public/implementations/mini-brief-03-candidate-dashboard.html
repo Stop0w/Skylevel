@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Dashboard - Skylevel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom animations for confident interactions */
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        .animate-slide-up {
+            animation: slideInUp 0.5s ease-out forwards;
+        }
+
+        .animate-pulse-subtle {
+            animation: pulse 2s infinite;
+        }
+
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            background-size: 1000px 100%;
+            animation: shimmer 2s infinite;
+        }
+
+        /* Score color definitions */
+        .score-excellent { background: linear-gradient(135deg, #D4AF37, #F4E4B1); }
+        .score-good { background: linear-gradient(135deg, #10B981, #86EFAC); }
+        .score-average { background: linear-gradient(135deg, #F97316, #FDBA74); }
+        .score-poor { background: linear-gradient(135deg, #EF4444, #FCA5A5); }
+
+        /* Hover effects for cards */
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(139, 21, 56, 0.2);
+        }
+
+        /* Timeline visualization */
+        .timeline-dot {
+            position: relative;
+        }
+
+        .timeline-dot::before {
+            content: '';
+            position: absolute;
+            left: -1px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, #8B1538, transparent);
+        }
+
+        /* Smooth transitions */
+        .transition-smooth {
+            transition: all 0.2s ease;
+        }
+
+        /* Focus states for accessibility */
+        .focus-ring:focus {
+            outline: 2px solid #D4AF37;
+            outline-offset: 2px;
+        }
+
+        /* Custom scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1A0F0F;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #8B1538;
+            border-radius: 3px;
+        }
+
+        /* Chart container */
+        .chart-container {
+            position: relative;
+            height: 200px;
+        }
+
+        /* Loading skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, #2A1F1F 25%, #3A2F2F 50%, #2A1F1F 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+    </style>
+</head>
+<body class="bg-neutral-950 text-neutral-50 font-sans">
+    <!-- Navigation Header -->
+    <nav class="bg-neutral-900 border-b border-neutral-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-primary-500">Skylevel</h1>
+                    </div>
+                    <div class="hidden md:block ml-10">
+                        <div class="flex items-baseline space-x-4">
+                            <a href="#" class="text-neutral-50 hover:text-primary-400 px-3 py-2 rounded-md text-sm font-medium transition-smooth">Dashboard</a>
+                            <a href="#" class="text-neutral-400 hover:text-primary-400 px-3 py-2 rounded-md text-sm font-medium transition-smooth">Profile</a>
+                            <a href="#" class="text-neutral-400 hover:text-primary-400 px-3 py-2 rounded-md text-sm font-medium transition-smooth">Jobs</a>
+                            <a href="#" class="text-neutral-400 hover:text-primary-400 px-3 py-2 rounded-md text-sm font-medium transition-smooth">Referrals</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="text-neutral-400 hover:text-neutral-50 transition-smooth">
+                        <i class="fas fa-bell text-lg"></i>
+                    </button>
+                    <div class="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center">
+                        <span class="text-sm font-bold">JD</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Dashboard Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Welcome Header with Avatar + Fit Score Badge -->
+        <header class="mb-8 animate-slide-up">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-6">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+                             alt="Candidate Avatar"
+                             class="w-20 h-20 rounded-full border-4 border-primary-500 shadow-lg">
+                        <div class="absolute -bottom-2 -right-2 w-8 h-8 bg-accent-400 rounded-full flex items-center justify-center shadow-lg">
+                            <span class="text-xs font-bold text-neutral-900">85</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="text-3xl font-bold text-neutral-50 mb-1">Welcome back, John!</h1>
+                        <p class="text-neutral-400">Your career intelligence is ready. Let's find your perfect match.</p>
+                        <div class="mt-2 flex items-center space-x-4">
+                            <span class="text-sm text-neutral-400">Fit Score: <span class="font-bold text-accent-400">85/100</span></span>
+                            <span class="text-sm text-neutral-400">Rank: <span class="font-bold text-primary-400">#12</span></span>
+                            <span class="text-sm text-neutral-400">Profile: <span class="font-bold text-green-400">90% Complete</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-3">
+                    <button class="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 rounded-lg transition-smooth focus-ring">
+                        <i class="fas fa-share-alt mr-2"></i>Share Profile
+                    </button>
+                    <button class="px-4 py-2 bg-primary-600 hover:bg-primary-500 rounded-lg transition-smooth focus-ring">
+                        <i class="fas fa-edit mr-2"></i>Edit Profile
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Stats Overview - 4 Tiles -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-neutral-900 rounded-xl p-6 border border-neutral-800 card-hover animate-slide-up" style="animation-delay: 0.1s">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-briefcase text-blue-400 text-xl"></i>
+                    </div>
+                    <span class="text-xs text-neutral-500">+2 this week</span>
+                </div>
+                <h3 class="text-2xl font-bold text-neutral-50 mb-1">12</h3>
+                <p class="text-sm text-neutral-400">Saved Jobs</p>
+            </div>
+
+            <div class="bg-neutral-900 rounded-xl p-6 border border-neutral-800 card-hover animate-slide-up" style="animation-delay: 0.2s">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-file-alt text-green-400 text-xl"></i>
+                    </div>
+                    <span class="text-xs text-neutral-500">3 active</span>
+                </div>
+                <h3 class="text-2xl font-bold text-neutral-50 mb-1">8</h3>
+                <p class="text-sm text-neutral-400">Active Applications</p>
+            </div>
+
+            <div class="bg-neutral-900 rounded-xl p-6 border border-neutral-800 card-hover animate-slide-up" style="animation-delay: 0.3s">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="w-12 h-12 bg-accent-400/20 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-star text-accent-400 text-xl"></i>
+                    </div>
+                    <span class="text-xs text-green-400">+5 this week</span>
+                </div>
+                <h3 class="text-2xl font-bold text-neutral-50 mb-1">85</h3>
+                <p class="text-sm text-neutral-400">Avg Fit Score</p>
+            </div>
+
+            <div class="bg-neutral-900 rounded-xl p-6 border border-neutral-800 card-hover animate-slide-up" style="animation-delay: 0.4s">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-user text-purple-400 text-xl"></i>
+                    </div>
+                    <span class="text-xs text-neutral-500">2 items left</span>
+                </div>
+                <h3 class="text-2xl font-bold text-neutral-50 mb-1">90%</h3>
+                <p class="text-sm text-neutral-400">Profile Completion</p>
+            </div>
+        </section>
+
+        <!-- Micro-wins Section -->
+        <section class="mb-8">
+            <div class="bg-gradient-to-r from-accent-400/10 to-primary-600/10 rounded-xl p-4 border border-accent-400/20 animate-slide-up" style="animation-delay: 0.5s">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-accent-400 rounded-full flex items-center justify-center animate-pulse-subtle">
+                        <i class="fas fa-trophy text-neutral-900"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-neutral-50">🎉 Great progress! Your Fit Score increased by <span class="font-bold text-accent-400">+5 points</span> this week!</p>
+                        <p class="text-xs text-neutral-400 mt-1">Keep updating your skills to maintain momentum.</p>
+                    </div>
+                    <button class="text-xs text-primary-400 hover:text-primary-300 transition-smooth">View Details →</button>
+                </div>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Applications Section -->
+            <section class="lg:col-span-2">
+                <div class="bg-neutral-900 rounded-xl border border-neutral-800 animate-slide-up" style="animation-delay: 0.6s">
+                    <div class="p-6 border-b border-neutral-800">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-xl font-bold text-neutral-50">Your Applications</h2>
+                            <div class="flex items-center space-x-2">
+                                <button class="text-sm text-neutral-400 hover:text-neutral-50 transition-smooth">View All</button>
+                                <i class="fas fa-chevron-right text-xs text-neutral-400"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 space-y-4 max-h-96 overflow-y-auto custom-scrollbar">
+                        <!-- Application Card 1 -->
+                        <div class="bg-neutral-800/50 rounded-lg p-4 border border-neutral-700 card-hover">
+                            <div class="flex items-start justify-between mb-3">
+                                <div>
+                                    <h3 class="font-semibold text-neutral-50 mb-1">Senior Frontend Developer</h3>
+                                    <p class="text-sm text-neutral-400">TechCorp Inc.</p>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="score-excellent px-2 py-1 rounded-full text-xs font-bold text-neutral-900">
+                                        92
+                                    </div>
+                                    <span class="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded-full font-medium">
+                                        Shortlisted
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Timeline Visualization -->
+                            <div class="flex items-center space-x-3 mb-3">
+                                <div class="flex items-center space-x-2 text-xs text-neutral-500">
+                                    <div class="timeline-dot w-2 h-2 bg-primary-500 rounded-full"></div>
+                                    <span>Applied</span>
+                                    <span>Oct 1</span>
+                                </div>
+                                <div class="flex items-center space-x-2 text-xs text-neutral-500">
+                                    <div class="timeline-dot w-2 h-2 bg-green-500 rounded-full"></div>
+                                    <span>Review</span>
+                                    <span>Oct 3</span>
+                                </div>
+                                <div class="flex items-center space-x-2 text-xs text-neutral-500">
+                                    <div class="timeline-dot w-2 h-2 bg-accent-400 rounded-full"></div>
+                                    <span>Shortlist</span>
+                                    <span>Oct 5</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs text-neutral-400">TMS: 88 | SRS: 94 | RNS: 95</p>
+                                <button class="text-xs text-primary-400 hover:text-primary-300 transition-smooth">
+                                    <i class="fas fa-bolt mr-1"></i>Improve Fit
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Application Card 2 -->
+                        <div class="bg-neutral-800/50 rounded-lg p-4 border border-neutral-700 card-hover">
+                            <div class="flex items-start justify-between mb-3">
+                                <div>
+                                    <h3 class="font-semibold text-neutral-50 mb-1">Full Stack Engineer</h3>
+                                    <p class="text-sm text-neutral-400">StartupXYZ</p>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="score-good px-2 py-1 rounded-full text-xs font-bold text-neutral-900">
+                                        78
+                                    </div>
+                                    <span class="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full font-medium">
+                                        Interviewing
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center space-x-3 mb-3">
+                                <div class="flex items-center space-x-2 text-xs text-neutral-500">
+                                    <div class="timeline-dot w-2 h-2 bg-primary-500 rounded-full"></div>
+                                    <span>Applied</span>
+                                    <span>Sep 28</span>
+                                </div>
+                                <div class="flex items-center space-x-2 text-xs text-neutral-500">
+                                    <div class="timeline-dot w-2 h-2 bg-blue-500 rounded-full"></div>
+                                    <span>Interview</span>
+                                    <span>Sep 30</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs text-neutral-400">TMS: 82 | SRS: 75 | RNS: 76</p>
+                                <button class="text-xs text-primary-400 hover:text-primary-300 transition-smooth">
+                                    <i class="fas fa-bolt mr-1"></i>Improve Fit
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Application Card 3 -->
+                        <div class="bg-neutral-800/50 rounded-lg p-4 border border-neutral-700 card-hover">
+                            <div class="flex items-start justify-between mb-3">
+                                <div>
+                                    <h3 class="font-semibold text-neutral-50 mb-1">React Developer</h3>
+                                    <p class="text-sm text-neutral-400">Digital Agency</p>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="score-average px-2 py-1 rounded-full text-xs font-bold text-neutral-900">
+                                        65
+                                    </div>
+                                    <span class="px-2 py-1 bg-yellow-500/20 text-yellow-400 text-xs rounded-full font-medium">
+                                        Under Review
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center space-x-3 mb-3">
+                                <div class="flex items-center space-x-2 text-xs text-neutral-500">
+                                    <div class="timeline-dot w-2 h-2 bg-primary-500 rounded-full"></div>
+                                    <span>Applied</span>
+                                    <span>Sep 25</span>
+                                </div>
+                                <div class="flex items-center space-x-2 text-xs text-neutral-500">
+                                    <div class="timeline-dot w-2 h-2 bg-yellow-500 rounded-full"></div>
+                                    <span>Review</span>
+                                    <span>In Progress</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs text-neutral-400">TMS: 70 | SRS: 62 | RNS: 63</p>
+                                <button class="text-xs text-primary-400 hover:text-primary-300 transition-smooth">
+                                    <i class="fas fa-bolt mr-1"></i>Improve Fit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Suggested Jobs Section -->
+            <section class="lg:col-span-1">
+                <div class="bg-neutral-900 rounded-xl border border-neutral-800 animate-slide-up" style="animation-delay: 0.7s">
+                    <div class="p-6 border-b border-neutral-800">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-xl font-bold text-neutral-50">Suggested Jobs</h2>
+                            <span class="text-xs text-neutral-400">AI-Powered</span>
+                        </div>
+                    </div>
+
+                    <div class="p-6 space-y-4 max-h-96 overflow-y-auto custom-scrollbar">
+                        <!-- Suggested Job 1 -->
+                        <div class="bg-neutral-800/50 rounded-lg p-4 border border-neutral-700 card-hover">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-2 mb-1">
+                                        <span class="text-accent-400">🎯</span>
+                                        <span class="text-xs text-accent-400 font-medium">Perfect Match</span>
+                                    </div>
+                                    <h3 class="font-semibold text-neutral-50 text-sm mb-1">Senior React Developer</h3>
+                                    <p class="text-xs text-neutral-400 mb-2">InnovateTech</p>
+                                </div>
+                                <div class="score-excellent px-2 py-1 rounded-full text-xs font-bold text-neutral-900">
+                                    94
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs text-neutral-500">Remote • $120-150K</p>
+                                <div class="flex items-center space-x-2">
+                                    <button class="text-xs text-neutral-400 hover:text-neutral-50 transition-smooth">View</button>
+                                    <span class="text-xs text-neutral-600">•</span>
+                                    <button class="text-xs text-primary-400 hover:text-primary-300 transition-smooth">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Suggested Job 2 -->
+                        <div class="bg-neutral-800/50 rounded-lg p-4 border border-neutral-700 card-hover">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-2 mb-1">
+                                        <span class="text-green-400">⭐</span>
+                                        <span class="text-xs text-green-400 font-medium">Great Match</span>
+                                    </div>
+                                    <h3 class="font-semibold text-neutral-50 text-sm mb-1">Frontend Engineer</h3>
+                                    <p class="text-xs text-neutral-400 mb-2">FinTech Startup</p>
+                                </div>
+                                <div class="score-good px-2 py-1 rounded-full text-xs font-bold text-neutral-900">
+                                    88
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs text-neutral-500">Hybrid • $100-130K</p>
+                                <div class="flex items-center space-x-2">
+                                    <button class="text-xs text-neutral-400 hover:text-neutral-50 transition-smooth">View</button>
+                                    <span class="text-xs text-neutral-600">•</span>
+                                    <button class="text-xs text-primary-400 hover:text-primary-300 transition-smooth">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Suggested Job 3 -->
+                        <div class="bg-neutral-800/50 rounded-lg p-4 border border-neutral-700 card-hover">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-2 mb-1">
+                                        <span class="text-blue-400">✨</span>
+                                        <span class="text-xs text-blue-400 font-medium">Good Match</span>
+                                    </div>
+                                    <h3 class="font-semibold text-neutral-50 text-sm mb-1">JavaScript Developer</h3>
+                                    <p class="text-xs text-neutral-400 mb-2">E-commerce Platform</p>
+                                </div>
+                                <div class="score-average px-2 py-1 rounded-full text-xs font-bold text-neutral-900">
+                                    75
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs text-neutral-500">On-site • $90-110K</p>
+                                <div class="flex items-center space-x-2">
+                                    <button class="text-xs text-neutral-400 hover:text-neutral-50 transition-smooth">View</button>
+                                    <span class="text-xs text-neutral-600">•</span>
+                                    <button class="text-xs text-primary-400 hover:text-primary-300 transition-smooth">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Analytics Section -->
+        <section class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Fit Score Trend -->
+            <div class="bg-neutral-900 rounded-xl border border-neutral-800 p-6 animate-slide-up" style="animation-delay: 0.8s">
+                <h3 class="text-lg font-semibold text-neutral-50 mb-4">Fit Score Trend</h3>
+                <div class="chart-container">
+                    <canvas id="fitScoreChart"></canvas>
+                </div>
+                <div class="mt-4 flex items-center justify-between">
+                    <p class="text-xs text-neutral-400">30-day trend</p>
+                    <p class="text-xs text-green-400">↑ 12% improvement</p>
+                </div>
+            </div>
+
+            <!-- Application Stats -->
+            <div class="bg-neutral-900 rounded-xl border border-neutral-800 p-6 animate-slide-up" style="animation-delay: 0.9s">
+                <h3 class="text-lg font-semibold text-neutral-50 mb-4">Application Funnel</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-neutral-400">Applied</span>
+                        <span class="text-sm font-medium text-neutral-50">24</span>
+                    </div>
+                    <div class="w-full bg-neutral-800 rounded-full h-2">
+                        <div class="bg-primary-500 h-2 rounded-full" style="width: 100%"></div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-neutral-400">Under Review</span>
+                        <span class="text-sm font-medium text-neutral-50">18</span>
+                    </div>
+                    <div class="w-full bg-neutral-800 rounded-full h-2">
+                        <div class="bg-blue-500 h-2 rounded-full" style="width: 75%"></div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-neutral-400">Interviewing</span>
+                        <span class="text-sm font-medium text-neutral-50">8</span>
+                    </div>
+                    <div class="w-full bg-neutral-800 rounded-full h-2">
+                        <div class="bg-yellow-500 h-2 rounded-full" style="width: 33%"></div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-neutral-400">Shortlisted</span>
+                        <span class="text-sm font-medium text-neutral-50">4</span>
+                    </div>
+                    <div class="w-full bg-neutral-800 rounded-full h-2">
+                        <div class="bg-green-500 h-2 rounded-full" style="width: 17%"></div>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-neutral-800">
+                    <p class="text-xs text-neutral-400">Success Rate: <span class="text-green-400 font-medium">33%</span></p>
+                </div>
+            </div>
+
+            <!-- Referral Stats -->
+            <div class="bg-neutral-900 rounded-xl border border-neutral-800 p-6 animate-slide-up" style="animation-delay: 1.0s">
+                <h3 class="text-lg font-semibold text-neutral-50 mb-4">Referral Network</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
+                                <i class="fas fa-users text-green-400 text-sm"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-neutral-50">Active Referrers</p>
+                                <p class="text-xs text-neutral-400">Boosting your score</p>
+                            </div>
+                        </div>
+                        <span class="text-lg font-bold text-green-400">12</span>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-accent-400/20 flex items-center justify-center">
+                                <i class="fas fa-star text-accent-400 text-sm"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-neutral-50">Trust Score</p>
+                                <p class="text-xs text-neutral-400">Network credibility</p>
+                            </div>
+                        </div>
+                        <span class="text-lg font-bold text-accent-400">8.7</span>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-primary-500/20 flex items-center justify-center">
+                                <i class="fas fa-chart-line text-primary-400 text-sm"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-neutral-50">Impact</p>
+                                <p class="text-xs text-neutral-400">Score boost</p>
+                            </div>
+                        </div>
+                        <span class="text-lg font-bold text-primary-400">+15</span>
+                    </div>
+                </div>
+
+                <button class="w-full mt-4 px-4 py-2 bg-neutral-800 hover:bg-neutral-700 rounded-lg transition-smooth focus-ring text-sm">
+                    <i class="fas fa-plus mr-2"></i>Request Referral
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Quick Action Button (Floating) -->
+    <button class="fixed bottom-6 right-6 w-14 h-14 bg-primary-600 hover:bg-primary-500 rounded-full shadow-lg flex items-center justify-center transition-smooth focus-ring z-40">
+        <i class="fas fa-magic text-white"></i>
+    </button>
+
+    <!-- Simple Chart Implementation -->
+    <script>
+        // Fit Score Trend Chart
+        const canvas = document.getElementById('fitScoreChart');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas size
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+
+        // Sample data
+        const data = [72, 74, 73, 76, 78, 77, 80, 82, 81, 83, 85, 85, 87, 85, 85];
+        const labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
+
+        // Simple line chart
+        ctx.strokeStyle = '#D4AF37';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+
+        const padding = 20;
+        const chartWidth = canvas.width - (padding * 2);
+        const chartHeight = canvas.height - (padding * 2);
+        const stepX = chartWidth / (data.length - 1);
+
+        data.forEach((value, index) => {
+            const x = padding + (index * stepX);
+            const y = padding + chartHeight - ((value - 70) / 20 * chartHeight);
+
+            if (index === 0) {
+                ctx.moveTo(x, y);
+            } else {
+                ctx.lineTo(x, y);
+            }
+        });
+
+        ctx.stroke();
+
+        // Draw points
+        data.forEach((value, index) => {
+            const x = padding + (index * stepX);
+            const y = padding + chartHeight - ((value - 70) / 20 * chartHeight);
+
+            ctx.beginPath();
+            ctx.arc(x, y, 3, 0, Math.PI * 2);
+            ctx.fillStyle = '#D4AF37';
+            ctx.fill();
+        });
+
+        // Interactive elements
+        document.querySelectorAll('.card-hover').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 100);
+            });
+        });
+
+        // Smooth scroll for custom scrollbar
+        document.querySelectorAll('.custom-scrollbar').forEach(element => {
+            element.addEventListener('wheel', function(e) {
+                e.preventDefault();
+                this.scrollTop += e.deltaY * 0.5;
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                // Close any open modals or return focus
+                document.activeElement.blur();
+            }
+        });
+
+        // Animate numbers on load
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                element.textContent = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Animate stat numbers on page load
+        window.addEventListener('load', () => {
+            const statElements = document.querySelectorAll('.text-2xl.font-bold');
+            const values = [12, 8, 85, 90];
+
+            statElements.forEach((element, index) => {
+                if (values[index] !== undefined) {
+                    animateValue(element, 0, values[index], 1000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

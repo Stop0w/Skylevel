@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skylevel - Candidate Dashboard (New Depth System)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Primary (Skylevel Red - DSC Confidence)
+                        primary: {
+                            50: '#F5F2E8',
+                            100: '#EDB8C8',
+                            200: '#D97B92',
+                            300: '#C43D56',
+                            400: '#B8344A',
+                            500: '#A52A52',  // Main brand
+                            600: '#8B1538',  // Dark variant
+                            700: '#751229',
+                            800: '#651024',
+                            900: '#4A0B1A',
+                            950: '#2D0510',
+                        },
+                        // Accent (Excellence Gold - Stoic Premium)
+                        accent: {
+                            50: '#FCF3CF',
+                            100: '#F9E79F',
+                            200: '#F4D03F',
+                            300: '#E6C547',
+                            400: '#D4AF37',  // Main accent - high scores
+                            500: '#B8860B',
+                            600: '#8B6F00',
+                            700: '#6B4000',
+                            800: '#4A2D0A',
+                            900: '#2D1B06',
+                        },
+                        // Neutral (Dark Theme - Stoic Calm)
+                        neutral: {
+                            50: '#F5F2E8',   // Lightest text
+                            100: '#E5DDD0',
+                            200: '#C4B59A',
+                            300: '#A68A8A',
+                            400: '#8B6B6B',
+                            500: '#6B4A4A',
+                            600: '#4A3333',
+                            700: '#3D2525',
+                            800: '#2B1B1B',
+                            900: '#1A0F0F',
+                            950: '#0A0606',  // Background
+                        },
+                        // Professional Blue (Cron Efficiency)
+                        professional: {
+                            50: '#EFF6FF',
+                            100: '#DBEAFE',
+                            200: '#BFDBFE',
+                            300: '#93C5FD',
+                            400: '#60A5FA',
+                            500: '#3B82F6',  // Professional actions
+                            600: '#2563EB',
+                            700: '#1D4ED8',
+                            800: '#1E40AF',
+                            900: '#1E3A8A',
+                        },
+                        // Score Colors (Confidence-based)
+                        score: {
+                            excellent: '#D4AF37',  // 85+ - Gold accent
+                            good: '#10B981',       // 70-84 - Success green
+                            moderate: '#F59E0B',   // 50-69 - Warning orange
+                            low: '#EF4444',        // <50 - Error red
+                        },
+                        // Status Colors (Cron Professional)
+                        status: {
+                            active: '#10B981',     // Success
+                            pending: '#F59E0B',    // Warning
+                            rejected: '#EF4444',   // Error
+                            interview: '#3B82F6',  // Professional blue
+                            hired: '#D4AF37',      // Gold accent
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-out',
+                        'slide-up': 'slideUp 0.3s ease-out',
+                        'slide-down': 'slideDown 0.3s ease-out',
+                        'scale-in': 'scaleIn 0.2s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        slideDown: {
+                            '0%': { transform: 'translateY(-10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.95)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Depth System Tokens */
+        :root {
+            /* Surface Colors */
+            --surface-base: #FFFFFF;
+            --surface-recessed: #F8FAFC;
+            --surface-level: #FFFFFF;
+            --surface-raised: #FFFFFF;
+            --surface-overlay: #FFFFFF;
+
+            /* Shadow System */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+                          0 2px 4px -2px rgb(0 0 0 / 0.1),
+                          0 0 0 1px rgb(0 0 0 / 0.03);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+                         0 4px 6px -4px rgb(0 0 0 / 0.1),
+                         0 0 0 1px rgb(0 0 0 / 0.03);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+                         0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.03);
+
+            /* Border System */
+            --border-base: #E5E7EB;
+            --border-recessed: #D1D5DB;
+            --border-level: #E5E7EB;
+            --border-raised: #D1D5DB;
+            --border-overlay: #9CA3AF;
+
+            /* Focus System */
+            --focus-ring: #3B82F6;
+            --focus-ring-width: 2px;
+            --focus-ring-offset: 2px;
+        }
+
+        /* Dark Theme Override */
+        .dark-theme {
+            --surface-base: #0A0606;
+            --surface-recessed: #1A0F0F;
+            --surface-level: #1A0F0F;
+            --surface-raised: #2B1B1B;
+            --surface-overlay: #FFFFFF;
+
+            --border-base: #2B1B1B;
+            --border-recessed: #3D2525;
+            --border-level: #2B1B1B;
+            --border-raised: #4A3333;
+            --border-overlay: #6B4A4A;
+        }
+
+        /* Depth System Components */
+        .btn-primary {
+            background-color: var(--surface-raised);
+            background-image: linear-gradient(135deg, #3B82F6, #2563EB);
+            box-shadow: var(--shadow-md);
+            color: white;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-1px);
+            background-image: linear-gradient(135deg, #2563EB, #1D4ED8);
+        }
+
+        .btn-primary:active {
+            box-shadow: var(--shadow-sm);
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background-color: var(--surface-raised);
+            box-shadow: var(--shadow-md);
+            color: #374151;
+            border: 1px solid var(--border-raised);
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-1px);
+            background-color: var(--surface-recessed);
+        }
+
+        .btn-secondary:active {
+            box-shadow: var(--shadow-sm);
+            transform: translateY(0);
+        }
+
+        .btn-ghost {
+            background-color: transparent;
+            box-shadow: none;
+            color: #6B7280;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .btn-ghost:hover {
+            background-color: var(--surface-recessed);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-ghost:active {
+            box-shadow: var(--shadow-inner);
+        }
+
+        .card {
+            background-color: var(--surface-level);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-level);
+            border-radius: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .card-interactive {
+            cursor: pointer;
+        }
+
+        .card-interactive:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-2px);
+        }
+
+        .card-raised {
+            background-color: var(--surface-raised);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-raised);
+        }
+
+        .card-overlay {
+            background-color: var(--surface-overlay);
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border-overlay);
+        }
+
+        .input-field {
+            background-color: var(--surface-level);
+            box-shadow: var(--shadow-inner);
+            border: 1px solid var(--border-level);
+            transition: all 0.2s ease;
+        }
+
+        .input-field:focus {
+            box-shadow: var(--shadow-inner), 0 0 0 2px var(--focus-ring);
+            border-color: transparent;
+            outline: none;
+        }
+
+        .tabs-container {
+            background-color: var(--surface-recessed);
+            box-shadow: var(--shadow-inner);
+            border: 1px solid var(--border-recessed);
+        }
+
+        .tab-active {
+            background-color: var(--surface-raised);
+            box-shadow: var(--shadow-md);
+        }
+
+        .tab-inactive {
+            background-color: transparent;
+        }
+
+        .tab-inactive:hover {
+            background-color: var(--surface-level);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background-color: var(--surface-overlay);
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border-overlay);
+        }
+
+        /* Focus styles for accessibility */
+        .focus-ring {
+            outline: none;
+        }
+
+        .focus-ring:focus {
+            box-shadow: 0 0 0 2px var(--focus-ring);
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+        }
+
+        /* ScorePill Component Styles */
+        .score-pill {
+            @apply inline-flex items-center justify-center rounded-full font-bold transition-all duration-200;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .score-pill:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        .score-pill.excellent {
+            background-color: var(--score-excellent);
+            color: #1F2937;
+        }
+
+        .score-pill.good {
+            background-color: var(--score-good);
+            color: white;
+        }
+
+        .score-pill.moderate {
+            background-color: var(--score-moderate);
+            color: white;
+        }
+
+        .score-pill.low {
+            background-color: var(--score-low);
+            color: white;
+        }
+
+        /* Timeline styles */
+        .timeline-dot {
+            @apply w-3 h-3 rounded-full border-2 border-white shadow-sm;
+        }
+
+        .timeline-line {
+            @apply absolute top-3 bottom-0 w-0.5 bg-gray-200;
+        }
+
+        /* Smooth transitions */
+        .smooth-transition {
+            @apply transition-all duration-200 ease-out;
+        }
+
+        /* Chart styles */
+        .chart-line {
+            stroke: #3B82F6;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .chart-area {
+            fill: rgba(59, 130, 246, 0.1);
+        }
+    </style>
+</head>
+<body class="dark-theme font-sans antialiased" style="background-color: var(--surface-base); color: var(--neutral-50);">
+    <!-- Header with Welcome -->
+    <header class="border-b" style="background-color: var(--surface-level); border-color: var(--border-level);">
+        <div class="container mx-auto px-4 max-w-6xl py-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <!-- Avatar -->
+                    <div class="relative">
+                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white text-xl font-light shadow-lg">
+                            JC
+                        </div>
+                        <div class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-status-active flex items-center justify-center border-2 border-white shadow-md">
+                            <i data-lucide="check" class="w-3 h-3 text-white"></i>
+                        </div>
+                    </div>
+
+                    <!-- Welcome Text -->
+                    <div>
+                        <h1 class="text-2xl font-semibold" style="color: var(--neutral-50);">Welcome back, Jennifer!</h1>
+                        <p class="text-sm mt-1" style="color: var(--neutral-300);">Your career journey continues • 3 new opportunities</p>
+                    </div>
+                </div>
+
+                <!-- Fit Score Badge -->
+                <div class="flex flex-col items-end gap-2">
+                    <div class="score-pill excellent px-4 py-2 text-lg">
+                        <span class="font-mono font-bold">87</span>
+                        <span class="text-xs ml-1">Fit Score</span>
+                    </div>
+                    <div class="flex items-center gap-1 text-xs" style="color: var(--status-active);">
+                        <i data-lucide="trending-up" class="w-3 h-3"></i>
+                        <span>+5 this week</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 max-w-6xl py-8">
+        <!-- Stats Overview -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Saved Jobs -->
+            <div class="card card-interactive p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center">
+                        <i data-lucide="briefcase" class="w-5 h-5" style="color: var(--primary-600);"></i>
+                    </div>
+                    <span class="text-xs font-medium px-2 py-1 rounded-full" style="background-color: var(--status-active); color: white;">+2 new</span>
+                </div>
+                <div class="font-mono text-2xl font-semibold" style="color: var(--neutral-50);">24</div>
+                <div class="text-sm mt-1" style="color: var(--neutral-300);">Saved Jobs</div>
+            </div>
+
+            <!-- Active Applications -->
+            <div class="card card-interactive p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-accent-100 flex items-center justify-center">
+                        <i data-lucide="file-text" class="w-5 h-5" style="color: var(--accent-600);"></i>
+                    </div>
+                    <span class="text-xs font-medium px-2 py-1 rounded-full" style="background-color: var(--professional-500); color: white;">3 active</span>
+                </div>
+                <div class="font-mono text-2xl font-semibold" style="color: var(--neutral-50);">8</div>
+                <div class="text-sm mt-1" style="color: var(--neutral-300);">Active Applications</div>
+            </div>
+
+            <!-- Average Fit Score -->
+            <div class="card card-interactive p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-accent-100 flex items-center justify-center">
+                        <i data-lucide="star" class="w-5 h-5" style="color: var(--accent-600);"></i>
+                    </div>
+                    <span class="text-xs font-medium px-2 py-1 rounded-full" style="background-color: var(--status-active); color: white;">+12%</span>
+                </div>
+                <div class="font-mono text-2xl font-semibold" style="color: var(--neutral-50);">82.5</div>
+                <div class="text-sm mt-1" style="color: var(--neutral-300);">Avg Fit Score</div>
+            </div>
+
+            <!-- Profile Completion -->
+            <div class="card card-interactive p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-status-active bg-opacity-20 flex items-center justify-center">
+                        <i data-lucide="user" class="w-5 h-5" style="color: var(--status-active);"></i>
+                    </div>
+                    <span class="text-xs font-medium px-2 py-1 rounded-full" style="background-color: var(--status-active); color: white;">Complete</span>
+                </div>
+                <div class="font-mono text-2xl font-semibold" style="color: var(--neutral-50);">95%</div>
+                <div class="text-sm mt-1" style="color: var(--neutral-300);">Profile Complete</div>
+            </div>
+        </section>
+
+        <!-- Micro-Wins Section -->
+        <div class="card-raised p-4 mb-8 border-l-4" style="border-color: var(--accent-400);">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background-color: var(--accent-400);">
+                    <i data-lucide="zap" class="w-4 h-4 text-white"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="text-sm font-medium" style="color: var(--neutral-50);">🎉 <strong>Micro-Win:</strong> Your Fit Score increased +5 this week! Keep optimizing your profile.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Content Column -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Active Applications -->
+                <section>
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-semibold" style="color: var(--neutral-50);">Active Applications</h2>
+                        <button class="text-sm font-medium smooth-transition focus-ring" style="color: var(--professional-500);">View All</button>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- Application Card 1 -->
+                        <div class="card p-6 animate-fade-in">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold mb-1" style="color: var(--neutral-50);">Senior Frontend Developer</h3>
+                                    <p class="text-sm mb-2" style="color: var(--neutral-300);">TechCorp • San Francisco, CA</p>
+
+                                    <!-- Status Badge -->
+                                    <div class="flex items-center gap-3">
+                                        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium" style="background-color: var(--professional-500); color: white;">
+                                            <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                                            Interviewing
+                                        </span>
+                                        <span class="text-xs" style="color: var(--neutral-400);">Applied 5 days ago</span>
+                                    </div>
+                                </div>
+
+                                <!-- Fit Score -->
+                                <div class="score-pill excellent px-3 py-1 text-sm ml-4">
+                                    <span class="font-mono font-bold">87</span>
+                                </div>
+                            </div>
+
+                            <!-- Timeline -->
+                            <div class="relative pl-6 mb-4">
+                                <div class="timeline-line" style="background-color: var(--border-level);"></div>
+                                <div class="space-y-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="timeline-dot bg-status-active absolute -left-[5px]"></div>
+                                        <div>
+                                            <p class="text-xs font-medium" style="color: var(--neutral-50);">Interview Scheduled</p>
+                                            <p class="text-xs" style="color: var(--neutral-400);">Tomorrow at 2:00 PM</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="timeline-dot absolute -left-[5px]" style="background-color: var(--primary-500);"></div>
+                                        <div>
+                                            <p class="text-xs font-medium" style="color: var(--neutral-50);">Application Submitted</p>
+                                            <p class="text-xs" style="color: var(--neutral-400);">Oct 1, 2025</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Action Button -->
+                            <button class="btn-primary w-full py-2 px-4 rounded-lg flex items-center justify-center gap-2 focus-ring">
+                                <i data-lucide="zap" class="w-4 h-4"></i>
+                                Improve Fit Score
+                            </button>
+                        </div>
+
+                        <!-- Application Card 2 -->
+                        <div class="card p-6 animate-fade-in" style="animation-delay: 0.1s">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold mb-1" style="color: var(--neutral-50);">Product Designer</h3>
+                                    <p class="text-sm mb-2" style="color: var(--neutral-300);">DesignHub • Remote</p>
+
+                                    <!-- Status Badge -->
+                                    <div class="flex items-center gap-3">
+                                        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium" style="background-color: var(--status-pending); color: white;">
+                                            <span class="w-2 h-2 rounded-full bg-white"></span>
+                                            Under Review
+                                        </span>
+                                        <span class="text-xs" style="color: var(--neutral-400);">Applied 2 days ago</span>
+                                    </div>
+                                </div>
+
+                                <!-- Fit Score -->
+                                <div class="score-pill good px-3 py-1 text-sm ml-4">
+                                    <span class="font-mono font-bold">78</span>
+                                </div>
+                            </div>
+
+                            <!-- Timeline -->
+                            <div class="relative pl-6 mb-4">
+                                <div class="timeline-line" style="background-color: var(--border-level);"></div>
+                                <div class="space-y-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="timeline-dot absolute -left-[5px]" style="background-color: var(--status-pending);"></div>
+                                        <div>
+                                            <p class="text-xs font-medium" style="color: var(--neutral-50);">Application Received</p>
+                                            <p class="text-xs" style="color: var(--neutral-400);">Oct 4, 2025</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Action Button -->
+                            <button class="btn-primary w-full py-2 px-4 rounded-lg flex items-center justify-center gap-2 focus-ring">
+                                <i data-lucide="zap" class="w-4 h-4"></i>
+                                Improve Fit Score
+                            </button>
+                        </div>
+
+                        <!-- Application Card 3 -->
+                        <div class="card p-6 animate-fade-in" style="animation-delay: 0.2s">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold mb-1" style="color: var(--neutral-50);">UX Research Lead</h3>
+                                    <p class="text-sm mb-2" style="color: var(--neutral-300);">InnovateCo • Austin, TX</p>
+
+                                    <!-- Status Badge -->
+                                    <div class="flex items-center gap-3">
+                                        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium" style="background-color: var(--status-active); color: white;">
+                                            <span class="w-2 h-2 rounded-full bg-white"></span>
+                                            Shortlisted
+                                        </span>
+                                        <span class="text-xs" style="color: var(--neutral-400);">Applied 1 week ago</span>
+                                    </div>
+                                </div>
+
+                                <!-- Fit Score -->
+                                <div class="score-pill moderate px-3 py-1 text-sm ml-4">
+                                    <span class="font-mono font-bold">65</span>
+                                </div>
+                            </div>
+
+                            <!-- Timeline -->
+                            <div class="relative pl-6 mb-4">
+                                <div class="timeline-line" style="background-color: var(--border-level);"></div>
+                                <div class="space-y-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="timeline-dot bg-status-active absolute -left-[5px]"></div>
+                                        <div>
+                                            <p class="text-xs font-medium" style="color: var(--neutral-50);">Shortlisted for Review</p>
+                                            <p class="text-xs" style="color: var(--neutral-400);">Oct 3, 2025</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="timeline-dot absolute -left-[5px]" style="background-color: var(--primary-500);"></div>
+                                        <div>
+                                            <p class="text-xs font-medium" style="color: var(--neutral-50);">Application Submitted</p>
+                                            <p class="text-xs" style="color: var(--neutral-400);">Sep 28, 2025</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Action Button -->
+                            <button class="btn-primary w-full py-2 px-4 rounded-lg flex items-center justify-center gap-2 focus-ring">
+                                <i data-lucide="zap" class="w-4 h-4"></i>
+                                Improve Fit Score
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Suggested Jobs -->
+                <section>
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-semibold" style="color: var(--neutral-50);">Suggested Opportunities</h2>
+                        <button class="text-sm font-medium smooth-transition focus-ring" style="color: var(--professional-500);">Refresh</button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Job Card 1 -->
+                        <div class="card card-interactive p-6 animate-scale-in">
+                            <div class="mb-4">
+                                <h3 class="text-lg font-semibold mb-1" style="color: var(--neutral-50);">Senior React Developer</h3>
+                                <p class="text-sm" style="color: var(--neutral-300);">StartupXYZ • New York, NY</p>
+                            </div>
+
+                            <!-- Match Quality -->
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="text-xs font-medium px-2 py-1 rounded-full" style="background-color: var(--accent-400); color: white;">🎯 Perfect Match</span>
+                                <div class="score-pill excellent px-2 py-1 text-xs">
+                                    <span class="font-mono font-bold">92</span>
+                                </div>
+                            </div>
+
+                            <!-- Quick Actions -->
+                            <div class="flex gap-2">
+                                <button class="btn-secondary flex-1 py-2 px-3 rounded-lg text-sm focus-ring">View</button>
+                                <button class="btn-primary flex-1 py-2 px-3 rounded-lg text-sm focus-ring">Apply</button>
+                            </div>
+                        </div>
+
+                        <!-- Job Card 2 -->
+                        <div class="card card-interactive p-6 animate-scale-in" style="animation-delay: 0.1s">
+                            <div class="mb-4">
+                                <h3 class="text-lg font-semibold mb-1" style="color: var(--neutral-50);">Frontend Architect</h3>
+                                <p class="text-sm" style="color: var(--neutral-300);">TechGiant • Seattle, WA</p>
+                            </div>
+
+                            <!-- Match Quality -->
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="text-xs font-medium px-2 py-1 rounded-full" style="background-color: var(--accent-400); color: white;">⭐ Great Match</span>
+                                <div class="score-pill good px-2 py-1 text-xs">
+                                    <span class="font-mono font-bold">84</span>
+                                </div>
+                            </div>
+
+                            <!-- Quick Actions -->
+                            <div class="flex gap-2">
+                                <button class="btn-secondary flex-1 py-2 px-3 rounded-lg text-sm focus-ring">View</button>
+                                <button class="btn-primary flex-1 py-2 px-3 rounded-lg text-sm focus-ring">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Sidebar Analytics -->
+            <div class="space-y-6">
+                <!-- Fit Score Trend -->
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4" style="color: var(--neutral-50);">Fit Score Trend</h3>
+                    <div class="h-40 relative">
+                        <!-- Simple SVG Chart -->
+                        <svg viewBox="0 0 200 100" class="w-full h-full">
+                            <polyline
+                                points="10,70 40,60 70,65 100,50 130,45 160,30 190,25"
+                                class="chart-line"
+                            />
+                            <polyline
+                                points="10,70 40,60 70,65 100,50 130,45 160,30 190,25 190,100 10,100"
+                                class="chart-area"
+                            />
+                            <!-- Data points -->
+                            <circle cx="10" cy="70" r="3" fill="#3B82F6" />
+                            <circle cx="40" cy="60" r="3" fill="#3B82F6" />
+                            <circle cx="70" cy="65" r="3" fill="#3B82F6" />
+                            <circle cx="100" cy="50" r="3" fill="#3B82F6" />
+                            <circle cx="130" cy="45" r="3" fill="#3B82F6" />
+                            <circle cx="160" cy="30" r="3" fill="#3B82F6" />
+                            <circle cx="190" cy="25" r="3" fill="#60A5FA" />
+                        </svg>
+                        <div class="absolute bottom-0 right-0 text-xs font-medium" style="color: var(--status-active);">
+                            +15% this month
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Application Stats -->
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4" style="color: var(--neutral-50);">Application Funnel</h3>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span style="color: var(--neutral-300);">Submitted</span>
+                                <span class="font-medium" style="color: var(--neutral-50);">12</span>
+                            </div>
+                            <div class="h-2 rounded-full overflow-hidden" style="background-color: var(--border-level);">
+                                <div class="h-full rounded-full" style="background-color: var(--primary-500); width: 100%;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span style="color: var(--neutral-300);">Under Review</span>
+                                <span class="font-medium" style="color: var(--neutral-50);">8</span>
+                            </div>
+                            <div class="h-2 rounded-full overflow-hidden" style="background-color: var(--border-level);">
+                                <div class="h-full rounded-full" style="background-color: var(--status-pending); width: 67%;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span style="color: var(--neutral-300);">Interview</span>
+                                <span class="font-medium" style="color: var(--neutral-50);">3</span>
+                            </div>
+                            <div class="h-2 rounded-full overflow-hidden" style="background-color: var(--border-level);">
+                                <div class="h-full rounded-full" style="background-color: var(--professional-500); width: 25%;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span style="color: var(--neutral-300);">Offer</span>
+                                <span class="font-medium" style="color: var(--neutral-50);">1</span>
+                            </div>
+                            <div class="h-2 rounded-full overflow-hidden" style="background-color: var(--border-level);">
+                                <div class="h-full rounded-full" style="background-color: var(--accent-400); width: 8%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Referral Network -->
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold mb-4" style="color: var(--neutral-50);">Referral Network</h3>
+                    <div class="text-center py-4">
+                        <div class="relative inline-flex items-center justify-center">
+                            <!-- Network Visualization -->
+                            <div class="w-20 h-20 rounded-full bg-primary-100 flex items-center justify-center shadow-md">
+                                <i data-lucide="user" class="w-8 h-8" style="color: var(--primary-600);"></i>
+                            </div>
+                            <!-- Connected nodes -->
+                            <div class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-accent-100 flex items-center justify-center border-2 border-white shadow-sm">
+                                <i data-lucide="users" class="w-4 h-4" style="color: var(--accent-600);"></i>
+                            </div>
+                            <div class="absolute -bottom-2 -left-2 w-8 h-8 rounded-full bg-status-active bg-opacity-20 flex items-center justify-center border-2 border-white shadow-sm">
+                                <i data-lucide="star" class="w-4 h-4" style="color: var(--status-active);"></i>
+                            </div>
+                            <div class="absolute top-0 -left-4 w-6 h-6 rounded-full bg-professional-100 flex items-center justify-center border-2 border-white shadow-sm">
+                                <i data-lucide="share-2" class="w-3 h-3" style="color: var(--professional-600);"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 space-y-2">
+                            <div class="text-sm font-medium" style="color: var(--neutral-50);">8 Active Referrals</div>
+                            <div class="text-xs" style="color: var(--status-active);">+3 pending validation</div>
+                            <button class="text-xs font-medium smooth-transition focus-ring" style="color: var(--professional-500);">
+                                View Network →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card-raised p-6" style="background: linear-gradient(135deg, var(--primary-600), var(--primary-700)); color: white;">
+                    <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
+                    <div class="space-y-3">
+                        <button class="w-full py-2 px-4 rounded-lg smooth-transition text-sm flex items-center justify-center gap-2 focus-ring" style="background-color: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);">
+                            <i data-lucide="edit" class="w-4 h-4"></i>
+                            Update Profile
+                        </button>
+                        <button class="w-full py-2 px-4 rounded-lg smooth-transition text-sm flex items-center justify-center gap-2 focus-ring" style="background-color: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);">
+                            <i data-lucide="share" class="w-4 h-4"></i>
+                            Share Referral Link
+                        </button>
+                        <button class="w-full py-2 px-4 rounded-lg smooth-transition text-sm flex items-center justify-center gap-2 focus-ring" style="background-color: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);">
+                            <i data-lucide="settings" class="w-4 h-4"></i>
+                            Preferences
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Initialize Lucide Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+
+    <!-- Interactive Behaviors -->
+    <script>
+        // Add interactive hover effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth scroll behavior
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Add ripple effect to buttons
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('absolute', 'bg-white/30', 'rounded-full', 'animate-ping');
+                    ripple.style.width = ripple.style.height = '20px';
+                    ripple.style.left = e.offsetX - 10 + 'px';
+                    ripple.style.top = e.offsetY - 10 + 'px';
+                    this.style.position = 'relative';
+                    this.style.overflow = 'hidden';
+                    this.appendChild(ripple);
+                    setTimeout(() => ripple.remove(), 600);
+                });
+            });
+
+            // Animate elements on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fade-in');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('section > div').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

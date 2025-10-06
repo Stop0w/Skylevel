@@ -1,0 +1,84 @@
+/* Skylevel :: Dark Theme (Default) */
+:root {
+  /* Base colors - Sophisticated & Focused */
+  --background: oklch(0.09 0.002 291); /* Gray 950 */
+  --foreground: oklch(0.97 0.003 291); /* Gray 50 */
+
+  --card: oklch(0.12 0.004 291); /* Gray 900 */
+  --card-foreground: oklch(0.97 0.003 291); /* Gray 50 */
+
+  --popover: oklch(0.12 0.004 291); /* Gray 900 */
+  --popover-foreground: oklch(0.97 0.003 291); /* Gray 50 */
+
+  /* Primary - Decisive & Confident Red */
+  --primary: oklch(0.56 0.17 19.3); /* Primary 500 */
+  --primary-foreground: oklch(0.98 0.01 19.3); /* Primary 50 */
+
+  /* Secondary - Calm & Professional Blue */
+  --secondary: oklch(0.48 0.09 252); /* Secondary 500 */
+  --secondary-foreground: oklch(0.96 0.01 252); /* Secondary 50 */
+
+  /* Accent - Premium & Rewarding Gold */
+  --accent: oklch(0.74 0.11 88.5); /* Accent 500 */
+  --accent-foreground: oklch(0.26 0.05 88.5); /* Accent 900 */
+
+  /* Muted tones for hover states and secondary info */
+  --muted: oklch(0.18 0.006 291); /* Gray 800 */
+  --muted-foreground: oklch(0.67 0.01 291); /* Gray 400 */
+
+  /* Destructive - Unambiguous Red */
+  --destructive: oklch(0.56 0.17 19.3); /* Primary 500 */
+  --destructive-foreground: oklch(0.98 0.01 19.3); /* Primary 50 */
+
+  /* UI Elements */
+  --border: oklch(0.22 0.006 291); /* Gray 800 */
+  --input: oklch(0.22 0.006 291); /* Gray 800 */
+  --ring: oklch(0.48 0.09 252); /* Secondary 500 */
+
+  /* Additional Skylevel Semantic Colors */
+  --success: oklch(0.72 0.15 159); /* Success 500 */
+  --success-foreground: oklch(0.14 0.05 159); /* Success 950 */
+  --warning: oklch(0.63 0.16 63); /* Warning 500 */
+  --warning-foreground: oklch(0.21 0.07 63); /* Warning 950 */
+
+  /* Spacing and sizing */
+  --radius: 0.5rem;
+
+  /* Shadows - Soft and neutral */
+  --shadow-color: oklch(0.09 0.002 291);
+  --shadow-xs: 0 1px 2px 0px var(--shadow-color / 0.08);
+  --shadow-sm: 0 1px 3px 0px var(--shadow-color / 0.10);
+  --shadow-md: 0 4px 6px -1px var(--shadow-color / 0.12), 0 2px 4px -2px var(--shadow-color / 0.08);
+  --shadow-lg: 0 10px 15px -3px var(--shadow-color / 0.12), 0 4px 6px -4px var(--shadow-color / 0.08);
+  --shadow-xl: 0 20px 25px -5px var(--shadow-color / 0.12), 0 8px 10px -6px var(--shadow-color / 0.08);
+}
+
+/* Skylevel :: Light Theme */
+.light {
+  /* Base colors */
+  --background: oklch(0.97 0.003 291); /* Gray 100 */
+  --foreground: oklch(0.12 0.004 291); /* Gray 900 */
+
+  --card: oklch(1 0 0); /* White */
+  --card-foreground: oklch(0.12 0.004 291); /* Gray 900 */
+
+  --popover: oklch(1 0 0); /* White */
+  --popover-foreground: oklch(0.12 0.004 291); /* Gray 900 */
+  
+  /* Accent Foreground needs to be darker on a light background */
+  --accent-foreground: oklch(0.26 0.05 88.5); /* Accent 900 */
+
+  /* Muted tones */
+  --muted: oklch(0.94 0.004 291); /* Gray 200 */
+  --muted-foreground: oklch(0.42 0.01 291); /* Gray 600 */
+
+  /* UI Elements */
+  --border: oklch(0.91 0.004 291); /* Gray 200 */
+  --input: oklch(0.91 0.004 291); /* Gray 200 */
+  
+  /* Additional Skylevel Semantic Colors */
+  --success: oklch(0.72 0.15 159); /* Success 500 */
+  --success-foreground: oklch(0.94 0.03 159); /* Success 50 */
+  --warning: oklch(0.63 0.16 63); /* Warning 500 */
+  --warning-foreground: oklch(0.99 0.03 63); /* Warning 50 */
+}
